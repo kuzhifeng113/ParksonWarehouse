@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_white_liner"
+            android:orientation="vertical">
+
+           <com.makeramen.roundedimageview.RoundedImageView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:riv_corner_radius_top_left="20dp"
+               app:riv_corner_radius_top_right="20dp"
+               android:background="@mipmap/bg_address_info"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:textColor="@color/text_content"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:text="收货人："/>
+
+                <com.woyun.warehouse.view.ClearEditText
+                    android:id="@+id/edit_name"
+                    android:layout_marginLeft="23dp"
+                    android:layout_toRightOf="@id/tv_1"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_width="220dp"
+                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/text_black_t"
+                    android:background="@null"
+                    android:text=""
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:textColor="@color/text_content"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:text="手机号码："/>
+
+                <com.woyun.warehouse.view.ClearEditText
+                    android:id="@+id/edit_phone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/tv_2"
+                    android:layout_width="220dp"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/text_black_t"
+                    android:background="@null"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_choose_address"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:textColor="@color/text_content"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:text="所在地区："/>
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/tv_3"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black_t"
+                    android:background="@null"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:textColor="@color/text_content"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:text="详细地址："/>
+
+                <com.woyun.warehouse.view.ClearEditText
+                    android:id="@+id/edit_detail_address"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/tv_4"
+                    android:layout_width="match_parent"
+                    android:gravity="left|center"
+                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/text_black_t"
+                    android:background="@null"
+                    android:textSize="13sp"
+                    android:maxLines="2"
+
+                    />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox_address"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/check_box_style"
+                    android:button="@null"
+                    android:checked="true"
+                    android:clickable="false"
+                    />
+
+                <TextView
+                    android:text="设为默认地址"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/text_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="250dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_height="40dp"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:background="@drawable/shape_main_btn"/>
+        </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="31dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:text="关闭"
+        android:textSize="12sp"
+
+        />
+
+
+
+</RelativeLayout>

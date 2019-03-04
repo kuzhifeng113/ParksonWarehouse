@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/shape_white_liner"
+            android:orientation="vertical">
+
+           <com.makeramen.roundedimageview.RoundedImageView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               app:riv_corner_radius_top_left="20dp"
+               app:riv_corner_radius_top_right="20dp"
+               android:background="@mipmap/bg_vote_rule"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+
+            <WebView
+                android:id="@+id/webView_rule"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                />
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                style="?android:attr/progressBarStyle"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_i_know"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="朕知道了"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_close"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="40dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/ic_right_cha" />
+
+
+
+</RelativeLayout>

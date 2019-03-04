@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--选中的-->
+    <item android:state_selected="true">
+        <shape>
+            <corners android:radius="5dp" />
+            <solid android:color="#EDFCFA" />
+        </shape>
+    </item>
+
+<!--
+    &lt;!&ndash;不存在的&ndash;&gt;
+    <item android:state_enabled="false">
+        <shape>
+            <corners android:radius="15dp" />
+            <solid android:color="#faf9f9" />
+        </shape>
+    </item>
+-->
+
+    <!--没选中的-->
+    <item>
+        <shape>
+            <corners android:radius="5dp" />
+            <solid android:color="#F5F5F5" />
+        </shape>
+    </item>
+</selector>

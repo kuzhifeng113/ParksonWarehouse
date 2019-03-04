@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+     >
+
+    <RelativeLayout
+        android:layout_marginLeft="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+
+        <View
+            android:id="@+id/view_top"
+            android:layout_width="1dp"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp"
+            android:background="#A6A6A6"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_below="@+id/view_top"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+
+            android:layout_centerInParent="true"
+            android:src="@drawable/oval_logistics_green" />
+
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_below="@+id/image"
+            android:layout_width="1dp"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:background="#A6A6A6"
+            android:visibility="visible"/>
+
+    </RelativeLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_margin="8dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ll"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="2018-07-15    13:52:30"
+            android:textColor="#AFAFAF"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_time"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="5dp"
+            android:text=""
+            android:textColor="#222222"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
+

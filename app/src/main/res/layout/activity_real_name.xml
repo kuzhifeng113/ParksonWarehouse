@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:navigationIcon="@mipmap/comm_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="实名认证"
+            android:textColor="#373A42"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="18dp"
+            android:text="保存"
+            android:textColor="#EC4374"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_below="@id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_real_staus"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/img_no_real"/>
+
+        <TextView
+            android:id="@+id/tv_real_status"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#373A42"
+            android:layout_marginTop="30dp"
+            android:textSize="19sp"
+            android:text="未实名认证"/>
+
+        <TextView
+            android:id="@+id/tv_no_real_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="1：照片模糊"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffc6cbd2"
+            android:textSize="14sp"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_already_real"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名"
+                    android:textColor="#ff373a42"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#C6CBD2"
+                    android:textSize="14sp"
+                    android:text="222"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="0.8dp"
+                android:background="@color/line"/>
+
+
+            <RelativeLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="身份证号"
+                    android:textColor="#ff373a42"
+                    android:textSize="17sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_id_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="#C6CBD2"
+                    android:textSize="14sp"
+                    android:text="222"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="0.8dp"
+                android:background="@color/line"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_do_real"
+        android:layout_above="@id/ll_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_main_btn"
+        android:textColor="@color/white"
+        android:text="立即认证"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/btn_real_ing"
+        android:layout_marginBottom="70dp"
+        android:layout_above="@id/ll_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:background="@drawable/shape_vip_button_ing"
+        android:textColor="@color/white"
+        android:text="审核中"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_real_replay"
+        android:layout_marginBottom="70dp"
+        android:layout_above="@id/ll_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
+        android:layout_height="55dp"
+        android:background="@drawable/shape_main_btn"
+        android:textColor="@color/white"
+        android:text="重新认证"
+        android:textStyle="bold"
+        android:textSize="17sp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:text="提示："
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8792A4"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_tishi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="#8792A4"
+            android:textSize="12sp"
+            android:text="个人信息仅作认证用途，不对外公开"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="35dp"
+    android:orientation="vertical"
+    >
+
+   <ImageView
+       android:id="@+id/img_small"
+       android:layout_width="45dp"
+       android:layout_height="45dp"
+       android:layout_gravity="center_horizontal"
+       android:src="@mipmap/icon_default_zq"/>
+
+    <TextView
+        android:id="@+id/tv_small_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="超值礼包"
+        android:textColor="#ff373a42"
+        android:textSize="12sp"
+        />
+</LinearLayout>

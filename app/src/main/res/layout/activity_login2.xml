@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--轮播图-->
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_gravity="center_horizontal"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="427dp"
+            app:indicator_height="10dp"
+            app:indicator_width="10dp"
+            app:indicator_margin="3dp"
+            />
+        
+        <Button
+            android:id="@+id/btn_break"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:text="跳过"
+            android:textSize="12sp"
+            android:background="@drawable/shape_login_break"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_di"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp">
+        <ImageView
+            android:id="@+id/img_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/btn_login_wx"/>
+
+        <ImageView
+            android:id="@+id/img_qq"
+            android:layout_marginLeft="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/btn_login_qq"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_m"
+        android:layout_above="@id/ll_di"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_vertical"
+            android:background="#999999"></View>
+
+        <TextView
+            android:text="第三方快速登录"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#999999"/>
+
+        <View
+            android:layout_width="20dp"
+
+            android:layout_gravity="center_vertical"
+            android:layout_height="1dp"
+            android:background="#999999"></View>
+    </LinearLayout>
+    
+    <Button
+        android:layout_above="@id/ll_m"
+        android:layout_marginBottom="28dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_login"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_login"
+        android:textSize="17sp"/>
+</RelativeLayout>

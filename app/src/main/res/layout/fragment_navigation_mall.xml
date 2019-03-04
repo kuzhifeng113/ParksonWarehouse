@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnablePreviewInEditMode="false">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlAccentColor="@android:color/black" />
+
+        <!--<android.support.v4.widget.NestedScrollView-->
+        <com.woyun.warehouse.view.JudgeNestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapse"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                    app:titleEnabled="false">
+
+                    <!-- android:layout_marginTop="50dp"-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/lll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="10dp"
+                            android:background="@color/white"
+                            android:layout_marginTop="44dp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/tv_username"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:text="商城"
+                                android:textColor="#000000"
+                                android:textSize="25sp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/img_ding"
+                                android:padding="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@mipmap/icon_menu_black"
+                                />
+                        </RelativeLayout>
+
+                        <!--加自己的东西 -->
+                        <RelativeLayout
+                            android:id="@+id/rl_search"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_mall_search"
+                            >
+
+                            <TextView
+                                android:text="搜索"
+                                android:layout_centerInParent="true"
+                                android:drawableLeft="@mipmap/ic_mall_search"
+                                android:drawablePadding="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#999999"/>
+                        </RelativeLayout>
+                       <!-- 轮播图 -->
+                        <com.youth.banner.Banner
+                            android:id="@+id/mall_banner"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_height="200dp"
+                            />
+
+                        <!-- 信保-->
+                        <RelativeLayout
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/img_mall_xin"
+                                android:layout_toLeftOf="@id/img_mall_lv"
+                                android:layout_marginRight="30dp"
+                                android:src="@mipmap/ic_mall_xin"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_mall_lv"
+                                android:src="@mipmap/ic_mall_lv"
+                                android:layout_centerInParent="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                            <ImageView
+                                android:id="@+id/img_mall_bao"
+                                android:layout_marginLeft="30dp"
+                                android:layout_toRightOf="@id/img_mall_lv"
+                                android:src="@mipmap/ic_mall_bao"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                />
+
+                        </RelativeLayout>
+
+
+
+
+                    </LinearLayout>
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:overScrollMode="never"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+            <!--</android.support.v4.widget.NestedScrollView>-->
+        </com.woyun.warehouse.view.JudgeNestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+
+    <!--ToolBar-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="0dp"
+            android:background="@android:color/transparent"
+            android:visibility="visible"
+            app:layout_collapseMode="pin">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/comm_left"
+                    android:visibility="gone"/>
+                <android.support.v7.widget.ButtonBarLayout
+                    android:id="@+id/buttonBarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/toolbar_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:text="商城"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#000000"
+                        android:textSize="17sp" />
+                </android.support.v7.widget.ButtonBarLayout>
+
+                <ImageView
+                    android:id="@+id/iv_menu"
+                    android:layout_marginRight="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    android:src="@mipmap/icon_menu_white" />
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <!--<net.lucode.hackware.magicindicator.MagicIndicator-->
+        <!--android:id="@+id/magic_indicator_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/thirty_eight"-->
+        <!--android:layout_below="@+id/toolbar"-->
+        <!--android:background="@color/mainWhite"-->
+        <!--android:visibility="gone"-->
+        <!--app:layout_collapseMode="pin" />-->
+    </RelativeLayout>
+
+
+</FrameLayout>

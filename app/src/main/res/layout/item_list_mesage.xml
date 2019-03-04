@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.woyun.warehouse.view.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/shape_wd_line">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_mess_type"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="接单通知"
+                android:textColor="#ff222222"
+                android:textSize="16sp"
+                />
+
+
+            <TextView
+                android:id="@+id/tv_mess_time"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-08-31"
+                android:textColor="#ffafafaf"
+                android:textSize="10sp"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_mess"
+                android:layout_marginLeft="14dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/img_default"
+                app:riv_corner_radius="5dp"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/img_mess"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="好吃到跳舞的奶油水果慕斯"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="#ff222222"
+                    android:textSize="13sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_mess_order"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="运单编号：21548461344"
+                    android:textColor="#ffafafaf"
+                    android:textSize="12sp"
+                    />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/deltete"
+            android:text="删除"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:background="@color/red"
+            android:layout_width="100dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</com.woyun.warehouse.view.SwipeItemLayout>

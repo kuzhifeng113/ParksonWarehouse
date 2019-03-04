@@ -1,0 +1,222 @@
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:ignore="MergeRootFrame">
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srlAccentColor="@android:color/black" />
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
+
+
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/rl_dingding"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:paddingLeft="20dp"-->
+                    <!--android:paddingRight="10dp"-->
+                    <!--android:layout_marginTop="62dp"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:visibility="visible">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_username"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentLeft="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:text="商城"-->
+                        <!--android:textColor="#000000"-->
+                        <!--android:textSize="25sp"-->
+                        <!--android:textStyle="bold" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/img_ding"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:src="@mipmap/icon_menu_black"-->
+                        <!--/>-->
+                <!--</RelativeLayout>-->
+
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    android:visibility="visible"
+                   >
+                    <!-- app:layout_scrollFlags="scroll|enterAlways"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"-->
+
+                    <TextView
+                        android:id="@+id/tv_tool_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="12dp"
+                        android:text="商城"
+                        android:textColor="#000000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/img_tool_mess"
+                        android:padding="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/icon_menu_black"
+                        />
+                </android.support.v7.widget.Toolbar>
+
+                <!--加的类容-->
+                <LinearLayout
+                    android:id="@+id/ll_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="55dp"
+                    android:orientation="vertical">
+
+                    <!--搜索-->
+                    <RelativeLayout
+                        android:id="@+id/rl_search"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/shape_mall_search"
+                        >
+
+                        <TextView
+                            android:text="搜索"
+                            android:layout_centerInParent="true"
+                            android:drawableLeft="@mipmap/ic_mall_search"
+                            android:drawablePadding="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:textColor="#999999"/>
+                    </RelativeLayout>
+                    <!-- 轮播图 -->
+                    <com.youth.banner.Banner
+                        android:id="@+id/mall_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="20dp" />
+
+                    <!-- 信保-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/img_mall_xin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="22dp"
+                            android:layout_toLeftOf="@id/img_mall_lv"
+                            android:src="@mipmap/ic_mall_xin" />
+
+                        <ImageView
+                            android:id="@+id/img_mall_lv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:src="@mipmap/ic_mall_lv" />
+
+                        <ImageView
+                            android:id="@+id/img_mall_bao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22dp"
+                            android:layout_toRightOf="@id/img_mall_lv"
+                            android:src="@mipmap/ic_mall_bao" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="horizontal">
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            android:id="@+id/img_left"
+                            android:layout_width="0dp"
+                            android:layout_height="90dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                            android:src="@mipmap/mall_open_left"
+                            app:riv_corner_radius="5dp" />
+
+                        <ImageView
+                            android:id="@+id/img_right"
+                            android:layout_width="0dp"
+                            android:layout_height="90dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/mall_open_right" />
+                    </LinearLayout>
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tablayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="30dp"
+                        app:tabBackground="@drawable/tab_background"
+                        app:tabIndicatorHeight="0dp"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="#F5336F"
+                        app:tabTextColor="@color/text_content"
+                        app:tabTextAppearance="@style/TabLayoutTextSize"
+                        />
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/host_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

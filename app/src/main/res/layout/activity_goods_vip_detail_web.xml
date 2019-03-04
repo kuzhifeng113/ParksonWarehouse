@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <!--webView-->
+    <RelativeLayout
+        android:id="@+id/webViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp" >
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
+        app:navigationIcon="@mipmap/back_white">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawablePadding="10dp"
+            android:text="优质吃货"
+            android:textColor="#373A42"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="18dp"
+            android:text="保存"
+            android:textColor="#EC4374"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--from type 3 vip 不是vip 的时候-->
+    <RelativeLayout
+        android:id="@+id/rl_vip"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+            <TextView
+                android:id="@+id/tv_vip_buy"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:text="购买VIP"
+                android:background="@drawable/shape_xufei_vip"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                />
+    </RelativeLayout>
+
+    <!--from  type  4 代理开通-->
+    <RelativeLayout
+        android:id="@+id/rl_open_agent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btn_agent_open"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:text="开通"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_main_btn"/>
+    </RelativeLayout>
+
+    <!--from type  5 代理购买-->
+    <RelativeLayout
+        android:id="@+id/rl_buy_agent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible">
+        <Button
+            android:id="@+id/btn_agent_buy"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_main_btn"
+            android:text="购买"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

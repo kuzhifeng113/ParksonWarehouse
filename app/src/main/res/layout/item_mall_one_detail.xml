@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/round_img_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@mipmap/img_default"
+        app:riv_corner_radius="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_goods_name"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:textColor="@color/text_black"
+        android:text="越南丨走进越南人的滴漏咖啡日常"
+        />
+
+    <TextView
+        android:id="@+id/tv_goods_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#999999"
+        android:text="从卖出一千份网红咖啡开始"
+        />
+
+</LinearLayout>

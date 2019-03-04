@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+   >
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:titleTextColor="@android:color/white"
+        app:theme="@style/toolBar"
+        app:titleTextColor="@android:color/white">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:maxWidth="190dp"
+            android:text=""
+            android:ellipsize="end"
+            android:textColor="#222222"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/tv_advice"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="反馈"
+            android:textColor="#ff20bead"
+            android:textSize="14sp"
+            android:visibility="gone"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    
+
+</LinearLayout>

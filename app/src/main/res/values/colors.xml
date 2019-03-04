@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#20bead</color>-->
+    <color name="colorPrimary">#ffffff</color>
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <color name="colorPrimaryDark">@android:color/transparent</color>
+    <color name="colorAccent">#20bead</color>
+    <color name="red">#FB3E59</color>
+
+    <color name="tab_checked">#20B7B6</color>
+    <color name="tab_checked_text">#000000</color>
+    <color name="tab_unchecked">#222222</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="text_black">#222222</color>
+    <color name="text_black_t">#333333</color>
+    <color name="text_content">#afafaf</color>
+    <color name="purple">#D15FEE</color>
+    <color name="green">#4EEE94</color>、
+    <color name="mainColorGreen">#20bead</color>
+    <color name="mainColor">#FF437A</color>
+    <color name="line">#eeeeee</color>
+    <color name="price">#FF8450</color>
+    <color name="y_price">#AFAFAF</color>
+    <color name="proobar">#FF8450</color>
+    <color name="proobarbg">#FFE6DB</color>
+    <color name="look_all">#FFF25F</color>
+    <color name="comm_line">#dddddd</color>
+    <color name="header_bg">#f0f0f0</color>
+    <color name="vip_center">#FCB351</color>
+    <color name="agent_center">#2BC1B1</color>
+    <color name="textcccccc">#FFcccccc</color>
+    <color name="textbg">#f5f5f5</color>
+    <color name="agent_help">#66B9F9</color>
+    <color name="agent_help2">#ff5f5f</color>
+    <color name="mainpurple">#B051EC</color>
+
+
+
+
+</resources>

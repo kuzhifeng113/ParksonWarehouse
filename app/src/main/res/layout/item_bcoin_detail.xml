@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+      
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="70dp">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:layout_marginLeft="20dp"
+          android:orientation="vertical">
+
+         <TextView
+             android:id="@+id/tv_type"
+             android:textSize="14sp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="分享"
+             android:textColor="@color/text_black"/>
+
+         <TextView
+             android:id="@+id/tv_num"
+             android:layout_marginTop="10dp"
+             android:textSize="14sp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="+10仓币"
+             android:textColor="@color/mainColor"/>
+      </LinearLayout>
+
+      <TextView
+          android:id="@+id/tv_time"
+          android:textSize="12sp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentRight="true"
+          android:layout_marginRight="20dp"
+          android:layout_centerVertical="true"
+          android:text="2018-10-19  10:34:00"
+          android:textColor="@color/text_black"/>
+
+      <View
+          android:layout_width="match_parent"
+          android:layout_marginLeft="20dp"
+          android:layout_marginRight="20dp"
+          android:layout_alignParentBottom="true"
+          android:layout_height="0.8dp"
+          android:background="@color/line"/>
+   </RelativeLayout>
+
+</LinearLayout>
