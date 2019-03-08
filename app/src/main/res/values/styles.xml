@@ -217,4 +217,18 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+    <!--CollapsingToolbarLayout 折叠 展开 字体大小-->
+    <style name="style_textsize">
+        <item name="android:textSize">23sp</item>
+    </style>
+    <style name="style_textsize1">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

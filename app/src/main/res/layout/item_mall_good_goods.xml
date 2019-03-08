@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="13dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="290dp">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="290dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_show_num"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="1/5"
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="12sp"
+                    android:background="@drawable/shape_login_break"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+               >
+                <LinearLayout
+                    android:id="@+id/ll_1"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="￥"
+                        android:textSize="13sp"
+                        android:textColor="@color/mainColor"/>
+
+                    <TextView
+                        android:id="@+id/tv_vip_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="560.00"
+                        android:textColor="@color/mainColor"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_vip_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:background="@drawable/shape_vip_fan"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="6dp"
+                        android:layout_marginLeft="6dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="会员反15"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_goods_price"
+                        android:layout_marginLeft="60dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="原价:660.00"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#FFBF44"
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_goods_title"
+                    android:layout_below="@id/ll_1"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="#373A42"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="香奈儿水润修颜棒，赋予脸庞、娇唇自然光采。露西娅·皮卡创作的全新彩妆作品。"/>
+
+                <LinearLayout
+                    android:layout_below="@id/tv_goods_title"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_youfei"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mainColor"
+                        android:text="·全场满80包邮"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_sales_volume"
+                        android:layout_marginLeft="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mainColor"
+                        android:text="·销量:60"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_kucun"
+                        android:layout_marginLeft="19dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/mainColor"
+                        android:text="·库存:60"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_supplier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="22dp"
+                    android:textColor="#FFBF44"
+                    android:text="国际优质品牌"
+                    android:textSize="12sp"/>
+
+                <Button
+                    android:id="@+id/btn_buy"
+                    android:layout_width="75dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="点击购买"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_main_btn"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    
+
+
+
+</LinearLayout>

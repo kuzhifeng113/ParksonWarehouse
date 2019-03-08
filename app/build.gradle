@@ -104,6 +104,8 @@ dependencies {
 //    implementation 'com.android.support:multidex:1.0.0'
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"//logo消息数
     implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'//weibo
+    implementation 'cn.jzvd:jiaozivideoplayer:6.4.1'//视频播放器
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
     implementation files('libs/alipaySdk-20180601.jar')
     implementation files('libs/OpenInstall_v2.2.0.jar')

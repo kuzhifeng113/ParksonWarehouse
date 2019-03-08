@@ -58,6 +58,7 @@ import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.MallHomeTwoBean;
 import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.MallGoodGoodsActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
 import com.woyun.warehouse.my.activity.InsertAddressActivity;
@@ -622,13 +623,13 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                         .start();
                 break;
             case R.id.img_left:
-                Intent intentLeft = new Intent(getActivity(), MallGoodsActivity.class);
-                intentLeft.putExtra("goodsmall_type", 0);
+                Intent intentLeft = new Intent(getActivity(), MallGoodGoodsActivity.class);
+                intentLeft.putExtra("goodsmall_type", 12);
                 startActivity(intentLeft);
                 break;
             case R.id.img_right:
-                Intent intentRight = new Intent(getActivity(), MallGoodsActivity.class);
-                intentRight.putExtra("goodsmall_type", 1);
+                Intent intentRight = new Intent(getActivity(), MallGoodGoodsActivity.class);
+                intentRight.putExtra("goodsmall_type", 13);
                 startActivity(intentRight);
 //                Intent intent = new Intent(getActivity(), MainActivity.class);
 //                intent.putExtra("go_makemoney", true);

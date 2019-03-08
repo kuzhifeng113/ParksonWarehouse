@@ -67,4 +67,8 @@
     <string name="weibosdk_demo_toast_share_success">分享成功</string>
     <string name="weibosdk_demo_toast_share_failed">分享失败</string>
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
+    <string name="goods_hahuo">各地好货</string>
+    <string name="look_image_video">看大图视频</string>
+
+
 </resources>

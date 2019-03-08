@@ -117,7 +117,20 @@
 
         <activity android:name=".my.activity.MallGoodsActivity"
             android:screenOrientation="portrait"
-            android:label="各地好货"/>
+            android:label="@string/goods_hahuo"/>
+
+        <activity android:name=".mall.activity.MallGoodGoodsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/goods_hahuo"/>
+
+        <activity android:name=".mall.activity.LookImageVideoActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/look_image_video"
+
+            />
+
 
         <activity android:name=".my.activity.BscKeFuActivity"
             android:screenOrientation="portrait"/>
