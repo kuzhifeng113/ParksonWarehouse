@@ -42,7 +42,7 @@ import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.cart.adapter.CartAdapter;
 import com.woyun.warehouse.cart.adapter.CartLikeAdapter;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
@@ -165,8 +165,8 @@ public class CartFragment extends BaseFragment implements CartAdapter.CheckInter
         cartAdapter.setOnButtonClick(new CartAdapter.OnButtonClick() {
             @Override
             public void imgCick(int position) {
-//                ToastUtils.getInstanc(getActivity()).showToast("---"+cartShopBeanList.get(position).getGoodsName());
-                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(getActivity(), GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", cartShopBeanList.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);
@@ -178,7 +178,8 @@ public class CartFragment extends BaseFragment implements CartAdapter.CheckInter
             @Override
             public void onItemClick(int position) {
 //                ToastUtils.getInstanc(getActivity()).showToast("---"+cartLikeList.get(position).getName());
-                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(getActivity(), GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", cartLikeList.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);

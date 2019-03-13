@@ -132,20 +132,20 @@ public class GoodCategoryBean implements Serializable{
             private String compareUrl;
             private String bkCoin;
             private int goodsId;
-            private int transport;
+            private String transport;
             private String title;
             private int cartNum;
             private String content;
             private int favoriteNum;
-            private int price;
+            private String price;
             private String supplier;
             private String name;
-            private double vipPrice;
+            private String vipPrice;
             private int wantNum;
             private int sortBy;
             private int categoryId;
             private int sellNum;
-            private int freeShopping;
+            private String freeShopping;
             private boolean isFavorite;
             private int stock;
 
@@ -191,11 +191,11 @@ public class GoodCategoryBean implements Serializable{
                 this.goodsId = goodsId;
             }
 
-            public int getTransport() {
+            public String getTransport() {
                 return transport;
             }
 
-            public void setTransport(int transport) {
+            public void setTransport(String transport) {
                 this.transport = transport;
             }
 
@@ -231,11 +231,11 @@ public class GoodCategoryBean implements Serializable{
                 this.favoriteNum = favoriteNum;
             }
 
-            public int getPrice() {
+            public String getPrice() {
                 return price;
             }
 
-            public void setPrice(int price) {
+            public void setPrice(String price) {
                 this.price = price;
             }
 
@@ -255,11 +255,11 @@ public class GoodCategoryBean implements Serializable{
                 this.name = name;
             }
 
-            public double getVipPrice() {
+            public String getVipPrice() {
                 return vipPrice;
             }
 
-            public void setVipPrice(double vipPrice) {
+            public void setVipPrice(String vipPrice) {
                 this.vipPrice = vipPrice;
             }
 
@@ -295,11 +295,11 @@ public class GoodCategoryBean implements Serializable{
                 this.sellNum = sellNum;
             }
 
-            public int getFreeShopping() {
+            public String getFreeShopping() {
                 return freeShopping;
             }
 
-            public void setFreeShopping(int freeShopping) {
+            public void setFreeShopping(String freeShopping) {
                 this.freeShopping = freeShopping;
             }
 

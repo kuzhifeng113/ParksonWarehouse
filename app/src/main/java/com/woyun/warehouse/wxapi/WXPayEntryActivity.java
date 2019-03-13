@@ -2,14 +2,11 @@ package com.woyun.warehouse.wxapi;
 
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -18,18 +15,14 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
-import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.MyApplication;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.bean.UserInfoBean;
-import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.my.activity.AgentCenterActivity;
-import com.woyun.warehouse.my.activity.AgentOpenActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
-import com.woyun.warehouse.my.activity.VipCenterActivity;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;

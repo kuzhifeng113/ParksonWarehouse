@@ -16,7 +16,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.bean.MallHomeBean;
 import com.woyun.warehouse.mall.activity.AllCategoriesActivity;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallLeftActivity;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
 
@@ -115,7 +115,8 @@ public class MallHomeAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHold
                     @Override
                     public void onClick(View v) {
                         int goodsId=packListBean.getGoodsList().get(0).getGoodsId();
-                        Intent goodsDetail=new Intent(context, GoodsDetailActivity.class);
+//                        Intent goodsDetail=new Intent(context, GoodsDetailActivity.class);
+                        Intent goodsDetail=new Intent(context, GoodsDetailNativeActivity.class);
                         goodsDetail.putExtra("goods_id",goodsId);
                         goodsDetail.putExtra("from_id",2);
                         context.startActivity(goodsDetail);
@@ -155,7 +156,8 @@ public class MallHomeAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void onItemClick(int position) {
 //                        LogUtils.e(TAG,"=item  点击="+position);
                         int goodsId=goodsList.get(position).getGoodsId();
-                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+//                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+                        Intent goods=new Intent(context, GoodsDetailNativeActivity.class);
                         goods.putExtra("goods_id",goodsId);
                         goods.putExtra("from_id",2);
                         context.startActivity(goods);

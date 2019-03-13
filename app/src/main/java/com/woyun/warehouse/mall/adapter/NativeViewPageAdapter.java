@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.github.chrisbanes.photoview.PhotoView;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.bean.ResListBean;
+import com.woyun.warehouse.utils.ToastUtils;
 
 import java.util.List;
 
@@ -20,24 +20,23 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
 /**
- *   查看大图 viewPage 适配
+ * 商品详情 viewPage 适配
  */
-public class LookViewPageAdapter extends PagerAdapter {
+public class NativeViewPageAdapter extends PagerAdapter {
+
     private Context mContext;
     private List<ResListBean> imageBanners;
-    private ItemClickListener itemClickListener;
+    private OnItemClickListener onItemClickListener;
 
-
-    public LookViewPageAdapter(Context context, List<ResListBean> imageBanners) {
+    public NativeViewPageAdapter(Context context, List<ResListBean> imageBanners) {
         mContext = context;
         this.imageBanners = imageBanners;
 
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
-
 
     @Override
     public int getCount() {
@@ -52,21 +51,19 @@ public class LookViewPageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (imageBanners.get(position).getType() == 1) {//图片
-            PhotoView photoView=new PhotoView(container.getContext());
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager, null);
+            ImageView imageView = view.findViewById(R.id.iv_icon);
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).asBitmap().into(imageView);
 
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).asBitmap().into(photoView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(position);
+                }
+            });
 
-            if(itemClickListener!=null){
-                photoView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        itemClickListener.onItemClick(position);
-                    }
-                });
-
-            }
-            container.addView(photoView);
-            return photoView;
+            container.addView(view);
+            return view;
 
         } else {//视频
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_video, null);
@@ -75,12 +72,13 @@ public class LookViewPageAdapter extends PagerAdapter {
             imgPlay.setVisibility(View.GONE);
             jzvdStd.setUp(
                     imageBanners.get(position).getVideoUrl(),
-                    "", Jzvd.SCREEN_WINDOW_LIST);
+                    "", Jzvd.SCREEN_WINDOW_NORMAL);// SCREEN_WINDOW_LIST
             Glide.with(mContext).load(imageBanners.get(position).getImage()).into(jzvdStd.thumbImageView);
 
             container.addView(view);
             return view;
         }
+
     }
 
     @Override
@@ -89,9 +87,8 @@ public class LookViewPageAdapter extends PagerAdapter {
     }
 
 
-    public interface ItemClickListener {
+    public interface OnItemClickListener {
         void onItemClick(int index);
     }
-
 
 }

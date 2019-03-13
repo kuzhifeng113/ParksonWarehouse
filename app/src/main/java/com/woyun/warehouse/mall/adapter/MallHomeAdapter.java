@@ -17,13 +17,11 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.bean.MallHomeBean;
 import com.woyun.warehouse.mall.activity.AllCategoriesActivity;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallLeftActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
-import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
-import com.woyun.warehouse.utils.ToastUtils;
 
 import java.util.List;
 
@@ -134,7 +132,8 @@ public class MallHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     @Override
                     public void onItemClick(int position) {
                         int goodsId=goodsListOne.get(position).getGoodsId();
-                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+//                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+                        Intent goods=new Intent(context, GoodsDetailNativeActivity.class);
                         goods.putExtra("goods_id",goodsId);
                         goods.putExtra("from_id",2);
                         context.startActivity(goods);
@@ -189,7 +188,8 @@ public class MallHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     public void onItemClick(int position) {
 //                        LogUtils.e(TAG,"=item  点击="+position);
                         int goodsId=goodsList.get(position).getGoodsId();
-                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+//                        Intent goods=new Intent(context, GoodsDetailActivity.class);
+                        Intent goods=new Intent(context, GoodsDetailNativeActivity.class);
                         goods.putExtra("goods_id",goodsId);
                         goods.putExtra("from_id",2);
                         context.startActivity(goods);

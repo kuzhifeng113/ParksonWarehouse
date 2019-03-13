@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.OrderDetailBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
-import com.woyun.warehouse.my.activity.AgentBuyActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 
 import java.util.List;
 
@@ -56,7 +54,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent detail=new Intent(context, GoodsDetailActivity.class);
+//                Intent detail=new Intent(context, GoodsDetailActivity.class);
+                Intent detail=new Intent(context, GoodsDetailNativeActivity.class);
                 detail.putExtra("goods_id",dataList.get(position).getGoodsId());
                 detail.putExtra("from_id",3);
                 context.startActivity(detail);

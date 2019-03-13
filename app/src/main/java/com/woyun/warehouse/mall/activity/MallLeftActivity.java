@@ -101,7 +101,8 @@ public class MallLeftActivity extends BaseActivity {
         mallLeftAdapter.setOnTypeItemClickListener(new MallLeftAdapter.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int posion) {
-                Intent goodsDetail = new Intent(MallLeftActivity.this, GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(MallLeftActivity.this, GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(MallLeftActivity.this, GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", listDatas.get(posion).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);

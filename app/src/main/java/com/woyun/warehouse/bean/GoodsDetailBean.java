@@ -36,6 +36,7 @@ public class GoodsDetailBean implements Serializable {
     private String image;
     private String compareUrl;
     private int goodsId;
+    private String bkCoin;//返多少
     private String transport;
     private String title;
     private String content;
@@ -51,6 +52,50 @@ public class GoodsDetailBean implements Serializable {
     private boolean isVote;
     private List<SkuListBean> skuList;
     private int cartNum;
+    private String supplier;//供应商
+    private String freeShopping;//满多少包邮
+    private List<ResListBean> resList;
+    private List<ContentListBean> contentList;
+
+    public String getBkCoin() {
+        return bkCoin;
+    }
+
+    public void setBkCoin(String bkCoin) {
+        this.bkCoin = bkCoin;
+    }
+
+    public String getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier = supplier;
+    }
+
+    public String getFreeShopping() {
+        return freeShopping;
+    }
+
+    public void setFreeShopping(String freeShopping) {
+        this.freeShopping = freeShopping;
+    }
+
+    public List<ResListBean> getResList() {
+        return resList;
+    }
+
+    public void setResList(List<ResListBean> resList) {
+        this.resList = resList;
+    }
+
+    public List<ContentListBean> getContentList() {
+        return contentList;
+    }
+
+    public void setContentList(List<ContentListBean> contentList) {
+        this.contentList = contentList;
+    }
 
     public String getCompareUrl() {
         return compareUrl;

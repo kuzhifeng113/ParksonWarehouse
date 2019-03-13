@@ -35,7 +35,6 @@ import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.LoginActivity;
 import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.SplashActivity;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
@@ -43,9 +42,8 @@ import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.MallHomeBean;
-import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.mall.activity.AllCategoriesActivity;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
 import com.woyun.warehouse.mall.adapter.MallHomeAdapter;
@@ -396,7 +394,8 @@ public class MallFragment extends BaseFragment {
                 Intent webView=new Intent();
               int type= listBanner.get(position).getType();
                 if(type==3){
-                    webView.setClass(getActivity(), GoodsDetailActivity.class);
+//                    webView.setClass(getActivity(), GoodsDetailActivity.class);
+                    webView.setClass(getActivity(), GoodsDetailNativeActivity.class);
                     webView.putExtra("goods_id",listBanner.get(position).getGoodsId());
                     webView.putExtra("from_id",2);
                     startActivity(webView);

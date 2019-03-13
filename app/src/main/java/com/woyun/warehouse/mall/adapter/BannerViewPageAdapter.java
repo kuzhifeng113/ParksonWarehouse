@@ -78,10 +78,7 @@ public class BannerViewPageAdapter extends PagerAdapter {
                 });
 
             }
-
             container.addView(view);
-
-
 
             return view;
 

@@ -1,6 +1,5 @@
 package com.woyun.warehouse.my.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +38,7 @@ import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.AgentBuyVipBean;
 import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.WxPayBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
-import com.woyun.warehouse.mall.activity.GoodsDetailVipActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.adapter.AgentBuyVipAdapter;
 import com.woyun.warehouse.my.adapter.AgentVipTypeAdapter;
 import com.woyun.warehouse.utils.DensityUtils;
@@ -137,7 +135,7 @@ public class AgentBuyActivity extends BaseActivity implements CommonPopupWindow.
 
         goodsAdapter.setOnItemClickListener(position -> {
 //            Intent detail=new Intent(AgentBuyActivity.this, GoodsDetailVipActivity.class);
-            Intent detail=new Intent(AgentBuyActivity.this, GoodsDetailActivity.class);
+            Intent detail=new Intent(AgentBuyActivity.this, GoodsDetailNativeActivity.class);
             detail.putExtra("goods_id",goodsListBeanList.get(position).getGoodsId());
             detail.putExtra("from_id",3);
             startActivity(detail);

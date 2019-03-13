@@ -42,7 +42,7 @@ import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.AgentOpenBean;
 import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.WxPayBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.adapter.AgentOpenAdapter;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
@@ -152,8 +152,8 @@ public class AgentOpenTwoActivity extends BaseActivity implements CommonPopupWin
         });
 
         cartVipAdapter.setOnItemClickListener(position -> {
-//            Intent detail=new Intent(AgentOpenActivity.this, GoodsDetailVipActivity.class);
-            Intent detail = new Intent(AgentOpenTwoActivity.this, GoodsDetailActivity.class);
+//            Intent detail = new Intent(AgentOpenTwoActivity.this, GoodsDetailActivity.class);
+            Intent detail = new Intent(AgentOpenTwoActivity.this, GoodsDetailNativeActivity.class);
             detail.putExtra("goods_id", goodsListBeanList.get(position).getGoodsId());
             detail.putExtra("from_id", 3);
             startActivity(detail);

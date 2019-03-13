@@ -1,8 +1,6 @@
 package com.woyun.warehouse.vote.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.bean.VoteHomeBean;
 import com.woyun.warehouse.bean.ZuanQianBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
 
 import java.util.List;
 

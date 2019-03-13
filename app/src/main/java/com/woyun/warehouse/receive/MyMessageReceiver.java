@@ -6,10 +6,9 @@ import android.util.Log;
 
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MessageListActivity;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
-import com.woyun.warehouse.my.activity.CangCoinDetailActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
 import com.woyun.warehouse.utils.LogUtils;
@@ -78,7 +77,8 @@ public class MyMessageReceiver extends MessageReceiver {
                 context.startActivity(order);
             }
             if(type.equals("5")){//投票的人有通知---跳转商品详情
-                Intent goods=new Intent(context, GoodsDetailActivity.class);
+//                Intent goods=new Intent(context, GoodsDetailActivity.class);
+                Intent goods=new Intent(context, GoodsDetailNativeActivity.class);
                 goods.putExtra("goods_id",Integer.valueOf(redirect));
                 goods.putExtra("from_id",2);
                 context.startActivity(goods);

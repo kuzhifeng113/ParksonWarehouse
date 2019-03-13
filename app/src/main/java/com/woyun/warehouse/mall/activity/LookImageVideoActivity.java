@@ -1,6 +1,7 @@
 package com.woyun.warehouse.mall.activity;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +9,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.GoodCategoryBean;
+import com.woyun.warehouse.bean.ResListBean;
 import com.woyun.warehouse.mall.adapter.LookViewPageAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ public class LookImageVideoActivity extends BaseActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private List<GoodCategoryBean.PageBean.ContentBean.ResListBean> listData = new ArrayList<>();
+    private List<ResListBean> listData = new ArrayList<>();
     private LookViewPageAdapter lookViewPageAdapter;
 
     @SuppressLint("NewApi")
@@ -42,8 +45,8 @@ public class LookImageVideoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look_image);
         //进入退出效果 注意这里 创建的效果对象是 Fade()
-        getWindow().setEnterTransition(new Fade().setDuration(500));
-        getWindow().setExitTransition(new Fade().setDuration(500));
+        getWindow().setEnterTransition(new Fade().setDuration(260));
+        getWindow().setExitTransition(new Fade().setDuration(260));
         ButterKnife.bind(this);
 
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -57,12 +60,20 @@ public class LookImageVideoActivity extends BaseActivity {
 
             }
         });
+
         initData();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    }
+
     private void initData() {
-        listData = (List<GoodCategoryBean.PageBean.ContentBean.ResListBean>) getIntent().getSerializableExtra("reslist");
+        listData = (List<ResListBean>) getIntent().getSerializableExtra("reslist");
         int index = getIntent().getIntExtra("index", 0);
         lookViewPageAdapter=new LookViewPageAdapter(LookImageVideoActivity.this,listData);
 

@@ -1,6 +1,5 @@
 package com.woyun.warehouse.vote.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,28 +14,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
-import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
-import com.woyun.warehouse.bean.CategoryGoodsBean;
 import com.woyun.warehouse.bean.CategoryGoodsBeanTwo;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
-import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapter;
-import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapterOne;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapterTwo;
 import com.woyun.warehouse.utils.CommonUtils;
 import com.woyun.warehouse.utils.DensityUtils;
-import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -115,7 +107,8 @@ public class HostFragmentTwo extends BaseFragment {
         goodsAdapterOne.setOnTypeItemClickListener(new CategoryGoodsAdapterTwo.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(getActivity(), GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", allData.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);

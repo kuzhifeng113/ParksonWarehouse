@@ -52,7 +52,7 @@ import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.VipCenterTwoBean;
 import com.woyun.warehouse.bean.WxPayBean;
 import com.woyun.warehouse.cart.adapter.PopDownAdapter;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.adapter.CartVipAdapterTwo;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
@@ -167,8 +167,8 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
         initData(loginUserId);
 
         cartVipAdapter.setOnItemClickListener(position -> {
-//            Intent detail=new Intent(VipCenterActivity.this, GoodsDetailVipActivity.class);
-            Intent detail = new Intent(VipCenterTwoActivity.this, GoodsDetailActivity.class);
+//            Intent detail = new Intent(VipCenterTwoActivity.this, GoodsDetailActivity.class);
+            Intent detail = new Intent(VipCenterTwoActivity.this, GoodsDetailNativeActivity.class);
             detail.putExtra("goods_id", goodsListBeanList.get(position).getGoodsId());
             detail.putExtra("end_time", endTimeVip);
             detail.putExtra("from_id", 3);

@@ -26,9 +26,8 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.bean.CategoryGoodsBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapter;
-import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -92,7 +91,8 @@ public class HostFragment extends BaseFragment {
         goodsAdapter.setOnTypeItemClickListener(new CategoryGoodsAdapter.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(getActivity(), GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", listData.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);

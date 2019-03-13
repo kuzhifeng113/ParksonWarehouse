@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -97,7 +96,8 @@ public class MallRightActivity extends BaseActivity {
         mallLeftAdapter.setOnTypeItemClickListener(new MallLeftAdapter.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int posion) {
-                Intent goodsDetail = new Intent(MallRightActivity.this, GoodsDetailActivity.class);
+//                Intent goodsDetail = new Intent(MallRightActivity.this, GoodsDetailActivity.class);
+                Intent goodsDetail = new Intent(MallRightActivity.this, GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", listDatas.get(posion).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);

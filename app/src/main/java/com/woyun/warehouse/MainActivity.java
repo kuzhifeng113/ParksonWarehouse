@@ -37,19 +37,16 @@ import com.woyun.warehouse.baseparson.adapter.ViewPagerAdapter;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.cart.CartFragment;
-import com.woyun.warehouse.mall.MallFragment;
 import com.woyun.warehouse.mall.MallFragmentTwo;
-import com.woyun.warehouse.mall.activity.GoodsDetailActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.MyFragment;
 import com.woyun.warehouse.utils.BottomNavigationViewHelper;
 import com.woyun.warehouse.utils.DateUtils;
 import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
-import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.BaseDialogg;
 import com.woyun.warehouse.view.ViewPagerSlide;
 import com.woyun.warehouse.vip.VipFragment;
-import com.woyun.warehouse.vote.VoteFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -98,8 +95,10 @@ public class MainActivity extends BaseActivity {
         shareGoodsId= (String) SPUtils.getInstance(MainActivity.this).get(Constant.SHARE_GOODS_ID,"");
         Log.e(TAG, "onCreate: "+shareGoodsId );
         if(!TextUtils.isEmpty(shareGoodsId)){
-            Intent intent=new Intent(MainActivity.this, GoodsDetailActivity.class);
+//            Intent intent=new Intent(MainActivity.this, GoodsDetailActivity.class);
+            Intent intent=new Intent(MainActivity.this, GoodsDetailNativeActivity.class);
             intent.putExtra("goods_id",Integer.valueOf(shareGoodsId));
+            intent.putExtra("from_id", 2);
             startActivity(intent);
             SPUtils.getInstance(MainActivity.this).remove(Constant.SHARE_GOODS_ID);
         }

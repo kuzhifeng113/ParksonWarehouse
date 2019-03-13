@@ -131,6 +131,12 @@
 
             />
 
+        <activity android:name=".mall.activity.GoodsDetailNativeActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/native_goods"
+            />
+
 
         <activity android:name=".my.activity.BscKeFuActivity"
             android:screenOrientation="portrait"/>
@@ -151,9 +157,6 @@
             android:screenOrientation="portrait"
             android:label="@string/feilei"/>
 
-        <activity android:name=".mall.activity.AllCategoriesActivityTwo"
-            android:screenOrientation="portrait"
-            android:label="@string/feilei"/>
 
         <activity android:name=".mall.activity.SearchActivity"
             android:screenOrientation="portrait"

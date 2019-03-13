@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
     private OnButtonClickListener onButtonClickListener;
     private OnSmallClickListener onSmallClickListener;
     private BannerViewPageAdapter bannerViewPageAdapter;
+    private int type;//12 各地好货   13 必选名品
 
     public void setOnSmallClickListener(OnSmallClickListener onSmallClickListener) {
         this.onSmallClickListener = onSmallClickListener;
@@ -47,10 +49,16 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
         this.onButtonClickListener = onButtonClickListener;
     }
 
-    public MallGoodGoodsAdapter(Context context, List<GoodCategoryBean.PageBean.ContentBean> listData) {
+    public MallGoodGoodsAdapter(Context context, List<GoodCategoryBean.PageBean.ContentBean> listData,int type) {
         this.listData = listData;
         this.context = context;
+        this.type=type;
 
+    }
+
+    public void setData(List<GoodCategoryBean.PageBean.ContentBean> listData){
+        this.listData=listData;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -62,15 +70,25 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        //设置颜色---根据type
+        if(type==12){
+            holder.tv_y.setTextColor(Color.parseColor("#B051EC"));
+            holder.tv_vip_price.setTextColor(Color.parseColor("#B051EC"));
+            holder.tv_youfei.setTextColor(Color.parseColor("#B051EC"));
+            holder.tv_sales_volume.setTextColor(Color.parseColor("#B051EC"));
+            holder.tv_kucun.setTextColor(Color.parseColor("#B051EC"));
+            holder.btn_buy.setBackgroundResource(R.drawable.shape_pouple_btn);
+            holder.tv_vip_back.setBackgroundResource(R.drawable.shape_vip_pouple_fan);
+        }
+
         GoodCategoryBean.PageBean.ContentBean goodsListBean = listData.get(position);
         holder.tv_goods_title.setText(goodsListBean.getName());
         holder.tv_vip_price.setText(String.valueOf(goodsListBean.getVipPrice()));
         holder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
         holder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
-        holder.tv_goods_title.setText(goodsListBean.getTitle());
         holder.tv_youfei.setText("·全场满" + goodsListBean.getFreeShopping() + "包邮");
         holder.tv_sales_volume.setText("·销量:" + goodsListBean.getSellNum());
-        holder.tv_sales_volume.setText("·库存:" + goodsListBean.getStock());
+        holder.tv_kucun.setText("·库存:" + goodsListBean.getStock());
         holder.tv_supplier.setText(goodsListBean.getSupplier());
         holder.tv_show_num.setText("1/" + listData.get(position).getResList().size());
 
@@ -81,7 +99,7 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
         holder.viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int index, float positionOffset, int positionOffsetPixels) {
-                Log.e(TAG, "onPageScrolled: " + index);
+//                Log.e(TAG, "onPageScrolled: " + index);
             }
 
             @Override
@@ -92,7 +110,7 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.e(TAG, "onPageScrollStateChanged: " + state);
+//                Log.e(TAG, "onPageScrollStateChanged: " + state);
             }
         });
 
@@ -125,13 +143,14 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         android.support.v4.view.ViewPager viewPager;
-        TextView tv_show_num, tv_vip_price, tv_vip_back, tv_goods_price, tv_goods_title;
+        TextView tv_y,tv_show_num, tv_vip_price, tv_vip_back, tv_goods_price, tv_goods_title;
         TextView tv_youfei, tv_sales_volume, tv_kucun, tv_supplier;
         Button btn_buy;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             viewPager = itemView.findViewById(R.id.viewPager);
+            tv_y=itemView.findViewById(R.id.tv_y);
             tv_show_num = itemView.findViewById(R.id.tv_show_num);
             tv_vip_price = (TextView) itemView.findViewById(R.id.tv_vip_price);
             tv_vip_back = itemView.findViewById(R.id.tv_vip_back);

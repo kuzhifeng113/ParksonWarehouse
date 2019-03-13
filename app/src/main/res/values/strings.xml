@@ -69,6 +69,7 @@
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
     <string name="goods_hahuo">各地好货</string>
     <string name="look_image_video">看大图视频</string>
+    <string name="native_goods">商品详情原生</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 package com.woyun.warehouse.mall.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,15 +24,12 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.MessageBean;
-import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.mall.adapter.MessageAdapter;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
-import com.woyun.warehouse.my.activity.CangCoinDetailActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
-import com.woyun.warehouse.view.DeleteDialog;
 import com.woyun.warehouse.view.SwipeItemLayout;
 
 import org.json.JSONArray;
@@ -162,7 +158,9 @@ public class MessageListActivity extends BaseActivity {
                     return;
                 }else if(type==5){
                     intent.putExtra("goods_id",listData.get(position).getRedirectId());//商品详情的
-                    intent.setClass(MessageListActivity.this, GoodsDetailActivity.class);
+                    intent.putExtra("from_id", 2);
+//                    intent.setClass(MessageListActivity.this, GoodsDetailActivity.class);
+                    intent.setClass(MessageListActivity.this, GoodsDetailNativeActivity.class);
                     startActivity(intent);
                     return;
                 }else if(type==7){//仓币明细
