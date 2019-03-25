@@ -11,7 +11,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.ButtonBarLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +26,6 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -51,19 +49,20 @@ import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.bean.MoneyBean;
 import com.woyun.warehouse.bean.ZuanQianBean;
-import com.woyun.warehouse.my.activity.AgentOpenTwoActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeAgentActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeVipActivity;
 import com.woyun.warehouse.my.activity.ShareActivity;
-import com.woyun.warehouse.my.activity.VipCenterTwoActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
 import com.woyun.warehouse.utils.SPUtils;
+import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.JudgeNestedScrollView;
+import com.woyun.warehouse.vote.adapter.AgentGiftAdapter;
 import com.woyun.warehouse.vote.adapter.MoneyHorizontalAdapter;
-import com.woyun.warehouse.vote.adapter.VipAgentAdapter;
-import com.woyun.warehouse.vote.adapter.VipHomeAdapter;
-import com.woyun.warehouse.vote.adapter.VipSliverAdapter;
+import com.woyun.warehouse.vote.adapter.VipGiftAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -90,8 +89,8 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     SmartRefreshLayout mRefreshLayout;
     Unbinder unbinder;
 
-    @BindView(R.id.recycler_view_vip_qy)
-    RecyclerView recyclerViewVip;
+    @BindView(R.id.btn_vip_share)
+    ImageView btn_vip_share;
 
     @BindView(R.id.scrollView)
     JudgeNestedScrollView scrollView;
@@ -117,46 +116,37 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     TextView tvName;
     @BindView(R.id.tv_vip_type)
     TextView tvVipType;
-    @BindView(R.id.tv_quanyi_num)
-    TextView tvQuanyiNum;
-    @BindView(R.id.tv_vip_status)
-    TextView tvVipStatus;
-    @BindView(R.id.rl_open_vip)
-    RelativeLayout rlOpenVip;
-    @BindView(R.id.rl_open_agent)
-    RelativeLayout rlOpenAgent;
-    @BindView(R.id.tv_vip_price)
-    TextView tvVipPrice;
+    //    @BindView(R.id.tv_quanyi_num)
+//    TextView tvQuanyiNum;
 
-    @BindView(R.id.tv_agent_quan_num)
-    TextView tvAgentQuanNum;
+//    @BindView(R.id.rl_open_vip)
+//    RelativeLayout rlOpenVip;
+    //    @BindView(R.id.rl_open_agent)
+//    RelativeLayout rlOpenAgent;
 
-    @BindView(R.id.recycler_view_agent_one)
-    RecyclerView recyclerViewAgentOne;
-    @BindView(R.id.recycler_view_agent_two)
-    RecyclerView recyclerViewAgentTwo;
+
+//    @BindView(R.id.tv_agent_quan_num)
+//    TextView tvAgentQuanNum;
+
+    //    @BindView(R.id.recycler_view_agent_one)
+//    RecyclerView recyclerViewAgentOne;
+//    @BindView(R.id.recycler_view_agent_two)
+//    RecyclerView recyclerViewAgentTwo;
     @BindView(R.id.recycler_view_small)
     RecyclerView recyclerViewSmall;
-    @BindView(R.id.tv_agent_status)
-    TextView tvAgentStatus;
-    @BindView(R.id.tv_agent_price)
-    TextView tvAgentPrice;
+//    @BindView(R.id.tv_agent_status)
+//    TextView tvAgentStatus;
+//    @BindView(R.id.tv_agent_price)
+//    TextView tvAgentPrice;
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    @BindView(R.id.ic_share)
-    ImageView icShare;
-    @BindView(R.id.tv_agent_status_one)
-    TextView tvAgentStatusOne;
-    @BindView(R.id.tv_agent_price_one)
-    TextView tvAgentPriceOne;
-    @BindView(R.id.rl_open_agent_one)
-    RelativeLayout rlOpenAgentOne;
-    @BindView(R.id.recycler_view_silver_one)
-    RecyclerView recyclerViewSilverOne;
-    @BindView(R.id.recycler_view_silver_two)
-    RecyclerView recyclerViewSilverTwo;
+    @BindView(R.id.recycler_view_vip_lb)
+    RecyclerView recyclerViewVipGift;
+
+    @BindView(R.id.recycler_view_agent_lb)
+    RecyclerView recyclerViewAgentGift;
 
     private List<MoneyBean> moneyBeanList = new ArrayList<>();
     List<String> imageBanners = new ArrayList<>();
@@ -166,25 +156,20 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     int toolBarPositionY = 0;
     private MoneyHorizontalAdapter horizontalAdapter;
     LinearLayoutManager mLinearLayoutManager;
-    private VipHomeAdapter vipHomeAdapter;
-    private VipAgentAdapter vipAgentAdapterOne, vipAgentAdapterTwo;
-    private VipSliverAdapter vipSliverAdapterOne,vipSliverAdapterTwo;
+
+    private VipGiftAdapter vipGiftAdapter;
+    private AgentGiftAdapter agentGiftAdapter ;
     private CommonPopupWindow popupWindow;
     private boolean isVip;
     private boolean isLogin;
-    //会员权益
-    private List<ZuanQianBean.VipListBean> vipListBeanList = new ArrayList<>();
 
-    //银牌代理 3680
-    private List<ZuanQianBean.SilverListBean> sliverListBeanList=new ArrayList<>();
-    private List<ZuanQianBean.SilverListBean> sliverListBeanListOne=new ArrayList<>();
-    private List<ZuanQianBean.SilverListBean> sliverListBeanListTwo=new ArrayList<>();
+    //会员礼包
+    private List<ZuanQianBean.VipGiftBean> vipListBeanList = new ArrayList<>();
 
+    //代理礼包
+    private List<ZuanQianBean.AgentGiftBean> agentGiftBeanList = new ArrayList<>();
 
     //代理权益 6552
-    private List<ZuanQianBean.AgentListBean> agentListBeanList = new ArrayList<>();
-    private List<ZuanQianBean.AgentListBean> agentListBeanListOne = new ArrayList<>();
-    private List<ZuanQianBean.AgentListBean> agentListBeanListTwo = new ArrayList<>();
 
 
     public static VipFragment newInstance() {
@@ -195,107 +180,70 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_vip, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_vip_two, container, false);
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
         Log.e(TAG, "onCreateView:@@@@@@@ ");
         toolBar.setVisibility(View.GONE);
         ImmersionBar.setTitleBar(getActivity(), toolBar);
-        vipHomeAdapter = new VipHomeAdapter(getActivity(), vipListBeanList);
-        recyclerViewVip.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        if (recyclerViewVip.getItemDecorationCount() == 0) {
-            recyclerViewVip.addItemDecoration(new GridSpacingItemDecoration(4, 5, false));
-        }
-        recyclerViewVip.setAdapter(vipHomeAdapter);
+        vipGiftAdapter = new VipGiftAdapter(getActivity(), vipListBeanList);
+        agentGiftAdapter=new AgentGiftAdapter(getActivity(),agentGiftBeanList);
 
-        //3680
-        vipSliverAdapterOne = new VipSliverAdapter(getActivity(), sliverListBeanListOne);
-        recyclerViewSilverOne.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        if (recyclerViewSilverOne.getItemDecorationCount() == 0) {
-            recyclerViewSilverOne.addItemDecoration(new GridSpacingItemDecoration(2, 5, false));
+        recyclerViewVipGift.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (recyclerViewVipGift.getItemDecorationCount() == 0) {
+            recyclerViewVipGift.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(getActivity(), 8)));//垂直间距
         }
-        recyclerViewSilverOne.setAdapter(vipSliverAdapterOne);
+        recyclerViewVipGift.setAdapter(vipGiftAdapter);
 
-        vipSliverAdapterTwo = new VipSliverAdapter(getActivity(), sliverListBeanListTwo);
-        recyclerViewSilverTwo.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        if (recyclerViewSilverTwo.getItemDecorationCount() == 0) {
-            recyclerViewSilverTwo.addItemDecoration(new GridSpacingItemDecoration(3, 5, false));
+        recyclerViewAgentGift.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (recyclerViewAgentGift.getItemDecorationCount() == 0) {
+            recyclerViewAgentGift.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(getActivity(), 8)));//垂直间距
         }
-        recyclerViewSilverTwo.setAdapter(vipSliverAdapterTwo);
+        recyclerViewAgentGift.setAdapter(agentGiftAdapter);
 
-        //6552
-        vipAgentAdapterOne = new VipAgentAdapter(getActivity(), agentListBeanListOne);
-        recyclerViewAgentOne.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        if (recyclerViewAgentOne.getItemDecorationCount() == 0) {
-            recyclerViewAgentOne.addItemDecoration(new GridSpacingItemDecoration(2, 5, false));
-        }
-        recyclerViewAgentOne.setAdapter(vipAgentAdapterOne);
+        //会员礼包
+        vipGiftAdapter.setOnItemClickListener(position -> {
+                Intent intent=new Intent(getActivity(), GoodsDetailNativeVipActivity.class);
+                intent.putExtra("goods_id",vipListBeanList.get(position).getGoodsId());
+                intent.putExtra("from_id",2);
+                startActivity(intent);
 
-        vipAgentAdapterTwo = new VipAgentAdapter(getActivity(), agentListBeanListTwo);
-        recyclerViewAgentTwo.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        if (recyclerViewAgentTwo.getItemDecorationCount() == 0) {
-            recyclerViewAgentTwo.addItemDecoration(new GridSpacingItemDecoration(3, 5, false));
-        }
-        recyclerViewAgentTwo.setAdapter(vipAgentAdapterTwo);
+        });
+        vipGiftAdapter.setOnButtonClickListener(positon -> {
+            Intent intent=new Intent(getActivity(), GoodsDetailNativeVipActivity.class);
+            intent.putExtra("goods_id",vipListBeanList.get(positon).getGoodsId());
+            intent.putExtra("from_id",2);
+            startActivity(intent);
+        });
+
+
+        //代理礼包
+        agentGiftAdapter.setOnItemClickListener(position -> {
+            Intent intent=new Intent(getActivity(), GoodsDetailNativeAgentActivity.class);
+            intent.putExtra("goods_id",agentGiftBeanList.get(position).getGoodsId());
+            intent.putExtra("from_id",2);
+            startActivity(intent);
+        });
+        agentGiftAdapter.setOnButtonClickListener(positon -> {
+            Intent intent=new Intent(getActivity(), GoodsDetailNativeAgentActivity.class);
+            intent.putExtra("goods_id",agentGiftBeanList.get(positon).getGoodsId());
+            intent.putExtra("from_id",2);
+            startActivity(intent);
+        });
+
 
         //最下面一排
         horizontalAdapter = new MoneyHorizontalAdapter(getActivity(), moneyBeanList);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 水平 布
+        recyclerViewSmall.addItemDecoration(new GridSpacingItemDecoration(2, 135, false));
         recyclerViewSmall.setLayoutManager(mLinearLayoutManager);
         recyclerViewSmall.setAdapter(horizontalAdapter);
 
+        startAnim(btn_vip_share);
 
-//        //会员权益 点击事件
-//        vipHomeAdapter.setOnItemClickListener(new VipHomeAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                ArrayList<String> imagesList=new ArrayList<>();
-//                for(int i=0;i<vipListBeanList.size();i++){
-//                    imagesList.add(vipListBeanList.get(i).getImage());
-//                }
-//                Intent intent=new Intent(getActivity(), QuanYiTwoActivity.class);
-//                intent.putExtra("z_title","会员权益");
-//                intent.putStringArrayListExtra("imagesarray",imagesList);
-//                intent.putExtra("index",position);
-//                startActivity(intent);
-//            }
-//        });
-//        //代理权益 one
-//        vipAgentAdapterOne.setOnItemClickListener(new VipAgentAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                ArrayList<String> imagesList=new ArrayList<>();
-//                for(int i=0;i<agentListBeanList.size();i++){
-//                    imagesList.add(agentListBeanList.get(i).getImage());
-//                }
-//                Intent intent=new Intent(getActivity(), QuanYiTwoActivity.class);
-//                intent.putExtra("z_title","代理权益");
-//                intent.putStringArrayListExtra("imagesarray",imagesList);
-//                intent.putExtra("index",position);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        //代理权益 two
-//        vipAgentAdapterTwo.setOnItemClickListener(new VipAgentAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(int position) {
-//                ArrayList<String> imagesList=new ArrayList<>();
-//                for(int i=0;i<agentListBeanList.size();i++){
-//                    imagesList.add(agentListBeanList.get(i).getImage());
-//                }
-//                Intent intent=new Intent(getActivity(), QuanYiTwoActivity.class);
-//                intent.putExtra("z_title","代理权益");
-//                intent.putStringArrayListExtra("imagesarray",imagesList);
-//                intent.putExtra("index",position+2);
-//                startActivity(intent);
-//            }
-//        });
-        startAnim(rlOpenVip);
-        startAnim(rlOpenAgentOne);
-        startAnim(rlOpenAgent);
+
         horizontalAdapter.setOnItemClickListener(new MoneyHorizontalAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -350,52 +298,34 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
         }
     }
 
+
+
     /**
      * 轮播图
      */
-    private void initBannner(final List<ZuanQianBean.VipListBean> vipBanner,final List<ZuanQianBean.SilverListBean> agentSilverBanner, final List<ZuanQianBean.AgentListBean> agentBanner) {
+    private void initBannner(final List<ZuanQianBean.ProfitListBean> profitListBeanList) {
         imageBanners.clear();
         moneyBeanList.clear();
-        for (int i = 0; i < vipBanner.size(); i++) {
-            imageBanners.add(vipBanner.get(i).getImage());
+        for (int i = 0; i < profitListBeanList.size(); i++) {
+            imageBanners.add(profitListBeanList.get(i).getImage());
             MoneyBean moneyBean = new MoneyBean();
-            moneyBean.setIcon(vipBanner.get(i).getIcon());
-            moneyBean.setImage(vipBanner.get(i).getImage());
-            moneyBean.setUnicon(vipBanner.get(i).getUnicon());
-            moneyBean.setName(vipBanner.get(i).getName());
+            moneyBean.setIcon(profitListBeanList.get(i).getIcon());
+            moneyBean.setImage(profitListBeanList.get(i).getImage());
+            moneyBean.setUnicon(profitListBeanList.get(i).getUnicon());
+            moneyBean.setName(profitListBeanList.get(i).getName());
             if (i == 0) {
                 moneyBean.setCheck(true);
             }
             moneyBeanList.add(moneyBean);
         }
 
-        for (int j = 0; j < agentSilverBanner.size(); j++) {
-            imageBanners.add(agentSilverBanner.get(j).getImage());
-            MoneyBean moneBeanSilver = new MoneyBean();
-            moneBeanSilver.setIcon(agentSilverBanner.get(j).getIcon());
-            moneBeanSilver.setImage(agentSilverBanner.get(j).getImage());
-            moneBeanSilver.setUnicon(agentSilverBanner.get(j).getUnicon());
-            moneBeanSilver.setName(agentSilverBanner.get(j).getName());
-            moneyBeanList.add(moneBeanSilver);
-        }
 
-        for (int j = 0; j < agentBanner.size(); j++) {
-            imageBanners.add(agentBanner.get(j).getImage());
-            MoneyBean moneBeanAgent = new MoneyBean();
-            moneBeanAgent.setIcon(agentBanner.get(j).getIcon());
-            moneBeanAgent.setImage(agentBanner.get(j).getImage());
-            moneBeanAgent.setUnicon(agentBanner.get(j).getUnicon());
-            moneBeanAgent.setName(agentBanner.get(j).getName());
-            moneyBeanList.add(moneBeanAgent);
-        }
         viewPager.setAdapter(new BannerAdapter(getActivity(), viewPager, imageBanners));
         viewPager.setPageMargin(20);
         viewPager.setOffscreenPageLimit(imageBanners.size());
         viewPager.setPageTransformer(true, new ZoomOutPageTransformer());//3D画廊模式
-
         //左右都有图
         viewPager.setCurrentItem(0);
-//        recyclerViewMall.
         horizontalAdapter.notifyDataSetChanged();
 
     }
@@ -417,7 +347,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                 if (isAgent) {
                     tvVipType.setText("金牌代理");
                 }
-
+                tvVipType.setVisibility(View.VISIBLE);
             } else {
                 tvName.setText("立即登录");
                 tvVipType.setVisibility(View.INVISIBLE);
@@ -518,10 +448,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         initData();
-//        boolean isFirstVote = (boolean) SPUtils.getInstance(getActivity()).get("isFirstVotes", false);
-//        if (!isFirstVote) {
-//            showVoteRules();
-//        }
+
     }
 
 
@@ -538,8 +465,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                     @Override
                     public void run() {
                         vipListBeanList.clear();
-                        agentListBeanList.clear();
-                        sliverListBeanList.clear();
+                        agentGiftBeanList.clear();
                         getData();
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.resetNoMoreData();
@@ -570,7 +496,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
         try {
             JSONObject params = new JSONObject();
             params.put("userid", SPUtils.getInstance(getActivity()).get(Constant.USER_ID, ""));
-            RequestInterface.userPrefix(getActivity(), params, TAG, ReqConstance.I_USER_MAKE_MOENY, 1, new HSRequestCallBackInterface() {
+            RequestInterface.userPrefixVersiontTwo(getActivity(), params, TAG, ReqConstance.I_USER_MAKE_MOENY, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     MainActivity mainActivity = (MainActivity) getActivity();
@@ -583,61 +509,23 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                             SPUtils.getInstance(getActivity()).put(Constant.USER_IS_AGENT, zuanQianBean.isIsAgent());
                             SPUtils.getInstance(getActivity()).put(Constant.USER_IS_VIP, zuanQianBean.isIsVip());
                             pasterData(zuanQianBean);
-                            tvQuanyiNum.setText(String.valueOf(zuanQianBean.getVipList().size()));
-                            tvAgentQuanNum.setText(String.valueOf(zuanQianBean.getAgentList().size()));
+//                            tvQuanyiNum.setText(String.valueOf(zuanQianBean.getVipList().size()));
+//                            tvAgentQuanNum.setText(String.valueOf(zuanQianBean.getAgentList().size()));
                             //是会员
                             if (zuanQianBean.isIsVip()) {
-                                tvVipStatus.setText("已推荐");
                                 tvVipType.setText("VIP会员");
-                                tvVipPrice.setText(zuanQianBean.getNum() + "人");
-                                rlOpenVip.setBackgroundResource(R.mipmap.bt_opened_vip);
                                 //是代理
                                 if (zuanQianBean.isIsAgent()) {
                                     tvVipType.setText("金牌代理");
-
-                                    rlOpenAgentOne.setBackgroundResource(R.mipmap.bt_opened_agent);
-                                    rlOpenAgent.setBackgroundResource(R.mipmap.bt_opened_agent);
-                                    if (zuanQianBean.getVipNum() == 0) {//39名额全部推荐完 或者10个名额
-                                        tvAgentStatus.setText("已返还" + zuanQianBean.getBackMoney());
-                                        tvAgentPrice.setVisibility(View.GONE);
-
-                                        tvAgentStatusOne.setText("已返还" + zuanQianBean.getBackMoney());
-                                        tvAgentStatusOne.setTextColor(Color.parseColor("#ffffff"));
-                                        tvAgentPriceOne.setVisibility(View.GONE);
-
-                                    } else {
-                                        tvAgentStatus.setText("剩余可推荐");
-                                        tvAgentPrice.setVisibility(View.VISIBLE);
-                                        tvAgentPrice.setText(zuanQianBean.getVipNum() + "人");
-
-                                        tvAgentStatusOne.setText("剩余可推荐");
-                                        tvAgentPriceOne.setVisibility(View.VISIBLE);
-                                        tvAgentPriceOne.setText(zuanQianBean.getVipNum() + "人");
                                     }
-                                } else {
-                                    tvAgentStatusOne.setText("点击开通金牌代理");
-                                    tvAgentPriceOne.setText(zuanQianBean.getSilverPrice()+"元");
 
-                                    tvAgentStatus.setText("点击开通金牌代理");
-                                    tvAgentPrice.setText(zuanQianBean.getAgentPrice() + "元");
-
-                                }
                             } else {
                                 tvVipType.setText("普通用户");
-                                tvVipStatus.setText("点击购买会员");
-                                tvVipPrice.setText(zuanQianBean.getVipPrice() + "元");
-
-                                tvAgentStatus.setText("点击开通金牌代理");
-                                tvAgentPrice.setText(zuanQianBean.getAgentPrice() + "元");
-
-                                tvAgentStatusOne.setText("点击开通金牌代理");
-                                tvAgentPriceOne.setText(zuanQianBean.getSilverPrice() + "元");
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
 
                     } else {
                         ToastUtils.getInstanc(getActivity()).showToast(msg);
@@ -661,42 +549,19 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
      * @param zuanQianBean
      */
     private void pasterData(ZuanQianBean zuanQianBean) {
-        sliverListBeanListOne.clear();
-        sliverListBeanListTwo.clear();
+        vipListBeanList.clear();
+        agentGiftBeanList.clear();
 
-        agentListBeanListOne.clear();
-        agentListBeanListTwo.clear();
+        vipListBeanList.addAll(zuanQianBean.getVipGift());
+        agentGiftBeanList.addAll(zuanQianBean.getAgentGift());
 
-        vipListBeanList.addAll(zuanQianBean.getVipList());
-        sliverListBeanList.addAll(zuanQianBean.getSliverList());
-        agentListBeanList.addAll(zuanQianBean.getAgentList());
-
-        for (int i = 0; i < sliverListBeanList.size(); i++) {
-            if (i < 2) {
-                sliverListBeanListOne.add(sliverListBeanList.get(i));
-            } else {
-                sliverListBeanListTwo.add(sliverListBeanList.get(i));
-            }
-        }
-
-        for (int i = 0; i < agentListBeanList.size(); i++) {
-            if (i < 2) {
-                agentListBeanListOne.add(agentListBeanList.get(i));
-            } else {
-                agentListBeanListTwo.add(agentListBeanList.get(i));
-            }
-        }
-        initBannner(vipListBeanList,sliverListBeanList, agentListBeanList);
-//        initBannner2(vipListBeanList,agentListBeanList);
-        vipHomeAdapter.notifyDataSetChanged();
-        vipAgentAdapterOne.notifyDataSetChanged();
-        vipAgentAdapterTwo.notifyDataSetChanged();
-        vipSliverAdapterOne.notifyDataSetChanged();
-        vipSliverAdapterTwo.notifyDataSetChanged();
+        initBannner(zuanQianBean.getProfitList());
+        vipGiftAdapter.notifyDataSetChanged();
+        agentGiftAdapter.notifyDataSetChanged();
     }
 
 
-    @OnClick({R.id.img_ding, R.id.text_memu, R.id.rl_open_vip,R.id.rl_open_agent_one, R.id.rl_open_agent, R.id.ic_share})
+    @OnClick({R.id.img_ding, R.id.text_memu, R.id.btn_vip_share})
     public void onViewClicked(View view) {
         boolean isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
         boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
@@ -713,49 +578,49 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                 gowebGz.putExtra("web_url", Constant.WEB_MAKE_MONEY);
                 startActivity(gowebGz);
                 break;
-            case R.id.rl_open_vip://开通会员
-
-                if (!isLogin) {
-                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
-                    return;
-                }
-                if (!isVip) {
-                    Intent intent = new Intent(getActivity(), VipCenterTwoActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.rl_open_agent_one://开通3680 的代理
-                if (!isLogin) {
-                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
-                    return;
-                }
-                if (!isVip) {
-                    ToastUtils.getInstanc(getActivity()).showToast("请先开通会员~");
-                    return;
-                }
-                //vipTypeId=2 购买金牌代理,vipTypeId=3 购买银牌代理
-                if (!isAgent) {
-                    Intent intent = new Intent(getActivity(), AgentOpenTwoActivity.class);
-                    intent.putExtra("vipTypeId",3);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.rl_open_agent://不是会员不能开通 6552
-                if (!isLogin) {
-                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
-                    return;
-                }
-                if (!isVip) {
-                    ToastUtils.getInstanc(getActivity()).showToast("请先开通会员~");
-                    return;
-                }
-                if (!isAgent) {
-                    Intent intent = new Intent(getActivity(), AgentOpenTwoActivity.class);
-                    intent.putExtra("vipTypeId",2);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.ic_share://分享
+//            case R.id.rl_open_vip://开通会员
+//
+//                if (!isLogin) {
+//                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
+//                    return;
+//                }
+//                if (!isVip) {
+//                    Intent intent = new Intent(getActivity(), VipCenterTwoActivity.class);
+//                    startActivity(intent);
+//                }
+//                break;
+//            case R.id.rl_open_agent_one://开通3680 的代理
+//                if (!isLogin) {
+//                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
+//                    return;
+//                }
+//                if (!isVip) {
+//                    ToastUtils.getInstanc(getActivity()).showToast("请先开通会员~");
+//                    return;
+//                }
+//                //vipTypeId=2 购买金牌代理,vipTypeId=3 购买银牌代理
+//                if (!isAgent) {
+//                    Intent intent = new Intent(getActivity(), AgentOpenTwoActivity.class);
+//                    intent.putExtra("vipTypeId",3);
+//                    startActivity(intent);
+//                }
+//                break;
+//            case R.id.rl_open_agent://不是会员不能开通 6552
+//                if (!isLogin) {
+//                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
+//                    return;
+//                }
+//                if (!isVip) {
+//                    ToastUtils.getInstanc(getActivity()).showToast("请先开通会员~");
+//                    return;
+//                }
+//                if (!isAgent) {
+//                    Intent intent = new Intent(getActivity(), AgentOpenTwoActivity.class);
+//                    intent.putExtra("vipTypeId",2);
+//                    startActivity(intent);
+//                }
+//                break;
+            case R.id.btn_vip_share:
                 if (!isLogin) {
                     ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
                     return;
@@ -763,6 +628,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                 Intent share = new Intent(getActivity(), ShareActivity.class);
                 startActivity(share);
                 break;
+
 
         }
     }
@@ -940,7 +806,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
         recyclerViewSmall.smoothScrollBy(0, top - half);
     }
 
-    private void startAnim(RelativeLayout view) {
+    private void startAnim(View view) {
         Animation mAnimation = null;
         mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.btn_tween);
         view.setAnimation(mAnimation);

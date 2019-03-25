@@ -16,6 +16,7 @@ import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.bean.ResListBean;
 import com.woyun.warehouse.mall.adapter.LookViewPageAdapter;
+import com.woyun.warehouse.view.MyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class LookImageVideoActivity extends BaseActivity {
     @BindView(R.id.toolBar)
     Toolbar toolBar;
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    MyViewPager viewPager;
 
     private List<ResListBean> listData = new ArrayList<>();
     private LookViewPageAdapter lookViewPageAdapter;
@@ -90,7 +91,7 @@ public class LookImageVideoActivity extends BaseActivity {
             }
         });
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setOnPageChangeListener(new MyViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

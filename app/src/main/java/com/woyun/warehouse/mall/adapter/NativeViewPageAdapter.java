@@ -73,7 +73,7 @@ public class NativeViewPageAdapter extends PagerAdapter {
             jzvdStd.setUp(
                     imageBanners.get(position).getVideoUrl(),
                     "", Jzvd.SCREEN_WINDOW_NORMAL);// SCREEN_WINDOW_LIST
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).into(jzvdStd.thumbImageView);
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).centerCrop().into(jzvdStd.thumbImageView);
 
             container.addView(view);
             return view;

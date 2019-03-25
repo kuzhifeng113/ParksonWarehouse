@@ -35,7 +35,7 @@ public class OrderDetailBean {
     private String ip;
     private double totalMoney;
     private String memo;
-    private int transport;
+    private double transport;
     private String title;
     private String userid;
     private int payType;
@@ -100,11 +100,11 @@ public class OrderDetailBean {
         this.memo = memo;
     }
 
-    public int getTransport() {
+    public double getTransport() {
         return transport;
     }
 
-    public void setTransport(int transport) {
+    public void setTransport(double transport) {
         this.transport = transport;
     }
 

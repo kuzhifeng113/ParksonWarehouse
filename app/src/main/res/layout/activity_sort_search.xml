@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:navigationIcon="@mipmap/comm_left"
+       >
+
+
+        <TextView
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:textColor="#373A42"
+            android:drawableLeft="@mipmap/ic_search"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:drawablePadding="10dp"
+            android:background="@null"
+            android:hint="你想要点什么?"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="18dp"
+            android:text="保存"
+            android:textColor="#EC4374"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_below="@id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:background="@color/line"
+       />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/white"
+            android:id="@+id/recycler_view_big"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <FrameLayout
+            android:background="@color/white"
+            android:id="@+id/lin_fragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+        </FrameLayout>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -4,7 +4,7 @@ package com.woyun.warehouse.bean;
 import java.io.Serializable;
 
 /**
- *
+ * SpecMap
  */
 public class SkuAttribute implements Serializable {
 

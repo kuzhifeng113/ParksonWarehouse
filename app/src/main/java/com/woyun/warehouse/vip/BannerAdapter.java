@@ -45,9 +45,9 @@ public class BannerAdapter extends PagerAdapter implements View.OnClickListener,
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_vip, null);
         ImageView imageView = view.findViewById(R.id.iv_icon);
-        Glide.with(mContext).load(imageBanners.get(position)).asBitmap().into(imageView);
+        Glide.with(mContext).load(imageBanners.get(position)).into(imageView);
         imageView.setOnClickListener(this);
         container.addView(view);
         return view;

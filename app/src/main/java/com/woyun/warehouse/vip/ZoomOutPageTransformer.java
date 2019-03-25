@@ -10,7 +10,7 @@ import android.view.View;
 public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
 
 //自由控制缩放比例
-        private static final float MAX_SCALE = 1.1f;
+        private static final float MAX_SCALE = 1.2f;//1.2f
         private static final float MIN_SCALE = 0.85f;//0.85f
 
         @Override

@@ -540,7 +540,7 @@
                     android:background="@mipmap/wo_de_jiangli">
 
                     <TextView
-                        android:text="我的奖励"
+                        android:text="我的收益"
                         android:textColor="#995830"
                         android:textSize="17sp"
                         android:layout_marginTop="17dp"
@@ -560,13 +560,13 @@
 
                     <TextView
                         android:id="@+id/tv_leji_des"
-                        android:text="累计奖励"
-                        android:layout_marginTop="40dp"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:layout_centerHorizontal="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="40dp"
+                        android:text="累计收益"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_leiji"
@@ -594,12 +594,12 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:textColor="#DCC1B2"
                                 android:layout_width="wrap_content"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_height="wrap_content"
-                                android:text="昨日奖励"
-                                android:textSize="12sp"/>
+                                android:layout_gravity="center_horizontal"
+                                android:text="上周收益"
+                                android:textColor="#DCC1B2"
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_yesterday_money"
@@ -620,21 +620,21 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:textColor="#DCC1B2"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="今日奖励"
-                                android:textSize="12sp"/>
+                                android:layout_gravity="center_horizontal"
+                                android:text="本周收益"
+                                android:textColor="#DCC1B2"
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_today_money"
-                                android:layout_gravity="center_horizontal"
-                                android:textColor="@color/white"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
                                 android:text="0.00"
-                                android:textSize="19sp"/>
+                                android:textColor="@color/white"
+                                android:textSize="19sp" />
 
                         </LinearLayout>
 
@@ -645,12 +645,12 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:textColor="#DCC1B2"
-                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="前日奖励"
-                                android:textSize="12sp"/>
+                                android:layout_gravity="center_horizontal"
+                                android:text="本月收益"
+                                android:textColor="#DCC1B2"
+                                android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/tv_before_money"
@@ -677,15 +677,15 @@
                     android:id="@+id/rl_zt"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
-                    
+
                     <TextView
-                        android:text="直推奖励"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
-                        android:layout_centerVertical="true"
-                        android:textSize="14sp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="45dp"
+                        android:text="推荐收益"
+                        android:textColor="#AFAFAF"
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_zhitui"
@@ -715,7 +715,7 @@
 
                     <TextView
                         android:id="@+id/tv_xinren_wen"
-                        android:text="新人奖励"
+                        android:text="新人收益"
                         android:layout_marginLeft="45dp"
                         android:textColor="#AFAFAF"
                         android:layout_centerVertical="true"
@@ -754,7 +754,7 @@
 
                     <TextView
                         android:id="@+id/tv_agent_wen"
-                        android:text="代理奖励"
+                        android:text="代理收益"
                         android:layout_marginLeft="45dp"
                         android:textColor="#AFAFAF"
                         android:layout_centerVertical="true"
@@ -788,11 +788,12 @@
                     android:id="@+id/rl_gl"
                     android:layout_below="@id/rl_yjdl"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="48dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_guanli_wen"
-                        android:text="管理奖励"
+                        android:text="管理收益"
                         android:layout_marginLeft="45dp"
                         android:textColor="#AFAFAF"
                         android:layout_centerVertical="true"
@@ -822,13 +823,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_below="@id/rl_gl"
+                    android:layout_below="@id/rl_yjdl"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
 
                     <TextView
                         android:id="@+id/tv_gouwu_wen"
-                        android:text="购物奖励"
+                        android:text="购物收益"
                         android:layout_marginLeft="45dp"
                         android:textColor="#AFAFAF"
                         android:layout_centerVertical="true"
@@ -884,9 +885,10 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"/>
 
+                <!--  android:layout_marginTop="224dp"-->
                 <ImageView
                     android:id="@+id/img_gouwu_tishi"
-                    android:layout_marginTop="224dp"
+                    android:layout_marginTop="177dp"
                     android:src="@mipmap/img_gw_tishi"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"

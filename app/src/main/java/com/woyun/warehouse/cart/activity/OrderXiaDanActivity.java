@@ -599,6 +599,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 
             @Override
             public void onInputCompleted(CharSequence s) {
+                Log.e(TAG, "onInputCompleted: 输入完成" );
                 //输入完成请求接口
                 String code = s.toString();
                 int type = 0;
@@ -612,18 +613,16 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                     type = 4;
                 }
                 Log.e(TAG, "onInputCompleted:PayType " + type);
-                payOperation(loginUserId, type, MD5Util.getMD5(code));
-                Log.e(TAG, "onInputCompleted: " + code);
-//                loginByPhone(code,phone);
-                Log.e(TAG, "onInputCompleted: " + s);
+//                payOperation(loginUserId, type, MD5Util.getMD5(code));
 
                 if (KeybordS.isSoftShowing(OrderXiaDanActivity.this)) {
-                    Log.e(TAG, "onInputCompleted:=========22222=========");
                     KeybordS.closeKeybord(editPwd, OrderXiaDanActivity.this);
                 } else {
-                    Log.e(TAG, "onInputCompleted:=======else===========");
                 }
                 twoPassWordDialog.dismiss();
+                if(s.toString().length()==4){
+                    payOperation(loginUserId, type, MD5Util.getMD5(code));
+                }
             }
         });
 
@@ -644,6 +643,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      * @param
      */
     private void payOperation(String userId, final int payType, String pwd) {
+        Log.e(TAG, "payOperation:################################## " +payType);
         ModelLoading.getInstance(OrderXiaDanActivity.this).showLoading("", true);
         //获取数据
         try {
@@ -668,8 +668,6 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
-//            Log.e(TAG, "payOperation:==== "+isUseInvoice );
-//            Log.e(TAG, "payOperation:==== "+invoiceId );
             params.put("userid", userId);
             params.put("province", province);
             params.put("city", city);
@@ -722,8 +720,8 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } else {
-                        ToastUtils.getInstanc(OrderXiaDanActivity.this).showToast("生成订单失败，请重试...");
+                    }else{
+                        ToastUtils.getInstanc(OrderXiaDanActivity.this).showToast(msg);
                     }
                 }
 

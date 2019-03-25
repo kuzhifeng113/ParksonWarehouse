@@ -114,6 +114,7 @@ public class Constant {
     public static final String WEB_NEWS_SCHOOL="https://comm.bscvip.com/newschool.html";
     //商品分享地址
     public static final String WEB_SHARE_GOODS="https://api.bscvip.com/details/detailshare.html";
+    public static final String WEB_SHARE_GOODS2="https://api.bscvip.com/detailv2/detailshare.html";
     //赚钱 规则
     public static final String WEB_MAKE_MONEY="  https://comm.bscvip.com/makemoney.html";
 

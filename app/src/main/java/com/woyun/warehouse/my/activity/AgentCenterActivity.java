@@ -249,8 +249,8 @@ public class AgentCenterActivity extends BaseActivity {
                 startActivity(buy);
                 break;
             case R.id.img_agent_register://协助注册
-                Intent registher = new Intent(AgentCenterActivity.this, AgentHelpRegisterActivity.class);
-                startActivity(registher);
+//                Intent registher = new Intent(AgentCenterActivity.this, AgentHelpRegisterActivity.class);
+//                startActivity(registher);
                 break;
             case R.id.img_agent_out://退出代理
                 if (agentOut) {

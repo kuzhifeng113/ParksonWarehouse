@@ -10,7 +10,7 @@ import android.view.View;
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount; //列数
-    private int spacing; //间隔
+    private int spacing; //间隔 px
     private boolean includeEdge; //是否包含边缘
 
     public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {

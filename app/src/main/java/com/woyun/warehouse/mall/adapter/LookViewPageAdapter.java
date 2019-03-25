@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.bean.ResListBean;
+import com.woyun.warehouse.view.DragPhotoView;
 
 import java.util.List;
 
@@ -54,8 +56,22 @@ public class LookViewPageAdapter extends PagerAdapter {
         if (imageBanners.get(position).getType() == 1) {//图片
             PhotoView photoView=new PhotoView(container.getContext());
 
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).asBitmap().into(photoView);
-
+//            DragPhotoView photoView=new DragPhotoView(container.getContext());
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(photoView);
+            //必须添加一个onExitListener,在拖拽到底部时触发.
+//            photoView.setOnExitListener(new DragPhotoView.OnExitListener() {
+//                @Override
+//                public void onExit(DragPhotoView view, float translateX, float translateY, float w, float h) {
+//                    itemClickListener.onItemClick(position);
+//                }
+//            });
+//
+//            photoView.setOnTapListener(new DragPhotoView.OnTapListener() {
+//                @Override
+//                public void onTap(DragPhotoView view) {
+//                    itemClickListener.onItemClick(position);
+//                }
+//            });
             if(itemClickListener!=null){
                 photoView.setOnClickListener(new View.OnClickListener() {
                     @Override

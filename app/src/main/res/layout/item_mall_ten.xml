@@ -35,6 +35,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:text="美国丨足不出户享受到美国明星"
+            android:textStyle="bold"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 

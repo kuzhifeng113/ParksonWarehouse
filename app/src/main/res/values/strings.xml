@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">百盛仓直卖</string>
     <string name="navigation_vote">预售</string>
-    <string name="navigation_vip">赚钱</string>
+    <string name="navigation_vip">VIP</string>
     <string name="navigation_mall">商城</string>
     <string name="navigation_cart">购物车</string>
     <string name="navigation_my">我的</string>
@@ -17,6 +17,7 @@
     <string name="my_address">收货地址</string>
     <string name="real_name">实名认证</string>
     <string name="goods_detail">商品详情</string>
+    <string name="goods_detail_vip">礼包商品详情</string>
     <string name="mall_goods">各地好货</string>
     <string name="mall_left">商城左侧模块详情页</string>
 
@@ -70,6 +71,9 @@
     <string name="goods_hahuo">各地好货</string>
     <string name="look_image_video">看大图视频</string>
     <string name="native_goods">商品详情原生</string>
+    <string name="agent_des">1、必须成为百盛仓VIP会员才有资格升级金牌代理。\n2、金牌代理资格开通成功后长期有效。</string>
+    <string name="sort_search">分类搜索</string>
+    <string name="sort_detail">分类详情</string>
 
 
 </resources>

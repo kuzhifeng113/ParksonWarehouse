@@ -94,7 +94,6 @@
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2323"
                                 android:textColor="@color/text_black_t"
                                 android:textSize="14sp" />
 
@@ -103,7 +102,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="2323232323"
                                 android:textColor="@color/text_black_t"
                                 android:textSize="14sp" />
 
@@ -114,7 +112,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:text="广州市天河区体育西路888号2栋808"
                             android:textColor="@color/text_content"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -151,11 +148,11 @@
                 <!--仓币 余额 是否使用-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="74dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_keyong_bcoin"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:text="可用100仓币抵用"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
@@ -165,12 +162,13 @@
 
                     <Switch
                         android:id="@+id/switch_bcoin"
-                        android:layout_marginTop="17dp"
+                        android:layout_marginTop="7dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:id="@+id/tv_beizhu"
                         android:layout_below="@id/tv_keyong_bcoin"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
@@ -179,6 +177,16 @@
                         android:textSize="11sp"
                         android:textColor="@color/text_content"
                         android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_below="@id/tv_beizhu"
+                        android:layout_marginLeft="20dp"
+                        android:text="      订单提交扣除，取消订单后仓币自动返还"
+                        android:layout_width="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="@color/text_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_marginBottom="10dp"/>
 
                 </RelativeLayout>
 
@@ -191,11 +199,11 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="74dp">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_keyong_bcmoney"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="10dp"
                         android:text="可用余额100"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
@@ -206,6 +214,7 @@
                         android:layout_below="@id/tv_keyong_bcmoney"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginBottom="10dp"
                         android:text="注：(仅会员代理使用)"
                         android:layout_width="wrap_content"
                         android:textSize="11sp"
@@ -215,7 +224,7 @@
                     <Switch
                         android:id="@+id/switch_bcmoney"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
+                        android:layout_marginTop="7dp"
                         android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

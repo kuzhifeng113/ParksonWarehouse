@@ -53,6 +53,7 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallGoodGoodsActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
+import com.woyun.warehouse.mall.sort.SortSearchActivity;
 import com.woyun.warehouse.utils.APKVersionCodeUtils;
 import com.woyun.warehouse.utils.AddressPickTask;
 import com.woyun.warehouse.utils.DensityUtils;
@@ -635,7 +636,8 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                 startActivity(mess);
                 break;
             case R.id.rl_search://搜索
-                Intent search = new Intent(getActivity(), SearchActivity.class);
+//                Intent search = new Intent(getActivity(), SearchActivity.class);
+                Intent search = new Intent(getActivity(), SortSearchActivity.class);
                 startActivity(search);
 //                getActivity().overridePendingTransition(R.anim.activity_fade,R.anim.activity_hold);
                 break;

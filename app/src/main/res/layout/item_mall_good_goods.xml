@@ -116,6 +116,7 @@
                     android:textColor="#373A42"
                     android:maxLines="2"
                     android:ellipsize="end"
+                    android:textStyle="bold"
                     android:text="香奈儿水润修颜棒，赋予脸庞、娇唇自然光采。露西娅·皮卡创作的全新彩妆作品。"/>
 
                 <LinearLayout

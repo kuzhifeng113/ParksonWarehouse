@@ -77,7 +77,7 @@ public class NativeContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                Glide.with(context).load(packListBean.getImage()).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.img_default)
 //                        .error(R.mipmap.img_default).into(zeroViewHolder.img_left);
                 Glide.with(context).load(contentListBean.getImage()).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.mipmap.img_default)
-                        .error(R.mipmap.img_default).into(oneViewHolder.imgView);
+                        .fitCenter().error(R.mipmap.img_default).into(oneViewHolder.imgView);
                 //
                 oneViewHolder.imgView.setOnClickListener(new View.OnClickListener() {
                     @Override

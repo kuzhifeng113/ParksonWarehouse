@@ -209,7 +209,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         } else {
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 0;
         }
-        shareUrl = Constant.WEB_SHARE_GOODS + "?goodsId=" + goodsId + "&share=" + loginUserId;
+        shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         ModelLoading.getInstance(GoodsDetailActivity.this).showLoading("", true);
         initWeb(goodesWebUrl);
         fromType = getIntent().getIntExtra("from_id", 0);

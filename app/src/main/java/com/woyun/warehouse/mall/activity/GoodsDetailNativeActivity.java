@@ -17,11 +17,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -242,7 +244,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         } else {
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 0;
         }
-        shareUrl = Constant.WEB_SHARE_GOODS + "?goodsId=" + goodsId + "&share=" + loginUserId;
+        shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
 
         fromType = getIntent().getIntExtra("from_id", 0);
         voteId = getIntent().getIntExtra("vote_id", 0);
@@ -302,6 +304,24 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         }
         initData();
 
+        WindowManager manager = this.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int width = outMetrics.widthPixels;
+        int height = outMetrics.heightPixels;
+//        Log.e(TAG, "onCreate: 屏幕高2"+height);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
+
+                if(scrollY>3*height){//大于3个屏幕的高度
+                    imgBackTop.setVisibility(View.VISIBLE);
+                }else{
+                    imgBackTop.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -420,7 +440,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         tvPrice.setText(goodsDetailBean.getVipPrice());
         tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
         tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
-        tvGoodsTitle.setText(goodsDetailBean.getTitle());
+        tvGoodsTitle.setText(goodsDetailBean.getName());
 
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
@@ -741,42 +761,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 //        finish();
     }
 
-
-    /**
-     * 投票
-     */
-    private void doVote(String userid, int votid, int goodsid) {
-        try {
-            JSONObject params = new JSONObject();
-            params.put("userid", userid);
-            params.put("voteId", votid);
-            params.put("goodsId", goodsid);
-            RequestInterface.voteRequest(GoodsDetailNativeActivity.this, params, TAG, ReqConstance.I_VOTE_GOODS_INSERT, 1, new HSRequestCallBackInterface() {
-                @Override
-                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    if (code == 0) {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
-                        btnVoteWant.setText("已预购");
-                        btnVoteWant.setClickable(false);
-                        btnVoteWant.setEnabled(false);
-                        btnVoteWant.setBackgroundResource(R.drawable.shape_vote_detail_want_no);
-                        tvVoteNumWant.setText(wanNum + 1 + "人想要");
-                    } else {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
-                    }
-                }
-
-                @Override
-                public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(s);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
 
     @Override

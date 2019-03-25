@@ -129,7 +129,7 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
     private String vipPrice;//vip 年费
     private String vipTypeId;//VIP，代理类型ID
     private String endTimeVip;//到期时间
-    private IWXAPI api;
+    private IWXAPI iwxApi;
     private String downUrl;
 
     private InvoiceDialog invoiceDialog;
@@ -149,8 +149,8 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
         ButterKnife.bind(this);
         MyApplication.getInstance().addActivity(VipCenterTwoActivity.this);
         EventBus.getDefault().register(this);
-        api = WXAPIFactory.createWXAPI(this, Constant.WX_APP_ID, false);
-        api.registerApp(Constant.WX_APP_ID);
+        iwxApi = WXAPIFactory.createWXAPI(this, Constant.WX_APP_ID, false);
+        iwxApi.registerApp(Constant.WX_APP_ID);
 
         mImmersionBar.titleBar(toolBar);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -925,7 +925,7 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
                                 request.timeStamp = bean.getTimestamp();
                                 request.sign = bean.getSign();
 
-                                api.sendReq(request);
+                                iwxApi.sendReq(request);
                             } else if (payType == 2) {//alipay
                                 String para = jsonObject.getString("trade");
                                 aliPay(para);

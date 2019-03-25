@@ -40,7 +40,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/shape_login_break"
                     android:gravity="center"
-                    android:text="1/5"
+                    android:text="1/1"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
             </RelativeLayout>
@@ -73,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/tv_y"
-                        android:text="560.00"
+                        android:text="0"
                         android:textColor="@color/mainColor"
                         android:textSize="29sp"
                         android:textStyle="bold" />
@@ -83,15 +83,15 @@
                 <TextView
                     android:id="@+id/tv_vip_back"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/ll_y"
                     android:background="@drawable/shape_vip_fan"
                     android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="会员反15"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:text="会员反0"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -103,7 +103,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="60dp"
-                    android:text="原价:660.00"
+                    android:text="原价:0"
                     android:textColor="#FFBF44"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -118,9 +118,10 @@
                 android:layout_marginTop="19dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textStyle="bold"
                 android:text="香奈儿水润修颜棒，赋予脸庞、娇唇自然光采。露西娅·皮卡创作的全新彩妆作品。"
                 android:textColor="#373A42"
-                android:textSize="16sp" />
+                android:textSize="19sp" />
 
             <!--邮费-->
             <RelativeLayout
@@ -249,23 +250,9 @@
                 android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#AFAFAF"/>
+                android:textColor="#AFAFAF"
+                android:layout_marginBottom="70dp"/>
 
-            <RelativeLayout
-                android:layout_marginTop="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <ImageView
-                    android:id="@+id/img_back_top"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="13dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/zhiding"
-                    android:layout_marginBottom="30dp"/>
-            </RelativeLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
@@ -306,6 +293,17 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="260dp"
         android:src="@mipmap/bijia" />
+
+    <ImageView
+        android:id="@+id/img_back_top"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/zhiding"
+        android:layout_marginBottom="110dp"
+        android:visibility="gone"/>
 
     <!--from 商城  购物 -->
     <RelativeLayout

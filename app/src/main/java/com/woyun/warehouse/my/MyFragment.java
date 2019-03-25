@@ -156,11 +156,11 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @BindView(R.id.img_tishi)
     ImageView imgTishi;
     @BindView(R.id.tv_yesterday_money)
-    TextView tvYesterdayMoney;
+    TextView tvLastWeekMoney ;
     @BindView(R.id.tv_today_money)
-    TextView tvTodayMoney;
+    TextView tvWeekMoney;
     @BindView(R.id.tv_before_money)
-    TextView tvBeforeMoney;
+    TextView tvMonthMoney ;
     @BindView(R.id.tv_agent_wen)
     TextView tvAgentWen;
     @BindView(R.id.tv_guanli_wen)
@@ -480,9 +480,10 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                             tvLeiji.setText(String.valueOf(userInfoBean.getTotalMoney()));
                             tvZhitui.setText(String.valueOf(userInfoBean.getPushMoney()));
                             tvXinRen.setText(String.valueOf(userInfoBean.getNewMoney()));
-                            tvTodayMoney.setText(String.valueOf(userInfoBean.getTodayMoney()));
-                            tvBeforeMoney.setText(String.valueOf(userInfoBean.getBeforeMoney()));
-                            tvYesterdayMoney.setText(String.valueOf(userInfoBean.getYesterdayMoney()));
+
+                            tvWeekMoney.setText(String.valueOf(userInfoBean.getWeekMoney()));
+                            tvLastWeekMoney.setText(String.valueOf(userInfoBean.getLastWeekMoney()));
+                            tvMonthMoney.setText(String.valueOf(userInfoBean.getMonthMoney()));
 
                             tvYijiDaili.setText(String.valueOf(userInfoBean.getAgentMoney()));
                             tvGuanLi.setText(String.valueOf(userInfoBean.getManageMoney()));

@@ -268,6 +268,15 @@ public class ProductSkuDialog extends Dialog {
 
         updateSkuData();
         updateQuantityOperator(1);
+        if(product.getCategoryId()==-1 || product.getCategoryId()==-3){//-1 会员礼包商品  -3  代理礼包商品
+            btnSkuQuantityMinus.setEnabled(false);
+            btnSkuQuantityPlus.setEnabled(false);
+            etSkuQuantityInput.setEnabled(false);
+        }else{
+            btnSkuQuantityMinus.setEnabled(true);
+            btnSkuQuantityPlus.setEnabled(true);
+            etSkuQuantityInput.setEnabled(true);
+        }
     }
 
     //-----1
@@ -342,7 +351,6 @@ public class ProductSkuDialog extends Dialog {
             }
             etSkuQuantityInput.setEnabled(true);
         }
-
     }
 
     @Override

@@ -47,7 +47,7 @@ public class MallLeftAdapter extends RecyclerView.Adapter<MallLeftAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         MallHomeBean.PackListBean.GoodsListBean goodsListBean = dataList.get(position);
-        Glide.with(context).load(goodsListBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.round_img_goods);
+
         holder.tv_goods_name.setText(goodsListBean.getName());
         holder.tv_goods_title.setText(goodsListBean.getTitle());
 //        holder.tv_vip_price.setText("￥"+goodsListBean.getVipPrice());

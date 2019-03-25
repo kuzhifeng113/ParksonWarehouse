@@ -19,7 +19,6 @@ public class UserInfoTwoBean {
      * bcMoney : 0.0
      * agentMoney : 0.0
      * isTree
-     *
      */
 
     private double manageMoney;
@@ -41,6 +40,33 @@ public class UserInfoTwoBean {
     private double todayMoney;//今日奖励
     private double yesterdayMoney;//昨日奖励
     private double beforeMoney;//前日奖励
+    private double lastWeekMoney;//上周奖励
+    private double weekMoney;//本周奖励
+    private double monthMoney;//本月奖励
+
+    public double getLastWeekMoney() {
+        return lastWeekMoney;
+    }
+
+    public void setLastWeekMoney(double lastWeekMoney) {
+        this.lastWeekMoney = lastWeekMoney;
+    }
+
+    public double getWeekMoney() {
+        return weekMoney;
+    }
+
+    public void setWeekMoney(double weekMoney) {
+        this.weekMoney = weekMoney;
+    }
+
+    public double getMonthMoney() {
+        return monthMoney;
+    }
+
+    public void setMonthMoney(double monthMoney) {
+        this.monthMoney = monthMoney;
+    }
 
     public double getManageMoney() {
         return manageMoney;
