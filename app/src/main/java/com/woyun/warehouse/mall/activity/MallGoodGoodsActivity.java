@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,17 +34,14 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.bean.ResListBean;
-import com.woyun.warehouse.bean.SearchBean;
 import com.woyun.warehouse.mall.adapter.MallGoodGoodsAdapter;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
-import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.ClearEditText;
@@ -89,6 +86,8 @@ public class MallGoodGoodsActivity extends BaseActivity {
     ClearEditText editSearch;
     @BindView(R.id.tv_empty)
     TextView tvEmptyText;
+    @BindView(R.id.app_bar)
+    AppBarLayout appBar;
 
     private int categoryId;//分类ID categoryId=12 各地好货,categoryId=13 必选名品
     private int pager = 1;//当前页
@@ -183,7 +182,7 @@ public class MallGoodGoodsActivity extends BaseActivity {
                     String searchName = editSearch.getText().toString().trim();
                     tempListData.addAll(listData);
                     listData.clear();
-                    getData(pager, searchName,categoryId);
+                    getData(pager, searchName, categoryId);
 
                 }
                 return false;
@@ -193,26 +192,38 @@ public class MallGoodGoodsActivity extends BaseActivity {
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.e(TAG, "beforeTextChanged: " );
+                Log.e(TAG, "beforeTextChanged: ");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e(TAG, "onTextChanged: " );
+                Log.e(TAG, "onTextChanged: ");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-               if(TextUtils.isEmpty(s.toString())){
-                   mallGoodGoodsAdapter.setData(tempListData);
-               }
+                if (TextUtils.isEmpty(s.toString())) {
+                    mallGoodGoodsAdapter.setData(tempListData);
+                }
             }
         });
         getData(pager, "", categoryId);
         operation();
+//        //AppBarLayout Offset 的变化，动态设置 SwipeRefreshLayout 是否可用
+//        appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                Log.e(TAG, "onOffsetChanged: "+verticalOffset );
+//                if (verticalOffset >= 0) {
+//                    mRefreshLayout.setEnabled(true);
+//                } else {
+//                    mRefreshLayout.setEnabled(false);
+//                }
+//            }
+//        });
     }
 
-    private void operation(){
+    private void operation() {
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -222,7 +233,7 @@ public class MallGoodGoodsActivity extends BaseActivity {
                         tempListData.clear();
                         listData.clear();
                         pager = 1;
-                        getData(pager,"",categoryId);
+                        getData(pager, "", categoryId);
                         mRefreshLayout.finishRefresh();
                         mRefreshLayout.resetNoMoreData();
                     }
@@ -237,7 +248,7 @@ public class MallGoodGoodsActivity extends BaseActivity {
                     @Override
                     public void run() {
                         pager++;
-                        getData(pager,"",categoryId);
+                        getData(pager, "", categoryId);
                         mRefreshLayout.finishLoadmore();
                     }
                 }, 1000);

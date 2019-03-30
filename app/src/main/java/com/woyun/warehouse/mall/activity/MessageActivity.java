@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
@@ -23,18 +24,25 @@ import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.my.activity.MyAddressActivity;
 import com.woyun.warehouse.utils.ModelLoading;
+import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.udesk.PreferenceHelper;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.config.UdeskConfig;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
+import udesk.core.UdeskConst;
 
 
 /**
@@ -48,19 +56,26 @@ public class MessageActivity extends BaseActivity {
     RelativeLayout llOrderMessage;
     @BindView(R.id.ll_sys_message)
     RelativeLayout llSysMessage;
+
+    @BindView(R.id.ll_kefu_message)
+    RelativeLayout llKeFuMessage;
     @BindView(R.id.tv_order)
     TextView tvOrder;
     @BindView(R.id.tv_sys)
     TextView tvSys;
 
-    Badge  billBadge,sysBadge;
+    @BindView(R.id.tv_kefu)
+    TextView tvKefu;
+    Badge billBadge, sysBadge, kefuBadge;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         ButterKnife.bind(this);
-        billBadge =new QBadgeView(this);
-        sysBadge =new QBadgeView(this);
+        billBadge = new QBadgeView(this);
+        sysBadge = new QBadgeView(this);
+        kefuBadge = new QBadgeView(this);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,46 +83,59 @@ public class MessageActivity extends BaseActivity {
             }
         });
 
+
     }
 
-    private void setRedNum(int billNum,int sysNum){
-        if(billNum>0){
-              billBadge.bindTarget(tvOrder).setBadgeGravity(Gravity.CENTER).setBadgeNumber(billNum).setExactMode(false);
-            billBadge.setBadgePadding(6,true);
+    private void setRedNum(int billNum, int sysNum) {
+        if (billNum > 0) {
+            billBadge.bindTarget(tvOrder).setBadgeGravity(Gravity.CENTER).setBadgeNumber(billNum).setExactMode(false);
+            billBadge.setBadgePadding(6, true);
             billBadge.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
                 @Override
                 public void onDragStateChanged(int dragState, Badge badge, View targetView) {
                     if (dragState == STATE_SUCCEED) {
-                        setReadRequest(loginUserId,1);
+                        setReadRequest(loginUserId, 1);
                     }
                 }
             });
-        }else{
-            tvOrder.setVisibility(View.GONE);
+        } else {
+            billBadge.hide(false);
         }
 
-        if(sysNum>0){
+        if (sysNum > 0) {
             sysBadge.bindTarget(tvSys).setBadgeGravity(Gravity.CENTER).setBadgeNumber(sysNum).setExactMode(false);
-            sysBadge.setBadgePadding(6,true);
+            sysBadge.setBadgePadding(6, true);
             sysBadge.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
                 @Override
                 public void onDragStateChanged(int dragState, Badge badge, View targetView) {
-                    Log.e(TAG, "onDragStateChanged: "+dragState );
+                    Log.e(TAG, "onDragStateChanged: " + dragState);
                     if (dragState == STATE_SUCCEED) {
-                        setReadRequest(loginUserId,0);
+                        setReadRequest(loginUserId, 0);
                     }
                 }
             });
+        } else {
+            sysBadge.hide(false);
         }
 
     }
-
 
 
     @Override
     protected void onResume() {
         super.onResume();
         initData(loginUserId);
+
+        //获取udesk 未读消息
+        int unreadMsg = UdeskSDKManager.getInstance().getCurrentConnectUnReadMsgCount(getApplicationContext(),
+                loginUserId);
+        Log.e(TAG, "onResume:未读客服消息" + unreadMsg);
+        if (unreadMsg > 0) {
+            kefuBadge.bindTarget(tvKefu).setBadgeGravity(Gravity.CENTER).setBadgeNumber(unreadMsg).setExactMode(false);
+            kefuBadge.setBadgePadding(6, true);
+        } else {
+            kefuBadge.hide(false);
+        }
     }
 
     @Override
@@ -127,13 +155,13 @@ public class MessageActivity extends BaseActivity {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     ModelLoading.getInstance(MessageActivity.this).closeLoading();
-                    if (code == 0&&jsonArray.length()>0) {
+                    if (code == 0 && jsonArray.length() > 0) {
                         Gson gson = new Gson();
                         List<UnReadNumBean> unReadNumBeans = gson.fromJson(jsonArray.toString(), new TypeToken<List<UnReadNumBean>>() {
                         }.getType());
-                        int billUnread= unReadNumBeans.get(0).getBillUnreadNum();
-                        int sysUnread=unReadNumBeans.get(0).getSysUnreadNum();
-                        setRedNum(billUnread,sysUnread);
+                        int billUnread = unReadNumBeans.get(0).getBillUnreadNum();
+                        int sysUnread = unReadNumBeans.get(0).getSysUnreadNum();
+                        setRedNum(billUnread, sysUnread);
                     }
                 }
 
@@ -150,10 +178,11 @@ public class MessageActivity extends BaseActivity {
 
     /**
      * 设置消息已读
+     *
      * @param userId
-     * @param type  type=1订单，type=0系统消息
+     * @param type   type=1订单，type=0系统消息
      */
-    private void setReadRequest(String userId,int type) {
+    private void setReadRequest(String userId, int type) {
         //获取数据
         try {
             JSONObject params = new JSONObject();
@@ -164,7 +193,7 @@ public class MessageActivity extends BaseActivity {
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     if (code == 0) {
 
-                    }else{
+                    } else {
                         initData(loginUserId);
                     }
                 }
@@ -180,11 +209,11 @@ public class MessageActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ll_order_message, R.id.ll_sys_message})
+    @OnClick({R.id.ll_order_message, R.id.ll_sys_message, R.id.ll_kefu_message})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_order_message:
-                if(billBadge!=null){
+                if (billBadge != null) {
                     billBadge.hide(false);
                 }
                 Intent message = new Intent(MessageActivity.this, MessageListActivity.class);
@@ -192,12 +221,30 @@ public class MessageActivity extends BaseActivity {
                 startActivity(message);
                 break;
             case R.id.ll_sys_message:
-                if(sysBadge!=null){
+                if (sysBadge != null) {
                     sysBadge.hide(false);
                 }
                 Intent messages = new Intent(MessageActivity.this, MessageListActivity.class);
                 messages.putExtra("mess_type", 0);
                 startActivity(messages);
+                break;
+            case R.id.ll_kefu_message://进入客服聊天
+                String sdkToken = loginUserId;
+                Map<String, String> info = new HashMap<String, String>();
+                //以下信息是可选
+                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(MessageActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(MessageActivity.this).get(Constant.USER_MOBILE, ""));//手机
+                UdeskConfig.Builder builder = new UdeskConfig.Builder();
+
+                //toolBar 背景色
+                builder.setUdeskTitlebarBgResId(R.color.white)//设置标题栏TitleBar的背景色
+                        .setUdeskTitlebarTextLeftRightResId(R.color.text_black)//设置标题栏TitleBar，左右两侧文字的颜色
+                        .setUdeskbackArrowIconResId(R.mipmap.back_black) // 设置返回箭头图标资源id
+                        .setUdeskProductLinkColorResId(R.color.white) //设置商品信息 带链接时显示的颜色
+
+                        .setDefualtUserInfo(info)
+                        .setCustomerUrl((String) SPUtils.getInstance(MessageActivity.this).get(Constant.USER_AVATAR, ""));//用户头像
+                UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
                 break;
         }
     }

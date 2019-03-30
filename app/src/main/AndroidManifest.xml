@@ -157,8 +157,8 @@
             android:screenOrientation="portrait"
             android:label="@string/sort_detail"/>
 
-        <activity android:name=".my.activity.BscKeFuActivity"
-            android:screenOrientation="portrait"/>
+        <!--<activity android:name=".my.activity.BscKeFuActivity"-->
+            <!--android:screenOrientation="portrait"/>-->
 
         <activity android:name=".my.activity.AgentOpenTwoActivity"
             android:screenOrientation="portrait"/>

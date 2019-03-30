@@ -15,11 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
@@ -30,7 +26,6 @@ import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.CustomerBean;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
-import com.woyun.warehouse.vote.activity.PastVoteActivity;
 import com.woyun.warehouse.vote.adapter.CustomerAdapter;
 
 import org.json.JSONArray;
@@ -47,7 +42,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.ResponseBody;

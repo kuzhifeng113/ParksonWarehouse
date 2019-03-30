@@ -1,6 +1,7 @@
 package com.woyun.warehouse.my.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,13 +41,14 @@ import com.woyun.warehouse.baseparson.LogisticsActivity;
 import com.woyun.warehouse.baseparson.event.OrderIndexEvent;
 import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.bean.WxPayBean;
-import com.woyun.warehouse.my.activity.BscKeFuActivity;
+
 import com.woyun.warehouse.my.adapter.AllOrderAdapter;
 import com.woyun.warehouse.utils.DateUtils;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.DeleteDialog;
 
@@ -59,14 +61,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.callback.INavigationItemClickCallBack;
+import cn.udesk.config.UdeskConfig;
+import cn.udesk.model.NavigationMode;
+import cn.udesk.presenter.ChatActivityPresenter;
+import udesk.core.UdeskConst;
 
 /**
  * 所有订单
@@ -217,10 +227,32 @@ public class AllOrderFragment extends BaseFragment implements CommonPopupWindow.
                         showPayPop(positon);
                         break;
                     case R.id.tv_request_sh://已完成 ---申请售后
-//                        Intent kefu=new Intent(getActivity(), KeFuWebViewActivity.class);
-                        Intent kefu=new Intent(getActivity(), BscKeFuActivity.class);
-                        kefu.putExtra("web_url",Constant.WEB_KE_FU);
-                        startActivity(kefu);
+//                        Intent kefu=new Intent(getActivity(), BscKeFuActivity.class);
+//                        kefu.putExtra("web_url",Constant.WEB_KE_FU);
+//                        startActivity(kefu);
+                        UdeskSDKManager.getInstance().initApiKey(getActivity(), Constant.UDESK_DOMAN,
+                                Constant.UDESK_KEY, Constant.UDESK_APPID);
+                        String sdkToken= (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,"");
+
+                        Map<String, String> info = new HashMap<String, String>();
+                        //以下信息是可选
+                        info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(getActivity()).get(Constant.USER_NICK_NAME,""));//昵称
+                        info.put(UdeskConst.UdeskUserInfo.CELLPHONE,(String) SPUtils.getInstance(getActivity()).get(Constant.USER_MOBILE,""));//手机
+
+                        UdeskConfig.Builder builder = new UdeskConfig.Builder();
+                        builder.setDefualtUserInfo(info);
+                        builder.setCustomerUrl((String) SPUtils.getInstance(getActivity()).get(Constant.USER_AVATAR,""));//用户头像
+                        builder.setFirstMessage("你好我想咨询下这个订单号："+listData.get(positon).getTradeNo());
+                        builder.setNavigations(true, UdeskHelp.getInstance().getNavigations(), new INavigationItemClickCallBack() {
+                            @Override
+                            public void callBack(Context context, ChatActivityPresenter mPresenter, NavigationMode navigationMode) {
+                                if (navigationMode.getId() == 1) {
+                                    mPresenter.sendTxtMessage(listData.get(positon).getTradeNo());
+                                }
+                            }
+                        });
+                        UdeskSDKManager.getInstance().entryChat(getActivity(), builder.build(), sdkToken);
+
                         break;
                     case R.id.tv_confirm_receipt:
 //                        ToastUtils.getInstanc(getActivity()).showToast("已发货  确认收货" + positon);

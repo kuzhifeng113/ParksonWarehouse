@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">百盛仓直卖</string>
+    <string name="app_name">百盛仓</string>
     <string name="navigation_vote">预售</string>
     <string name="navigation_vip">VIP</string>
     <string name="navigation_mall">商城</string>

@@ -146,7 +146,11 @@ public class HSNetTools {
                 return params;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5* 1000,//默认超时时间，应设置一个稍微大点儿的，例如本处的500000
+        //网络访问一直使用的volley，前几天调试，出现一个问题
+        // ，其他接口都可以访问成功，有一两个接口调用，会重复调用两次，访问的方法只有一次，
+        // volley在一定时间内访问不到请求，会重新请求，所以，为了防止这样的问题，可以将默认的超时时间延长，
+        // 尽量比服务器最大响应时间多一些，防止服务端返回错误信息时已断开连接
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(40* 1000,//默认超时时间，应设置一个稍微大点儿的，例如本处的40000
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,//默认最大尝试次数
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         stringRequest.setTag(tag);

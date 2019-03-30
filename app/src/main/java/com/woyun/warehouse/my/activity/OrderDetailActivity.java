@@ -1,6 +1,5 @@
 package com.woyun.warehouse.my.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -34,18 +33,17 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.baseparson.KeFuWebViewActivity;
 import com.woyun.warehouse.baseparson.LogisticsActivity;
 import com.woyun.warehouse.baseparson.event.OrderIndexEvent;
 import com.woyun.warehouse.bean.OrderDetailBean;
-import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.bean.WxPayBean;
-import com.woyun.warehouse.my.adapter.AllOrderAdapter;
 import com.woyun.warehouse.my.adapter.OrderDetailAdapter;
 import com.woyun.warehouse.utils.DateUtils;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
+import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.DeleteDialog;
 
@@ -56,6 +54,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -64,6 +63,12 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.callback.INavigationItemClickCallBack;
+import cn.udesk.config.UdeskConfig;
+import cn.udesk.model.NavigationMode;
+import cn.udesk.presenter.ChatActivityPresenter;
+import udesk.core.UdeskConst;
 
 /**
  * 订单详情
@@ -644,9 +649,10 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_kefu://右上角客服
-                Intent kefu=new Intent(OrderDetailActivity.this, BscKeFuActivity.class);
-                kefu.putExtra("web_url",Constant.WEB_KE_FU);
-                startActivity(kefu);
+//                Intent kefu=new Intent(OrderDetailActivity.this, BscKeFuActivity.class);
+//                kefu.putExtra("web_url",Constant.WEB_KE_FU);
+//                startActivity(kefu);
+                enterKeFu();
                 break;
             case R.id.tv_copy:
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -667,9 +673,10 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
 
                 break;
             case R.id.tv_complete_requestsh://已完成申请售后
-                Intent requestsh=new Intent(OrderDetailActivity.this, BscKeFuActivity.class);
-                requestsh.putExtra("web_url",Constant.WEB_KE_FU);
-                startActivity(requestsh);
+//                Intent requestsh=new Intent(OrderDetailActivity.this, BscKeFuActivity.class);
+//                requestsh.putExtra("web_url",Constant.WEB_KE_FU);
+//                startActivity(requestsh);
+                enterKeFu();
                 break;
             case R.id.tv_cofrim_shou_hou://已发货---确认收货
                 confirmReciveOrder(tradeNo);
@@ -808,5 +815,33 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 进入客服
+     */
+    private void enterKeFu(){
+        UdeskSDKManager.getInstance().initApiKey(OrderDetailActivity.this, Constant.UDESK_DOMAN,
+                Constant.UDESK_KEY, Constant.UDESK_APPID);
+        String sdkToken= (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_ID,"");
+
+        Map<String, String> info = new HashMap<String, String>();
+        //以下信息是可选
+        info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_NICK_NAME,""));//昵称
+        info.put(UdeskConst.UdeskUserInfo.CELLPHONE,(String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_MOBILE,""));//手机
+
+        UdeskConfig.Builder builder = new UdeskConfig.Builder();
+        builder.setDefualtUserInfo(info);
+        builder.setCustomerUrl((String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_AVATAR,""));//用户头像
+        builder.setFirstMessage("你好我想咨询下这个订单号："+tradeNo);
+        builder.setNavigations(true, UdeskHelp.getInstance().getNavigations(), new INavigationItemClickCallBack() {
+            @Override
+            public void callBack(Context context, ChatActivityPresenter mPresenter, NavigationMode navigationMode) {
+                if (navigationMode.getId() == 1) {
+                    mPresenter.sendTxtMessage(tradeNo);
+                }
+            }
+        });
+        UdeskSDKManager.getInstance().entryChat(OrderDetailActivity.this, builder.build(), sdkToken);
     }
 }

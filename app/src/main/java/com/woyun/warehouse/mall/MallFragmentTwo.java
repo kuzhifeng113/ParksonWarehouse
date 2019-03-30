@@ -52,7 +52,6 @@ import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallGoodGoodsActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
-import com.woyun.warehouse.mall.activity.SearchActivity;
 import com.woyun.warehouse.mall.sort.SortSearchActivity;
 import com.woyun.warehouse.utils.APKVersionCodeUtils;
 import com.woyun.warehouse.utils.AddressPickTask;
@@ -376,7 +375,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                         pasterData(datas,isShow);
                         LogUtils.e(TAG, "requestSuccess: " + datas.size());
                         int unreadNum=datas.get(0).getUnreadNum();
-                        setUnreadNum(unreadNum);
+//                        setUnreadNum(unreadNum);
                         SPUtils.getInstance(getActivity()).put(Constant.USER_DEFAULT_ADDRESS,datas.get(0).isDefaultAddress());
                         boolean isDefaultAddress= (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_DEFAULT_ADDRESS,false);
                         boolean isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);

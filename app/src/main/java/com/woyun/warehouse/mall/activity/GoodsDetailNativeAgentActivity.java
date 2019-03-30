@@ -89,6 +89,7 @@ import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.BuyVipDialog;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.DropEditText;
@@ -106,6 +107,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -114,8 +116,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.config.UdeskConfig;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
+import udesk.core.UdeskConst;
 
 import static com.woyun.warehouse.utils.ShareWx.bmpToByteArray2;
 import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
@@ -187,7 +192,8 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     TextView tvPrice;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
-
+    @BindView(R.id.img_kf)
+    ImageView imgKf;
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
@@ -459,7 +465,12 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        tvBaoYou.setText("全场满" + goodsDetailBean.getFreeShopping() + "包邮");
+        if(isVip){
+            tvBaoYou.setText("VIP包邮");
+        }else{
+            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+        }
+//        tvBaoYou.setText("全场满" + goodsDetailBean.getFreeShopping() + "包邮");
 
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
@@ -514,7 +525,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
                         contentResList.add(resListBean);
                     }
                 }
-                for (int j = 0; contentListBeanList.size() == position; j++) {
+                for (int j = 0; j<position; j++) {
                     if (contentListBeanList.get(j).getType() == 3) {
                         a++;
                     }
@@ -544,18 +555,36 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     }
 
 
-    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top})
+    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top,R.id.img_kf})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-//            case R.id.img_kf://客服
-//                if (!isLogin) {
-//                    goLogin();
-//                    return;
-//                }
+            case R.id.img_kf://客服
+                if (!isLogin) {
+                    goLogin();
+                    return;
+                }
+                String sdkToken = loginUserId;
+                Map<String, String> info = new HashMap<String, String>();
+                //以下信息是可选
+                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.USER_MOBILE, ""));//手机
+                UdeskConfig.Builder builder = new UdeskConfig.Builder();
+
+                //toolBar 背景色
+                builder.setUdeskTitlebarBgResId(R.color.white)//设置标题栏TitleBar的背景色
+                        .setUdeskTitlebarTextLeftRightResId(R.color.text_black)//设置标题栏TitleBar，左右两侧文字的颜色
+                        .setUdeskbackArrowIconResId(R.mipmap.back_black) // 设置返回箭头图标资源id
+                        .setUdeskProductLinkColorResId(R.color.white) //设置商品信息 带链接时显示的颜色
+
+                        .setDefualtUserInfo(info)
+                        .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
+                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, shareUrl))
+                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, shareUrl));
+                UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
 //                Intent kefu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
 //                kefu.putExtra("web_url", Constant.WEB_KE_FU);
 //                startActivity(kefu);
-//                break;
+                break;
             case R.id.img_collection://收藏
                 if (!isLogin) {
                     goLogin();

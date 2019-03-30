@@ -15,6 +15,10 @@ public class Constant {
 
     //微博key
     public static final String WBAPP_KEY      = "2865772874";
+    //Udesk
+    public static final String UDESK_DOMAN="guangzhouudesk2018.udesk.cn";
+    public static final String UDESK_APPID="cb6294c5b8b531e7";
+    public static final String UDESK_KEY="e8dd083287f0efbda8470200fd443db1";
     /**
      * 当前 DEMO 应用的回调页，第三方应用可以使用自己的回调页。
      *

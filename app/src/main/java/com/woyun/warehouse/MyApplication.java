@@ -27,6 +27,8 @@ import com.woyun.warehouse.utils.SPUtils;
 
 import java.util.ArrayList;
 
+import cn.udesk.UdeskSDKManager;
+
 public class MyApplication extends HSNetToolsApplication {
     private static final String TAG = "MyApplication";
     public static Context context;
@@ -38,6 +40,7 @@ public class MyApplication extends HSNetToolsApplication {
         context=this;
         initCloudChannel(this);
         initImagePicker();
+
         if (isMainProcess()) {
             OpenInstall.init(this);
         }

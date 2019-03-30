@@ -57,12 +57,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.udesk.UdeskSDKManager;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
 
     @BindView(R.id.vp)
-    ViewPagerSlide viewPager ;
+    ViewPagerSlide viewPager;
     @BindView(R.id.bottomNavigationView)
     BottomNavigationView bottomNavigationView;
     private MenuItem menuItem;
@@ -72,32 +73,35 @@ public class MainActivity extends BaseActivity {
     private DownloadBuilder builder;//升级下载
     private boolean isLogin;
     private String shareGoodsId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        WbSdk.install(this,new AuthInfo(this, Constant.WBAPP_KEY, Constant.REDIRECT_URL, Constant.SCOPE));
+        WbSdk.install(this, new AuthInfo(this, Constant.WBAPP_KEY, Constant.REDIRECT_URL, Constant.SCOPE));
         initView();
         initData();
         checkUpdate();
-
+        //初始化udesk
+        UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
+                Constant.UDESK_KEY, Constant.UDESK_APPID);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        isLogin= (boolean) SPUtils.getInstance(MainActivity.this).get(Constant.IS_LOGIN,false);
-        if(viewPager.getCurrentItem()==0){//通知MallFragment 更新消息状态
-                Log.e(TAG, "onResume:Mall============== " );
-                getNoReadNum(loginUserId);
+        isLogin = (boolean) SPUtils.getInstance(MainActivity.this).get(Constant.IS_LOGIN, false);
+        if (viewPager.getCurrentItem() == 0) {//通知MallFragment 更新消息状态
+            Log.e(TAG, "onResume:Mall============== ");
+            getNoReadNum(loginUserId);
         }
-        shareGoodsId= (String) SPUtils.getInstance(MainActivity.this).get(Constant.SHARE_GOODS_ID,"");
-        Log.e(TAG, "onCreate: "+shareGoodsId );
-        if(!TextUtils.isEmpty(shareGoodsId)){
+        shareGoodsId = (String) SPUtils.getInstance(MainActivity.this).get(Constant.SHARE_GOODS_ID, "");
+        Log.e(TAG, "onCreate: " + shareGoodsId);
+        if (!TextUtils.isEmpty(shareGoodsId)) {
 //            Intent intent=new Intent(MainActivity.this, GoodsDetailActivity.class);
-            Intent intent=new Intent(MainActivity.this, GoodsDetailNativeActivity.class);
-            intent.putExtra("goods_id",Integer.valueOf(shareGoodsId));
+            Intent intent = new Intent(MainActivity.this, GoodsDetailNativeActivity.class);
+            intent.putExtra("goods_id", Integer.valueOf(shareGoodsId));
             intent.putExtra("from_id", 2);
             startActivity(intent);
             SPUtils.getInstance(MainActivity.this).remove(Constant.SHARE_GOODS_ID);
@@ -114,16 +118,21 @@ public class MainActivity extends BaseActivity {
             RequestInterface.sysPrefix(MainActivity.this, params, TAG, ReqConstance.I_UNREAD_MESSAGE, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    if (code == 0&&jsonArray.length()>0) {
+                    if (code == 0 && jsonArray.length() > 0) {
                         Gson gson = new Gson();
                         List<UnReadNumBean> unReadNumBeans = gson.fromJson(jsonArray.toString(), new TypeToken<List<UnReadNumBean>>() {
                         }.getType());
 
-                        int billUnread= unReadNumBeans.get(0).getBillUnreadNum();
-                        int sysUnread=unReadNumBeans.get(0).getSysUnreadNum();
-                        Log.e(TAG, "requestSuccess:消息 "+billUnread+sysUnread );
-                        EventBus.getDefault().post(new UnReadMessEvent(billUnread+sysUnread));
+                        int billUnread = unReadNumBeans.get(0).getBillUnreadNum();
+                        int sysUnread = unReadNumBeans.get(0).getSysUnreadNum();
+                        int kefuUnRead = 0;
+                        if (isLogin) {
+                            kefuUnRead = UdeskSDKManager.getInstance().getCurrentConnectUnReadMsgCount(getApplicationContext(),
+                                    loginUserId);
+                        }
 
+                        Log.e(TAG, "requestSuccess:消息 " + billUnread + sysUnread + kefuUnRead);
+                        EventBus.getDefault().post(new UnReadMessEvent(billUnread + sysUnread+kefuUnRead));
                     }
                 }
 
@@ -137,7 +146,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void initView(){
+    private void initView() {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode2(bottomNavigationView);
         bottomNavigationView.setItemIconTintList(null);//iconTint为null
@@ -179,7 +188,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void initData(){
+    private void initData() {
         //获取唤醒参数
         OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
     }
@@ -189,14 +198,14 @@ public class MainActivity extends BaseActivity {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
         OpenInstall.getWakeUp(intent, wakeUpAdapter);
-        Log.e(TAG, "onNewIntent: " );
-        if(intent!=null){
-            boolean toCart=intent.getBooleanExtra("go_cart",false);
-            boolean toMoney=intent.getBooleanExtra("go_makemoney",false);
-            if(toCart){
+        Log.e(TAG, "onNewIntent: ");
+        if (intent != null) {
+            boolean toCart = intent.getBooleanExtra("go_cart", false);
+            boolean toMoney = intent.getBooleanExtra("go_makemoney", false);
+            if (toCart) {
                 viewPager.setCurrentItem(2);
             }
-            if(toMoney){
+            if (toMoney) {
                 viewPager.setCurrentItem(1);
             }
 
@@ -234,21 +243,21 @@ public class MainActivity extends BaseActivity {
                     viewPager.setCurrentItem(1);
                     return true;
                 case R.id.navigation_cart:
-                    if(!isLogin){
-                        Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                    if (!isLogin) {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         return false;
-                    }else{
+                    } else {
                         viewPager.setCurrentItem(2);
                         return true;
                     }
 
                 case R.id.navigation_my:
-                    if(!isLogin){
-                        Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                    if (!isLogin) {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         return false;
-                    }else{
+                    } else {
                         viewPager.setCurrentItem(3);
                         return true;
                     }
@@ -261,7 +270,6 @@ public class MainActivity extends BaseActivity {
 
     /**
      * xml 写属性改变图片文字颜色没效果  不写的默认找 colorPrimary 颜色值
-     *
      */
     @Override
     protected void onDestroy() {
@@ -279,7 +287,7 @@ public class MainActivity extends BaseActivity {
                 this.finish();
 
             } else {
-                Toast.makeText(MainActivity.this,"再按一次退出",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
                 mIsExit = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -299,7 +307,7 @@ public class MainActivity extends BaseActivity {
     private void checkUpdate() {
         boolean isUpdate = (boolean) SPUtils.getInstance(MainActivity.this).get(Constant.UPDATE_FLAG, false);
         int status = (int) SPUtils.getInstance(MainActivity.this).get(Constant.UPDATE_FLAG_STATUS, 0);
-        if (isUpdate && status==1) {//有更新
+        if (isUpdate && status == 1) {//有更新
             String endDate = DateUtils.getCurentTime();//当前时间
             String startDate = (String) SPUtils.getInstance(MainActivity.this).get(Constant.UPDATE_TIME, "");
             if (TextUtils.isEmpty(startDate)) {

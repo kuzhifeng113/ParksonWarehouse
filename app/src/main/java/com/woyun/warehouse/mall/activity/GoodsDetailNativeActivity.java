@@ -57,6 +57,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
+import com.woyun.warehouse.baseparson.KeFuWebViewActivity;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.ContentListBean;
@@ -74,6 +75,7 @@ import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
 
 import org.json.JSONArray;
@@ -87,15 +89,21 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.config.UdeskConfig;
+import cn.udesk.model.UdeskCommodityItem;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
+import udesk.core.UdeskConst;
 
 import static com.woyun.warehouse.utils.ShareWx.bmpToByteArray2;
 import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
@@ -113,8 +121,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
     @BindView(R.id.webViewDetail)
     LinearLayout mLinearLayout;
-    //    @BindView(R.id.img_kf)
-//    ImageView imgKf;
+    @BindView(R.id.img_kf)
+    ImageView imgKf;
     @BindView(R.id.img_collection)
     ImageView imgCollection;
     @BindView(R.id.img_cart)
@@ -315,9 +323,9 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
 
-                if(scrollY>3*height){//大于3个屏幕的高度
+                if (scrollY > 3 * height) {//大于3个屏幕的高度
                     imgBackTop.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     imgBackTop.setVisibility(View.GONE);
                 }
             }
@@ -445,8 +453,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        tvBaoYou.setText("全场满" + goodsDetailBean.getFreeShopping() + "包邮");
-
+        if(isVip){
+            tvBaoYou.setText("VIP包邮");
+        }else{
+            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+        }
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
 
@@ -500,8 +511,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                         contentResList.add(resListBean);
                     }
                 }
-                for(int j=0; contentListBeanList.size()==position;j++){
-                    if(contentListBeanList.get(j).getType()==3){
+                for (int j = 0; j<position; j++) {
+                    if (contentListBeanList.get(j).getType() == 3) {
                         a++;
                     }
                 }
@@ -510,9 +521,9 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
                 Intent toLook = new Intent(GoodsDetailNativeActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
-                if(a>position){
+                if (a > position) {
                     toLook.putExtra("index", position);
-                }else{
+                } else {
                     toLook.putExtra("index", position - a);
                 }
 
@@ -530,19 +541,39 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     }
 
 
-
-    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top})
+    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top, R.id.img_kf})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-//            case R.id.img_kf://客服
-//                if (!isLogin) {
-//                    goLogin();
-//                    return;
-//                }
-//                Intent kefu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
-//                kefu.putExtra("web_url", Constant.WEB_KE_FU);
-//                startActivity(kefu);
-//                break;
+            case R.id.img_kf://客服
+                if (!isLogin) {
+                    goLogin();
+                    return;
+                }
+                Log.e(TAG, "onViewClicked: kf");
+//                UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
+//                        Constant.UDESK_KEY, Constant.UDESK_APPID);
+                String sdkToken = loginUserId;
+
+                Map<String, String> info = new HashMap<String, String>();
+                //以下信息是可选
+                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_MOBILE, ""));//手机
+
+                UdeskConfig.Builder builder = new UdeskConfig.Builder();
+
+                //toolBar 背景色
+                builder.setUdeskTitlebarBgResId(R.color.white)//设置标题栏TitleBar的背景色
+                        .setUdeskTitlebarTextLeftRightResId(R.color.text_black)//设置标题栏TitleBar，左右两侧文字的颜色
+                        .setUdeskbackArrowIconResId(R.mipmap.back_black) // 设置返回箭头图标资源id
+                        .setUdeskProductLinkColorResId(R.color.white) //设置商品信息 带链接时显示的颜色
+
+                        .setDefualtUserInfo(info)
+                        .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
+                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, shareUrl))
+                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, shareUrl));
+                UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
+
+                break;
             case R.id.img_collection://收藏
                 if (!isLogin) {
                     goLogin();
@@ -760,7 +791,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         startActivity(intent);
 //        finish();
     }
-
 
 
     @Override
@@ -1080,4 +1110,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     public void onWbShareCancel() {
         Toast.makeText(this, R.string.weibosdk_demo_toast_share_canceled, Toast.LENGTH_LONG).show();
     }
+
+
 }

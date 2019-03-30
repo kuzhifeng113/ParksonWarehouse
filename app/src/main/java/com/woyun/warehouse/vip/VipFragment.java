@@ -1,5 +1,6 @@
 package com.woyun.warehouse.vip;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -162,7 +163,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     private CommonPopupWindow popupWindow;
     private boolean isVip;
     private boolean isLogin;
-
+    private Animation mAnimation = null;
     //会员礼包
     private List<ZuanQianBean.VipGiftBean> vipListBeanList = new ArrayList<>();
 
@@ -806,10 +807,27 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
         recyclerViewSmall.smoothScrollBy(0, top - half);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     private void startAnim(View view) {
-        Animation mAnimation = null;
+
         mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.btn_tween);
         view.setAnimation(mAnimation);
         mAnimation.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        btn_vip_share.clearAnimation();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        startAnim(btn_vip_share);
     }
 }

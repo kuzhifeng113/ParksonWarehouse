@@ -17,6 +17,7 @@
         >
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="300dp">
 
@@ -119,7 +120,7 @@
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:minHeight="200dp"
+                    android:minHeight="300dp"
                     android:overScrollMode="never" />
 
                 <TextView
@@ -127,10 +128,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:text="暂无相关商品哟~"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    android:visibility="gone"
-                    android:text="暂无相关商品哟~" />
+                    android:visibility="gone" />
 
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>

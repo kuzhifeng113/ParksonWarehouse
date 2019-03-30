@@ -8,8 +8,8 @@ android {
         applicationId "com.woyun.warehouse"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 18
-        versionName "3.1.5"
+        versionCode 19
+        versionName "3.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -114,4 +114,5 @@ dependencies {
 
     implementation project(path: ':httptools')
     implementation project(path: ':imagepicker')
+    implementation project(path: ':UdeskSDKUI')
 }
