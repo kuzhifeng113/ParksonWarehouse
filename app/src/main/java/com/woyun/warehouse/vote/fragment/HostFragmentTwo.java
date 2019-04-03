@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -24,11 +25,14 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
+import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.CategoryGoodsBeanTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeWebActivity;
 import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapterTwo;
 import com.woyun.warehouse.utils.CommonUtils;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -63,6 +67,8 @@ public class HostFragmentTwo extends BaseFragment {
     View ivEmpty;
     @BindView(R.id.tv_empty_text)
     TextView tvEmptyText;
+    @BindView(R.id.img_back_top)
+    ImageView imgBackTop;
     private int categoryId;
     private int pager = 1;//当前页
     private Map<Integer, List<CategoryGoodsBeanTwo.PageBean.ContentBean>> mapData=new HashMap<>();
@@ -107,11 +113,17 @@ public class HostFragmentTwo extends BaseFragment {
         goodsAdapterOne.setOnTypeItemClickListener(new CategoryGoodsAdapterTwo.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Intent goodsDetail = new Intent(getActivity(), GoodsDetailActivity.class);
                 Intent goodsDetail = new Intent(getActivity(), GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id", allData.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id", 2);
                 startActivity(goodsDetail);
+            }
+        });
+        imgBackTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+                EventBus.getDefault().post(new UnReadMessEvent(true));
             }
         });
         return view;
@@ -120,7 +132,7 @@ public class HostFragmentTwo extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(RefreshIndexEvent event) {
         if(event.isFlag()&&isFragmentVisible()){
-            Log.e(TAG, "Event:==是否刷新==是否可见= ");
+            LogUtils.e(TAG, "Event:==是否刷新==是否可见= ");
             allData.clear();
             pager = 1;
             getData(pager, "", categoryId);

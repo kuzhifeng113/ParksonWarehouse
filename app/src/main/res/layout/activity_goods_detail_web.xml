@@ -7,9 +7,14 @@
     android:background="@color/white">
 
 
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <!--webView-->
     <RelativeLayout
         android:id="@+id/webViewDetail"
+        android:layout_below="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="40dp" >

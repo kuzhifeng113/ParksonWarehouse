@@ -70,8 +70,10 @@ public class ReqConstance {
         public static final int I_USER_MAKE_MOENY = 120;
         //提现
         public static final int I_USER_WITHDRAW = 119;
-
-
+        //获取忘记二级密码验证码
+        public static final int I_GET_USER_SECOND_PWD_CODE = 121;
+        //重置二级密码
+        public static final int I_RESET_USER_SECOND_PWD = 122;
 
         ///////////////////////VIP 订单////////////////////////////////
         public static final String PAY_PREFIX = "/pay";

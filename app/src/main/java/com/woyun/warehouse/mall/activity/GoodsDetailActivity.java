@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
+import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -71,6 +72,7 @@ import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.CommonPopupWindow;
+import com.zzhoujay.richtext.RichText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -136,6 +138,8 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     ImageView imgGoodsShare;
     @BindView(R.id.img_bijia)
     ImageView imgBijia;
+    @BindView(R.id.tv_content)
+    TextView tvRichContent;
 
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
@@ -202,6 +206,8 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         isLogin = (boolean) SPUtils.getInstance(GoodsDetailActivity.this).get(Constant.IS_LOGIN, false);
         cartBadge = new QBadgeView(this);
         toolBar.setNavigationOnClickListener(v -> finish());
+        RichText.initCacheDir(this);
+
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
         if (isVip) {
@@ -347,6 +353,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
 //                            initWeb(goodesWebUrl);
+                            RichText.from(goodsDetailBean.getContent()).into(tvRichContent);
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
                             cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
                             cartBadge.setGravityOffset(-2, -2, true);

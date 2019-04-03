@@ -73,7 +73,7 @@ public class PastVoteActivity extends BaseActivity {
         voteId = getIntent().getIntExtra("vote_id", 0);
         voteName = getIntent().getStringExtra("vote_name");
         oldBeanList= (List<VoteHomeBean>) getIntent().getSerializableExtra("list_data");
-        Log.e(TAG, "onCreate: "+oldBeanList.size() );
+        LogUtils.e(TAG, "onCreate: "+oldBeanList.size() );
         tvTitle.setText(voteName);
 
         paseVoteAdapter = new PaseVoteAdapter(PastVoteActivity.this, listNewVotes,isVip);

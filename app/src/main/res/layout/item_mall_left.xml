@@ -72,9 +72,11 @@
                 android:id="@+id/tv_vip_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/shape_vip_fan"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
+                android:layout_marginLeft="2dp"
                 android:text="会员反15"
                 android:textColor="@color/white"
                 android:textSize="9sp" />

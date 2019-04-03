@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -87,6 +88,7 @@ import cc.shinichi.library.bean.ImageInfo;
 import cn.addapp.pickers.entity.City;
 import cn.addapp.pickers.entity.County;
 import cn.addapp.pickers.entity.Province;
+import cn.udesk.model.Tag;
 import me.leolin.shortcutbadger.ShortcutBadger;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -132,6 +134,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
     ViewPager hostViewpager;
     @BindView(R.id.img_tool_mess)
     ImageView imgDing;
+
 
     @BindView(R.id.rl_search)
     RelativeLayout rlSearch;
@@ -181,8 +184,12 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(UnReadMessEvent event) {
-        Log.e(TAG, "Event:==未读消息=== " + event.getNum());
+        LogUtils.e(TAG, "Event:==未读消息=== " + event.getNum());
         setUnreadNum(event.getNum());
+        if(event.isZhanKai()){//appBar 是否展开
+            LogUtils.e(TAG,"appBar 是否展开"+event.isZhanKai());
+            setAppBarToTop(appBar);
+        }
     }
 
     @Override
@@ -224,7 +231,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e(TAG, "run:==== " );
+                        LogUtils.e(TAG, "run:==== " );
                         listTiles.clear();
                         advBannerListBeans.clear();
                         getData(false);
@@ -256,7 +263,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
         hostViewpager.setAdapter(adapter);
         hostViewpager.setOffscreenPageLimit(listTiles.size());
 //        hostViewpager.setOffscreenPageLimit(0);
-        Log.e(TAG, "当前viewPage 选中的第几个"+hostViewpager.getCurrentItem());
+        LogUtils.e(TAG, "当前viewPage 选中的第几个"+hostViewpager.getCurrentItem());
 //        adapter.notifyDataSetChanged();
 
 //用来循环适配器中的视图总数
@@ -392,7 +399,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                 @Override
                 public void requestError(String s, int i) {
                     ModelLoading.getInstance(getActivity()).closeLoading();
-                    Log.e(TAG, "requestError: getData");
+                    LogUtils.e(TAG, "requestError: getData");
                     error++;
                     if (error < 3) {
                         getData(true);
@@ -868,5 +875,17 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
             e.printStackTrace();
         }
 
+    }
+
+    private void setAppBarToTop(AppBarLayout appBar){
+        CoordinatorLayout.Behavior behavior =
+                ((CoordinatorLayout.LayoutParams) appBar.getLayoutParams()).getBehavior();
+        if (behavior instanceof AppBarLayout.Behavior) {
+            AppBarLayout.Behavior appBarLayoutBehavior = (AppBarLayout.Behavior) behavior;
+            int topAndBottomOffset = appBarLayoutBehavior.getTopAndBottomOffset();
+            if (topAndBottomOffset != 0) {
+                appBarLayoutBehavior.setTopAndBottomOffset(0);
+            }
+        }
     }
 }

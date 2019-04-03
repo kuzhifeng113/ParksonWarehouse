@@ -220,7 +220,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     private IWXAPI iwxApi;
     private String shareTile, shareContent, shareUrl, shareIconUrl;
     private Bitmap mBitmapCover;
-
+    private String kfGoodsUrl;
     //购买会员
     private ShipAddressBean orderAddres;
     //开通会员控件
@@ -271,6 +271,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         }
     };
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -297,7 +298,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             imgGoodsBuy.setText("开通会员");
         }
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
-
+        kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
 
         if (fromType == 1) {//投票页面
@@ -316,7 +317,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeVipActivity.this, 15)));//垂直间距
+            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeVipActivity.this, 7)));//垂直间距
         }
         initData();
 
@@ -331,7 +332,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
 
-                if (scrollY > 3 * height) {//大于3个屏幕的高度
+                if (scrollY > 2 * height) {//大于3个屏幕的高度
                     imgBackTop.setVisibility(View.VISIBLE);
                 } else {
                     imgBackTop.setVisibility(View.GONE);
@@ -576,8 +577,8 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
 
                         .setDefualtUserInfo(info)
                         .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
-                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, shareUrl))
-                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, shareUrl));
+                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, kfGoodsUrl))
+                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, kfGoodsUrl));
                 UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
 //                Intent kefu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
 ////                kefu.putExtra("web_url", Constant.WEB_KE_FU);

@@ -18,6 +18,8 @@ import com.alibaba.sdk.android.push.register.MiPushRegister;
 import com.fm.openinstall.OpenInstall;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.view.CropImageView;
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AuthInfo;
 import com.woyun.httptools.HSNetToolsApplication;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.receive.MyMessageIntentService;
@@ -40,7 +42,7 @@ public class MyApplication extends HSNetToolsApplication {
         context=this;
         initCloudChannel(this);
         initImagePicker();
-
+        WbSdk.install(this, new AuthInfo(this, Constant.WBAPP_KEY, Constant.REDIRECT_URL, Constant.SCOPE));
         if (isMainProcess()) {
             OpenInstall.init(this);
         }

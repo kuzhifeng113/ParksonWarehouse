@@ -140,7 +140,6 @@ public class VoteFragment extends BaseFragment implements CommonPopupWindow.View
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "onClick:================ " );
             }
         });
 

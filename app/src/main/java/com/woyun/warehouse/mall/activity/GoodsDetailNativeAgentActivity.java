@@ -224,7 +224,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     private IWXAPI iwxApi;
     private String shareTile, shareContent, shareUrl, shareIconUrl;
     private Bitmap mBitmapCover;
-
+    private String kfGoodsUrl;//发送给客服的商品链接
     //弹窗控件
     //开通代理控件
     private ShipAddressBean orderAddres;
@@ -289,7 +289,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
         goodsId = getIntent().getIntExtra("goods_id", 0);
 
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
-
+        kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
 
         if (fromType == 1) {//投票页面
@@ -315,7 +315,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeAgentActivity.this, 15)));//垂直间距
+            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeAgentActivity.this, 7)));//垂直间距
         }
         initData();
 
@@ -331,7 +331,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
 
-                if(scrollY>3*height){//大于3个屏幕的高度
+                if(scrollY>3*height){//大于2个屏幕的高度
                     imgBackTop.setVisibility(View.VISIBLE);
                 }else{
                     imgBackTop.setVisibility(View.GONE);
@@ -578,8 +578,8 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
 
                         .setDefualtUserInfo(info)
                         .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
-                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, shareUrl))
-                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, shareUrl));
+                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, kfGoodsUrl))
+                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, kfGoodsUrl));
                 UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
 //                Intent kefu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
 //                kefu.putExtra("web_url", Constant.WEB_KE_FU);

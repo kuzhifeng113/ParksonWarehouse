@@ -119,6 +119,8 @@ public class Constant {
     //商品分享地址
     public static final String WEB_SHARE_GOODS="https://api.bscvip.com/details/detailshare.html";
     public static final String WEB_SHARE_GOODS2="https://api.bscvip.com/detailv2/detailshare.html";
+    public static final String WEB_SHARE_GOODS_KF="https://api.bscvip.com/kf/detailshare.html";
+    public static final String WEB_GOODS_URL="https://xcx.bscvip.com/detailv2/detail.html";
     //赚钱 规则
     public static final String WEB_MAKE_MONEY="  https://comm.bscvip.com/makemoney.html";
 

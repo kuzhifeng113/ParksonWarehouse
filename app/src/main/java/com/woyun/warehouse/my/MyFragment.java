@@ -56,6 +56,7 @@ import com.woyun.warehouse.my.activity.ShareActivity;
 import com.woyun.warehouse.my.activity.UserInfoActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -196,7 +197,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_my, container, false);
-        Log.e(TAG, "onCreateView: ===");
+        LogUtils.e(TAG, "onCreateView: ===");
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
         EventBus.getDefault().register(this);
@@ -226,15 +227,15 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
 //            shareContent = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_CONTENT, "");
 //            shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
 //            shareDownUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_URL, "");
-//            Log.e(TAG, "setUserVisibleHint:------ ");
+//            LogUtils.e(TAG, "setUserVisibleHint:------ ");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(SaveUserEvent event) {
-        Log.e(TAG, "Event: " + event.isSave());
-        Log.e(TAG, "Event: " + userId);
+        LogUtils.e(TAG, "Event: " + event.isSave());
+        LogUtils.e(TAG, "Event: " + userId);
         if (event.isSave()) {
             checkUserId(userId);
         }
@@ -259,8 +260,8 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
         shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
         shareDownUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_URL, "");
         checkUserId(userId);
-        Log.e(TAG, "onFragmentVisibleChangeisVip: " + isVip);
-        Log.e(TAG, "onFragmentVisibleChangeisAgent: " + isAgent);
+        LogUtils.e(TAG, "onFragmentVisibleChangeisVip: " + isVip);
+        LogUtils.e(TAG, "onFragmentVisibleChangeisAgent: " + isAgent);
     }
 
 
@@ -521,7 +522,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                                 tvVipType.setText("普通用户");
                                 llIsAgent.setVisibility(View.INVISIBLE);
                             }
-                            Log.e(TAG, "requestSuccess:是否邀满3个人" + userInfoBean.getUserInfo().isTree());
+                            LogUtils.e(TAG, "requestSuccess:是否邀满3个人" + userInfoBean.getUserInfo().isTree());
                             if (!userInfoBean.getUserInfo().isTree()) {//是否邀满3个人
                                 tvXinRen.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                             } else {
@@ -590,7 +591,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                Log.e(TAG, "onClick: " + shareDownUrl + userId + shareTile + shareContent + shareIcon);
+                LogUtils.e(TAG, "onClick: " + shareDownUrl + userId + shareTile + shareContent + shareIcon);
                 iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + userId,
                         shareTile, shareContent, 1, shareIcon));
             }
@@ -602,7 +603,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                Log.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + userId);
+                LogUtils.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + userId);
                 final Bundle params = new Bundle();
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
                 params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
@@ -634,19 +635,19 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(getActivity(), "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }

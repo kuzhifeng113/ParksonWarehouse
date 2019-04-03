@@ -25,7 +25,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,6 +37,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.DefaultWebClient;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -57,7 +62,6 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.baseparson.KeFuWebViewActivity;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.ContentListBean;
@@ -68,6 +72,7 @@ import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.mall.ProductSkuDialog;
 import com.woyun.warehouse.mall.adapter.NativeContentAdapter;
 import com.woyun.warehouse.mall.adapter.NativeViewPageAdapter;
+import com.woyun.warehouse.utils.AndroidInterface;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.LogUtils;
@@ -100,7 +105,6 @@ import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 import cn.udesk.UdeskSDKManager;
 import cn.udesk.config.UdeskConfig;
-import cn.udesk.model.UdeskCommodityItem;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
 import udesk.core.UdeskConst;
@@ -110,17 +114,17 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 
 
 /**
- * 商品详情-原生
+ * 商品详情-原生加web
  */
-public class GoodsDetailNativeActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, WbShareCallback {
-    private static final String TAG = "GoodsDetailActivity";
+public class GoodsDetailNativeWebActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, WbShareCallback {
+    private static final String TAG = "NativeWebActivity";
     private static final int THUMB_SIZE = 150;
     private static final int REFRESH_COMPLETE = 1000;
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
     @BindView(R.id.webViewDetail)
-    LinearLayout mLinearLayout;
+    RelativeLayout mLinearLayout;
     @BindView(R.id.img_kf)
     ImageView imgKf;
     @BindView(R.id.img_collection)
@@ -176,7 +180,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
 
-
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
     private ProductSkuDialog dialog;
@@ -194,6 +197,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     private int totalNum;
     private String goodesWebUrl;
     private String compareUrl;//比价url
+    protected AgentWeb mAgentWeb;
 
     Badge cartBadge;
     private int cartNum;
@@ -230,19 +234,19 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goods_detail_native);
+        setContentView(R.layout.activity_goods_detail_native_web);
         ButterKnife.bind(this);
-        mContext = GoodsDetailNativeActivity.this;
+        mContext = GoodsDetailNativeWebActivity.this;
         mIUiListener = new ShareQQListener();
-        iwxApi = WXAPIFactory.createWXAPI(GoodsDetailNativeActivity.this, Constant.WX_APP_ID);
+        iwxApi = WXAPIFactory.createWXAPI(GoodsDetailNativeWebActivity.this, Constant.WX_APP_ID);
         iwxApi.registerApp(Constant.WX_APP_ID);
         mTencent = Tencent.createInstance(Constant.QQ_APP_ID, getApplicationContext());
         //微博
-        shareHandler = new WbShareHandler(GoodsDetailNativeActivity.this);
+        shareHandler = new WbShareHandler(GoodsDetailNativeWebActivity.this);
         shareHandler.registerApp();
 
-        isVip = (boolean) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_IS_VIP, false);
-        isLogin = (boolean) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.IS_LOGIN, false);
+        isVip = (boolean) SPUtils.getInstance(GoodsDetailNativeWebActivity.this).get(Constant.USER_IS_VIP, false);
+        isLogin = (boolean) SPUtils.getInstance(GoodsDetailNativeWebActivity.this).get(Constant.IS_LOGIN, false);
         cartBadge = new QBadgeView(this);
         toolBar.setNavigationOnClickListener(v -> finish());
 
@@ -262,6 +266,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         totalNum = getIntent().getIntExtra("total_count", 0);
         isShelf = getIntent().getBooleanExtra("is_shelf", false);
         tvVoteNumWant.setText(wanNum + "人想要");
+
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
 
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
@@ -308,7 +314,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeActivity.this, 7)));//垂直间距
+            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GoodsDetailNativeWebActivity.this, 7)));//垂直间距
         }
         initData();
 
@@ -374,17 +380,17 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
      * @param
      */
     private void getData(int goodsID) {
-        ModelLoading.getInstance(GoodsDetailNativeActivity.this).showLoading("", true);
+        ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).showLoading("", true);
         //获取数据
         try {
             JSONObject params = new JSONObject();
             params.put("goodsId", goodsID);
             params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailNativeActivity.this, params, TAG, ReqConstance.I_GOODS_DETAIL, 1, new HSRequestCallBackInterface() {
+            RequestInterface.goodsPrefix(GoodsDetailNativeWebActivity.this, params, TAG, ReqConstance.I_GOODS_DETAIL, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
-                    tokenTimeLimit(GoodsDetailNativeActivity.this, code);
+                    ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
+                    tokenTimeLimit(GoodsDetailNativeWebActivity.this, code);
                     if (code == 0) {
                         String jsonResult = jsonArray.toString();
                         try {
@@ -393,7 +399,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                             compareUrl = goodsDetailBean.getCompareUrl();
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
-//                            initWeb(goodesWebUrl);
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
                             cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
                             cartBadge.setGravityOffset(-2, -2, true);
@@ -414,17 +419,17 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
 //                            Log.e(TAG, "requestSuccess: " + jsonResult);
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-                    ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
+                    ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
                     imgGoodsJoinCart.setClickable(false);
                     imgGoodsBuy.setClickable(false);
                     imgGoodsShare.setClickable(false);
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -461,10 +466,10 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
 
-        nativeContentAdapter = new NativeContentAdapter(GoodsDetailNativeActivity.this, contentListBeanList);
+        nativeContentAdapter = new NativeContentAdapter(GoodsDetailNativeWebActivity.this, contentListBeanList);
         recyclerView.setAdapter(nativeContentAdapter);
 
-        nativeViewPageAdapter = new NativeViewPageAdapter(GoodsDetailNativeActivity.this, resListBeanList);
+        nativeViewPageAdapter = new NativeViewPageAdapter(GoodsDetailNativeWebActivity.this, resListBeanList);
         viewPager.setAdapter(nativeViewPageAdapter);
 
 
@@ -489,10 +494,10 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             @SuppressLint("NewApi")
             @Override
             public void onItemClick(int index) {
-                Intent toLook = new Intent(GoodsDetailNativeActivity.this, LookImageVideoActivity.class);
+                Intent toLook = new Intent(GoodsDetailNativeWebActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) resListBeanList);
                 toLook.putExtra("index", index);
-                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailNativeActivity.this).toBundle());
+                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailNativeWebActivity.this).toBundle());
             }
         });
         //内容查看大图  下标 判断他之前有多少种type=3  文字然后减去 得到最新的下标
@@ -519,7 +524,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
                 Log.e(TAG, "onItemClick: a===" + a);
 
-                Intent toLook = new Intent(GoodsDetailNativeActivity.this, LookImageVideoActivity.class);
+                Intent toLook = new Intent(GoodsDetailNativeWebActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
                 if (a > position) {
                     toLook.putExtra("index", position);
@@ -527,7 +532,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                     toLook.putExtra("index", position - a);
                 }
 
-                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailNativeActivity.this).toBundle());
+                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailNativeWebActivity.this).toBundle());
             }
         });
 
@@ -556,8 +561,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
                 Map<String, String> info = new HashMap<String, String>();
                 //以下信息是可选
-                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
-                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_MOBILE, ""));//手机
+                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(GoodsDetailNativeWebActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(GoodsDetailNativeWebActivity.this).get(Constant.USER_MOBILE, ""));//手机
 
                 UdeskConfig.Builder builder = new UdeskConfig.Builder();
 
@@ -568,7 +573,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                         .setUdeskProductLinkColorResId(R.color.white) //设置商品信息 带链接时显示的颜色
 
                         .setDefualtUserInfo(info)
-                        .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
+                        .setCustomerUrl((String) SPUtils.getInstance(GoodsDetailNativeWebActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
                         .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, kfGoodsUrl))
                         .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, kfGoodsUrl));
                 UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
@@ -591,7 +596,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                     goLogin();
                     return;
                 }
-                Intent intent = new Intent(GoodsDetailNativeActivity.this, MainActivity.class);
+                Intent intent = new Intent(GoodsDetailNativeWebActivity.this, MainActivity.class);
                 intent.putExtra("go_cart", true);
                 startActivity(intent);
                 finish();
@@ -617,9 +622,9 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                 break;
             case R.id.img_bijia://比价
                 if (TextUtils.isEmpty(compareUrl)) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast("未找到同类商品~");
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast("未找到同类商品~");
                 } else {
-                    Intent priva = new Intent(GoodsDetailNativeActivity.this, MyWebViewActivity.class);
+                    Intent priva = new Intent(GoodsDetailNativeWebActivity.this, MyWebViewActivity.class);
                     priva.putExtra("web_url", compareUrl);
                     startActivity(priva);
                 }
@@ -642,21 +647,21 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             JSONObject params = new JSONObject();
             params.put("goodsId", goodsDetailBean.getGoodsId());
             params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailNativeActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_INSERT, 1, new HSRequestCallBackInterface() {
+            RequestInterface.goodsPrefix(GoodsDetailNativeWebActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_INSERT, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     if (code == 0) {
                         imgCollection.setImageResource(R.mipmap.ic_goods_sc_red);
                         isFavorite = true;
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -676,22 +681,22 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             JSONObject params = new JSONObject();
             params.put("goodsId", goodsDetailBean.getGoodsId());
             params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailNativeActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_DELETE, 1, new HSRequestCallBackInterface() {
+            RequestInterface.goodsPrefix(GoodsDetailNativeWebActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_DELETE, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     if (code == 0) {
                         imgCollection.setImageResource(R.mipmap.ic_goods_sc);
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                         isFavorite = false;
 
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -731,22 +736,22 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             params.put("memo", memo);//SKU 的specValue值拼接，“黑色，L”
 
 
-            RequestInterface.cartPrefix(GoodsDetailNativeActivity.this, params, TAG, ReqConstance.I_CART_ADD, 1, new HSRequestCallBackInterface() {
+            RequestInterface.cartPrefix(GoodsDetailNativeWebActivity.this, params, TAG, ReqConstance.I_CART_ADD, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     if (code == 0) {
                         cartBadge.setBadgeNumber(cartNum + 1);
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                         String jsonResult = jsonArray.toString();
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailNativeActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GoodsDetailNativeWebActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -785,7 +790,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         List<CartShopBean.CartListBean> selectList = new ArrayList<>();
         selectList.add(entity);
 
-        Intent intent = new Intent(GoodsDetailNativeActivity.this, OrderXiaDanActivity.class);
+        Intent intent = new Intent(GoodsDetailNativeWebActivity.this, OrderXiaDanActivity.class);
         intent.putExtra("total_price", totalPrice);
         intent.putExtra("select_data", (Serializable) selectList);
         startActivity(intent);
@@ -805,11 +810,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         super.onDestroy();
         Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
-        ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
+        ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
     }
 
     private void goLogin() {
-        Intent intent = new Intent(GoodsDetailNativeActivity.this, LoginActivity.class);
+        Intent intent = new Intent(GoodsDetailNativeWebActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -852,10 +857,10 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     private void showSharePop() {
 
         if (popupWindow != null && popupWindow.isShowing()) return;
-        View upView = LayoutInflater.from(GoodsDetailNativeActivity.this).inflate(R.layout.popup_share, null);
+        View upView = LayoutInflater.from(GoodsDetailNativeWebActivity.this).inflate(R.layout.popup_share, null);
         //测量View的宽高
         DensityUtils.measureWidthAndHeight(upView);
-        popupWindow = new CommonPopupWindow.Builder(GoodsDetailNativeActivity.this)
+        popupWindow = new CommonPopupWindow.Builder(GoodsDetailNativeWebActivity.this)
                 .setView(R.layout.popup_share)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
                 .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
@@ -1070,7 +1075,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         @Override
         public void onError(UiError error) {
             Log.e(TAG, "onError: ");
-            Toast.makeText(GoodsDetailNativeActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
+            Toast.makeText(GoodsDetailNativeWebActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -1111,5 +1116,72 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         Toast.makeText(this, R.string.weibosdk_demo_toast_share_canceled, Toast.LENGTH_LONG).show();
     }
 
+
+    private void initWeb(String webUrl) {
+
+        LogUtils.e(TAG,webUrl);
+        mAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator()
+                .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(mWebViewClient)
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+//                .setWebLayout(new WebLayout(this))
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
+                .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+                .createAgentWeb()
+                .ready()
+//                .go(webUrl);
+                .go("https://xcx.bscvip.com/detailv2/detail.html?id=218");
+//
+//        //注入对象
+//        if (mAgentWeb != null) {
+//            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, GoodsDetailNativeWebActivity.this));
+//        }
+//
+//        mAgentWeb.getJsAccessEntrace().quickCallJs("getImage()");
+
+    }
+
+
+    private WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            //do you  work
+            Log.e("Info", "BaseWebActivity onPageStarted");
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            Log.e(TAG, "onPageFinished: ");
+            ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
+        }
+    };
+
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            Log.e(TAG, "onProgressChanged: ");
+            if (newProgress == 100) {
+
+            }
+            //do you work
+//            Log.i("Info","onProgress:"+newProgress);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+
+        }
+
+    };
 
 }

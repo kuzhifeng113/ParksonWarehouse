@@ -120,7 +120,7 @@
                                 android:layout_centerInParent="true"
                                 android:drawableLeft="@mipmap/ic_mall_search"
                                 android:drawablePadding="8dp"
-                                android:text="搜索"
+                                android:text="分类搜索"
                                 android:textColor="#999999"
                                 android:textSize="12sp" />
                         </RelativeLayout>
