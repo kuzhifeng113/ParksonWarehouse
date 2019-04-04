@@ -28,7 +28,6 @@ import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.CategoryGoodsBeanTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
-import com.woyun.warehouse.mall.activity.GoodsDetailNativeWebActivity;
 import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapterTwo;
 import com.woyun.warehouse.utils.CommonUtils;
 import com.woyun.warehouse.utils.DensityUtils;

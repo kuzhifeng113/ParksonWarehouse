@@ -16,9 +16,9 @@ public class Constant {
     //微博key
     public static final String WBAPP_KEY      = "2865772874";
     //Udesk
-    public static final String UDESK_DOMAN="guangzhouudesk2018.udesk.cn";
-    public static final String UDESK_APPID="cb6294c5b8b531e7";
-    public static final String UDESK_KEY="e8dd083287f0efbda8470200fd443db1";
+    public static final String UDESK_DOMAN="woyun.udesk.cn";
+    public static final String UDESK_APPID="81007105c805f4f6";
+    public static final String UDESK_KEY="7c38f3599e6e67188d1057380029183a";
     /**
      * 当前 DEMO 应用的回调页，第三方应用可以使用自己的回调页。
      *
@@ -114,13 +114,12 @@ public class Constant {
 //    public static final String WEB_KE_FU="http://w1.ttkefu.com/k/linkurl/?t=5J9GDJ5";
     //关于我们
     public static final String WEB_ABOUT_ME="https://comm.bscvip.com/about.html";
-    //新手学堂
-    public static final String WEB_NEWS_SCHOOL="https://comm.bscvip.com/newschool.html";
+
     //商品分享地址
     public static final String WEB_SHARE_GOODS="https://api.bscvip.com/details/detailshare.html";
     public static final String WEB_SHARE_GOODS2="https://api.bscvip.com/detailv2/detailshare.html";
     public static final String WEB_SHARE_GOODS_KF="https://api.bscvip.com/kf/detailshare.html";
-    public static final String WEB_GOODS_URL="https://xcx.bscvip.com/detailv2/detail.html";
+    public static final String WEB_GOODS_URL="https://api.bscvip.com/detailv2/detail.html";
     //赚钱 规则
     public static final String WEB_MAKE_MONEY="  https://comm.bscvip.com/makemoney.html";
 

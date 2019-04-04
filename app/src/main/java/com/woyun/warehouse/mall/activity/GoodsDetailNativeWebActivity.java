@@ -114,7 +114,7 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 
 
 /**
- * 商品详情-原生加web
+ * 商品详情-原生加web  没用到
  */
 public class GoodsDetailNativeWebActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, WbShareCallback {
     private static final String TAG = "NativeWebActivity";
@@ -810,8 +810,10 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
         super.onDestroy();
         Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
+        mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
     }
+
 
     private void goLogin() {
         Intent intent = new Intent(GoodsDetailNativeWebActivity.this, LoginActivity.class);
@@ -839,6 +841,8 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
 
     @Override
     protected void onPause() {
+        mAgentWeb.getWebLifeCycle().onPause();
+        mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
@@ -1154,6 +1158,7 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
+            ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).showLoading("", true);
             Log.e("Info", "BaseWebActivity onPageStarted");
         }
 
@@ -1162,13 +1167,26 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
             super.onPageFinished(view, url);
             Log.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GoodsDetailNativeWebActivity.this).closeLoading();
+            //webview加载完成之后重新测量webview的高度
+            ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
+            params.width = getResources().getDisplayMetrics().widthPixels;
+            //获取网页的高度
+            WebView mainWebView=mAgentWeb.getWebCreator().getWebView();
+            int htmlHeight= mainWebView.getContentHeight();//获取html高度
+//            Log.e(TAG, "onPageFinished: 高度"+htmlHeight);
+            float scale= mainWebView.getScale();//手机上网页缩放比例
+            int webViewHeight= mainWebView.getHeight();//WebView控件的高度
+            float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度
+            params.height = (int) v;
+            mLinearLayout.setLayoutParams(params);
+
         }
     };
 
     private WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            Log.e(TAG, "onProgressChanged: ");
+
             if (newProgress == 100) {
 
             }

@@ -25,7 +25,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.DefaultWebClient;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -120,7 +124,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     Toolbar toolBar;
 
     @BindView(R.id.webViewDetail)
-    LinearLayout mLinearLayout;
+    RelativeLayout mLinearLayout;
     @BindView(R.id.img_kf)
     ImageView imgKf;
     @BindView(R.id.img_collection)
@@ -194,7 +198,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     private int totalNum;
     private String goodesWebUrl;
     private String compareUrl;//比价url
-
+    protected AgentWeb mAgentWeb;
     Badge cartBadge;
     private int cartNum;
     //bannner
@@ -262,6 +266,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         totalNum = getIntent().getIntExtra("total_count", 0);
         isShelf = getIntent().getBooleanExtra("is_shelf", false);
         tvVoteNumWant.setText(wanNum + "人想要");
+
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
 
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
@@ -393,7 +399,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                             compareUrl = goodsDetailBean.getCompareUrl();
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
-//                            initWeb(goodesWebUrl);
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
                             cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
                             cartBadge.setGravityOffset(-2, -2, true);
@@ -805,6 +810,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         super.onDestroy();
         Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
+        mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
     }
 
@@ -834,6 +840,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
     @Override
     protected void onPause() {
+        mAgentWeb.getWebLifeCycle().onPause();
+        mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
@@ -1112,4 +1120,84 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     }
 
 
+    private void initWeb(String webUrl) {
+
+        LogUtils.e(TAG,webUrl);
+        mAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator()
+                .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(mWebViewClient)
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+//                .setWebLayout(new WebLayout(this))
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
+                .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+                .createAgentWeb()
+                .ready()
+                .go(webUrl);
+
+//
+//        //注入对象
+//        if (mAgentWeb != null) {
+//            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, GoodsDetailNativeWebActivity.this));
+//        }
+//
+//        mAgentWeb.getJsAccessEntrace().quickCallJs("getImage()");
+
+    }
+
+
+    private WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            //do you  work
+            ModelLoading.getInstance(GoodsDetailNativeActivity.this).showLoading("", true);
+            Log.e("Info", "BaseWebActivity onPageStarted");
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            Log.e(TAG, "onPageFinished: ");
+            ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
+            //webview加载完成之后重新测量webview的高度
+            ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
+            params.width = getResources().getDisplayMetrics().widthPixels;
+            //获取网页的高度
+            WebView mainWebView=mAgentWeb.getWebCreator().getWebView();
+            int htmlHeight= mainWebView.getContentHeight();//获取html高度
+//            Log.e(TAG, "onPageFinished: 高度"+htmlHeight);
+            float scale= mainWebView.getScale();//手机上网页缩放比例
+            int webViewHeight= mainWebView.getHeight();//WebView控件的高度
+            float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度
+            params.height = (int) v;
+            mLinearLayout.setLayoutParams(params);
+
+        }
+    };
+
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+
+            if (newProgress == 100) {
+
+            }
+            //do you work
+//            Log.i("Info","onProgress:"+newProgress);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+
+        }
+
+    };
 }

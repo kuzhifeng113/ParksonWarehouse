@@ -15,7 +15,6 @@
         >
         <!--webView-->
         <LinearLayout
-            android:id="@+id/webViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -197,61 +196,71 @@
                 android:minHeight="100dp"
                 android:layout_marginTop="20dp"
                 android:overScrollMode="never"
+                android:visibility="gone"
                 />
 
-            <TextView
-                android:textStyle="bold"
-                android:textSize="21sp"
-                android:text="购买须知"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333333"/>
+            <!--webView-->
+            <RelativeLayout
+                android:id="@+id/webViewDetail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1000dp"
+                android:visibility="visible">
+            </RelativeLayout>
 
-            <TextView
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:text="关于物流"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333333"/>
+            <!--<TextView-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="21sp"-->
+                <!--android:text="购买须知"-->
+                <!--android:layout_marginTop="25dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#333333"/>-->
 
-            <TextView
-                android:textSize="12sp"
-                android:text="百盛仓默认发中通快递，偏远地区发邮政小包。"
-                android:layout_marginTop="9dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#AFAFAF"/>
+            <!--<TextView-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="关于物流"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#333333"/>-->
 
-            <TextView
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:text="关于签收"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#333333"/>
+            <!--<TextView-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="百盛仓默认发中通快递，偏远地区发邮政小包。"-->
+                <!--android:layout_marginTop="9dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#AFAFAF"/>-->
 
-            <TextView
-                android:textSize="12sp"
-                android:text="哒呤，收到货一定当面验收，如快递外包装箱有破损，可以第一时间拍照联系客服或拒签，签收以后再退货，快递费由买家承担。"
-                android:layout_marginTop="9dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#AFAFAF"
-                android:layout_marginBottom="70dp"/>
+            <!--<TextView-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="14sp"-->
+                <!--android:text="关于签收"-->
+                <!--android:layout_marginTop="30dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#333333"/>-->
+
+            <!--<TextView-->
+                <!--android:textSize="12sp"-->
+                <!--android:text="哒呤，收到货一定当面验收，如快递外包装箱有破损，可以第一时间拍照联系客服或拒签，签收以后再退货，快递费由买家承担。"-->
+                <!--android:layout_marginTop="9dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#AFAFAF"-->
+                <!--android:layout_marginBottom="70dp"/>-->
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

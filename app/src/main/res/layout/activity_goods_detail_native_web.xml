@@ -204,7 +204,7 @@
                 android:id="@+id/webViewDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:minHeight="600dp"
+                android:minHeight="1000dp"
                 android:visibility="visible">
             </RelativeLayout>
 

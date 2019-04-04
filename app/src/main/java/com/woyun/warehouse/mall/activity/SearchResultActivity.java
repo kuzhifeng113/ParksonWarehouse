@@ -95,8 +95,7 @@ public class SearchResultActivity extends BaseActivity {
         goodsAdapter.setOnTypeItemClickListener(new CategorySearchAdapter.OnTypeItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Intent goodsDetail=new Intent(SearchResultActivity.this, GoodsDetailNativeActivity.class);
-                Intent goodsDetail=new Intent(SearchResultActivity.this, GoodsDetailNativeWebActivity.class);
+                Intent goodsDetail=new Intent(SearchResultActivity.this, GoodsDetailNativeActivity.class);
                 goodsDetail.putExtra("goods_id",listData.get(position).getGoodsId());
                 goodsDetail.putExtra("from_id",2);
                 startActivity(goodsDetail);
