@@ -306,7 +306,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
             rlVote.setVisibility(View.VISIBLE);
@@ -861,6 +861,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     @Override
     protected void onResume() {
         super.onResume();
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
@@ -900,7 +901,6 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
         mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
@@ -1749,7 +1749,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                 .createAgentWeb()
                 .ready()
                 .go(webUrl);
-
+        mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
 //
 //        //注入对象
 //        if (mAgentWeb != null) {

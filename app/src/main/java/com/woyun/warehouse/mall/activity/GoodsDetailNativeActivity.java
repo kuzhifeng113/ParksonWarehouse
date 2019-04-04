@@ -267,7 +267,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         isShelf = getIntent().getBooleanExtra("is_shelf", false);
         tvVoteNumWant.setText(wanNum + "人想要");
 
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
 
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
@@ -801,8 +801,16 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     @Override
     protected void onResume() {
         super.onResume();
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    }
+    @Override
+    protected void onPause() {
+        Log.e(TAG, "onPause: ");
+        mAgentWeb.clearWebCache();
+        super.onPause();
+        JzvdStd.releaseAllVideos();
     }
 
     @Override
@@ -838,13 +846,6 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
     }
 
-    @Override
-    protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
-        mAgentWeb.clearWebCache();
-        super.onPause();
-        JzvdStd.releaseAllVideos();
-    }
 
     @Override
     public void onBackPressed() {
@@ -1136,7 +1137,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                 .createAgentWeb()
                 .ready()
                 .go(webUrl);
-
+            //java.lang.IllegalStateException: Unable to create layer for WebView, size 1080x8448 exceeds max size
+            mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
 //
 //        //注入对象
 //        if (mAgentWeb != null) {

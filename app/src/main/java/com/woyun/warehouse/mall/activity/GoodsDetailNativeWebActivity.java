@@ -267,7 +267,7 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
         isShelf = getIntent().getBooleanExtra("is_shelf", false);
         tvVoteNumWant.setText(wanNum + "人想要");
 
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
 
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
@@ -801,6 +801,7 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
     @Override
     protected void onResume() {
         super.onResume();
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
@@ -841,9 +842,8 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
-        mAgentWeb.clearWebCache();
         super.onPause();
+        mAgentWeb.clearWebCache();
         JzvdStd.releaseAllVideos();
     }
 
@@ -1137,7 +1137,8 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
                 .createAgentWeb()
                 .ready()
 //                .go(webUrl);
-                .go("https://xcx.bscvip.com/detailv2/detail.html?id=218");
+                .go(webUrl);
+        mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
 //
 //        //注入对象
 //        if (mAgentWeb != null) {
