@@ -8,8 +8,8 @@ android {
         applicationId "com.woyun.warehouse"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 19
-        versionName "3.1.6"
+        versionCode 20
+        versionName "3.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -106,7 +106,9 @@ dependencies {
     implementation 'com.sina.weibo.sdk:core:4.3.6:openDefaultRelease@aar'//weibo
     implementation 'cn.jzvd:jiaozivideoplayer:6.4.1'//视频播放器
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
-    implementation 'com.zzhoujay.richtext:richtext:3.0.8'
+    implementation ('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
 
     implementation files('libs/alipaySdk-20180601.jar')
     implementation files('libs/OpenInstall_v2.2.0.jar')

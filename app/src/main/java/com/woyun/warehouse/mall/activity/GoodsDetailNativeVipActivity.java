@@ -296,7 +296,12 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         isVip = (boolean) SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.USER_IS_VIP, false);
         isLogin = (boolean) SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.IS_LOGIN, false);
         cartBadge = new QBadgeView(this);
-        toolBar.setNavigationOnClickListener(v -> finish());
+
+        toolBar.setNavigationOnClickListener(v ->{
+            mAgentWeb.clearWebCache();
+            finish();
+        });
+
         goodsId = getIntent().getIntExtra("goods_id", 0);
         if (isVip) {
             imgGoodsBuy.setText("购买");
@@ -304,9 +309,9 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             imgGoodsBuy.setText("开通会员");
         }
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
-        kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
+        kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
-//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+        initWeb(Constant.WEB_GOODS_URL + "?id=" + goodsId);
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
             rlVote.setVisibility(View.VISIBLE);
@@ -468,9 +473,9 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        if(isVip){
+        if (isVip) {
             tvBaoYou.setText("VIP包邮");
-        }else{
+        } else {
             tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
         }
 //        tvBaoYou.setText("全场满" + goodsDetailBean.getFreeShopping() + "包邮");
@@ -528,7 +533,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                         contentResList.add(resListBean);
                     }
                 }
-                for (int j = 0; j<position; j++) {
+                for (int j = 0; j < position; j++) {
                     if (contentListBeanList.get(j).getType() == 3) {
                         a++;
                     }
@@ -558,7 +563,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     }
 
 
-    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top,R.id.img_kf})
+    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top, R.id.img_kf})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_kf://客服
@@ -606,9 +611,11 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                     goLogin();
                     return;
                 }
+                mAgentWeb.clearWebCache();
                 Intent intent = new Intent(GoodsDetailNativeVipActivity.this, MainActivity.class);
                 intent.putExtra("go_cart", true);
                 startActivity(intent);
+
                 finish();
                 break;
             case R.id.img_goods_buy://购买
@@ -861,7 +868,6 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     @Override
     protected void onResume() {
         super.onResume();
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
@@ -876,6 +882,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     }
 
     private void goLogin() {
+        mAgentWeb.clearWebCache();
         Intent intent = new Intent(GoodsDetailNativeVipActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
@@ -901,13 +908,13 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
 
     @Override
     protected void onPause() {
-        mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
 
     @Override
     public void onBackPressed() {
+        mAgentWeb.clearWebCache();
         if (Jzvd.backPress()) {
             return;
         }
@@ -1735,7 +1742,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
 
     private void initWeb(String webUrl) {
 
-        LogUtils.e(TAG,webUrl);
+        LogUtils.e(TAG, webUrl);
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
@@ -1783,11 +1790,11 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
             params.width = getResources().getDisplayMetrics().widthPixels;
             //获取网页的高度
-            WebView mainWebView=mAgentWeb.getWebCreator().getWebView();
-            int htmlHeight= mainWebView.getContentHeight();//获取html高度
-            Log.e(TAG, "onPageFinished: 高度"+htmlHeight);
-            float scale= mainWebView.getScale();//手机上网页缩放比例
-            int webViewHeight= mainWebView.getHeight();//WebView控件的高度
+            WebView mainWebView = mAgentWeb.getWebCreator().getWebView();
+            int htmlHeight = mainWebView.getContentHeight();//获取html高度
+            Log.e(TAG, "onPageFinished: 高度" + htmlHeight);
+            float scale = mainWebView.getScale();//手机上网页缩放比例
+            int webViewHeight = mainWebView.getHeight();//WebView控件的高度
             float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度
             params.height = (int) v;
             mLinearLayout.setLayoutParams(params);

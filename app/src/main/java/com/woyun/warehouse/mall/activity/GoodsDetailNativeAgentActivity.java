@@ -292,13 +292,18 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
         isVip = (boolean) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.USER_IS_VIP, false);
         isLogin = (boolean) SPUtils.getInstance(GoodsDetailNativeAgentActivity.this).get(Constant.IS_LOGIN, false);
         cartBadge = new QBadgeView(this);
-        toolBar.setNavigationOnClickListener(v -> finish());
+
+        toolBar.setNavigationOnClickListener(v -> {
+            mAgentWeb.clearWebCache();
+            finish();
+        });
+
         goodsId = getIntent().getIntExtra("goods_id", 0);
 
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
-//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
             rlVote.setVisibility(View.VISIBLE);
@@ -412,7 +417,6 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
                             compareUrl = goodsDetailBean.getCompareUrl();
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
-//                            initWeb(goodesWebUrl);
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
                             cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
                             cartBadge.setGravityOffset(-2, -2, true);
@@ -609,9 +613,11 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
                     goLogin();
                     return;
                 }
+                mAgentWeb.clearWebCache();
                 Intent intent = new Intent(GoodsDetailNativeAgentActivity.this, MainActivity.class);
                 intent.putExtra("go_cart", true);
                 startActivity(intent);
+
                 finish();
                 break;
             case R.id.img_goods_buy://购买
@@ -862,7 +868,6 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     @Override
     protected void onResume() {
         super.onResume();
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
@@ -877,6 +882,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     }
 
     private void goLogin() {
+        mAgentWeb.clearWebCache();
         Intent intent = new Intent(GoodsDetailNativeAgentActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
@@ -902,13 +908,13 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
 
     @Override
     protected void onPause() {
-        mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
 
     @Override
     public void onBackPressed() {
+        mAgentWeb.clearWebCache();
         if (Jzvd.backPress()) {
             return;
         }

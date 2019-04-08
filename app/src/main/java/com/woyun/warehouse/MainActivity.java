@@ -37,6 +37,7 @@ import com.woyun.warehouse.baseparson.adapter.ViewPagerAdapter;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.cart.CartFragment;
+import com.woyun.warehouse.find.FindFragment;
 import com.woyun.warehouse.mall.MallFragmentTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.MyFragment;
@@ -150,7 +151,7 @@ public class MainActivity extends BaseActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         BottomNavigationViewHelper.disableShiftMode2(bottomNavigationView);
         bottomNavigationView.setItemIconTintList(null);//iconTint为null
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -180,6 +181,7 @@ public class MainActivity extends BaseActivity {
 //        list.add(new VoteFragment());
         list.add(new MallFragmentTwo());
         list.add(new VipFragment());
+        list.add(new FindFragment());
         list.add(new CartFragment());
         list.add(new MyFragment());
         viewPagerAdapter.setList(list);
@@ -242,13 +244,16 @@ public class MainActivity extends BaseActivity {
                 case R.id.navigation_vip:
                     viewPager.setCurrentItem(1);
                     return true;
+                case R.id.navigation_find:
+                    viewPager.setCurrentItem(2);
+                    return true;
                 case R.id.navigation_cart:
                     if (!isLogin) {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         return false;
                     } else {
-                        viewPager.setCurrentItem(2);
+                        viewPager.setCurrentItem(3);
                         return true;
                     }
 
@@ -258,7 +263,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(intent);
                         return false;
                     } else {
-                        viewPager.setCurrentItem(3);
+                        viewPager.setCurrentItem(4);
                         return true;
                     }
 

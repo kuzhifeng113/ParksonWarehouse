@@ -1,15 +1,22 @@
 package com.woyun.warehouse.mall.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.GoodCategoryBean;
@@ -54,10 +61,35 @@ public class LookViewPageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (imageBanners.get(position).getType() == 1) {//图片
-            PhotoView photoView=new PhotoView(container.getContext());
+//            PhotoView photoView=new PhotoView(container.getContext());
+//            Glide.with(mContext).load(imageBanners.get(position).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(photoView);
 
+            View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_photo, null);
+            PhotoView photoView=view.findViewById(R.id.photo_view);
+            ProgressBar progressBar=view.findViewById(R.id.progress_bar);
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).into(new GlideDrawableImageViewTarget(photoView) {
+                @Override
+                public void onLoadStarted(Drawable placeholder) {
+                    // 开始加载图片
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    progressBar.setVisibility(View.GONE);
+
+
+                }
+
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    super.onResourceReady(resource, glideAnimation);
+                    // 图片加载完成
+                    photoView.setImageDrawable(resource);
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
 //            DragPhotoView photoView=new DragPhotoView(container.getContext());
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).diskCacheStrategy(DiskCacheStrategy.ALL).into(photoView);
             //必须添加一个onExitListener,在拖拽到底部时触发.
 //            photoView.setOnExitListener(new DragPhotoView.OnExitListener() {
 //                @Override
@@ -81,8 +113,8 @@ public class LookViewPageAdapter extends PagerAdapter {
                 });
 
             }
-            container.addView(photoView);
-            return photoView;
+            container.addView(view);
+            return view;
 
         } else {//视频
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_video, null);

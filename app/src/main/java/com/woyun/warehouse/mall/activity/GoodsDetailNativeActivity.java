@@ -248,7 +248,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         isVip = (boolean) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.USER_IS_VIP, false);
         isLogin = (boolean) SPUtils.getInstance(GoodsDetailNativeActivity.this).get(Constant.IS_LOGIN, false);
         cartBadge = new QBadgeView(this);
-        toolBar.setNavigationOnClickListener(v -> finish());
+
+        toolBar.setNavigationOnClickListener(v -> {
+            mAgentWeb.clearWebCache();
+            finish();
+        });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
         if (isVip) {
@@ -257,7 +261,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 0;
         }
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
-        kfGoodsUrl=Constant.WEB_SHARE_GOODS_KF+"?goodsId="+goodsId;
+        kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
         fromType = getIntent().getIntExtra("from_id", 0);
         voteId = getIntent().getIntExtra("vote_id", 0);
         isHistory = getIntent().getBooleanExtra("is_History", false);
@@ -267,7 +271,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         isShelf = getIntent().getBooleanExtra("is_shelf", false);
         tvVoteNumWant.setText(wanNum + "人想要");
 
-//        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
+        initWeb(Constant.WEB_GOODS_URL + "?id=" + goodsId);
 
         if (fromType == 1) {//投票页面
             rlMall.setVisibility(View.GONE);
@@ -458,9 +462,9 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        if(isVip){
+        if (isVip) {
             tvBaoYou.setText("VIP包邮");
-        }else{
+        } else {
             tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
         }
         resListBeanList = goodsDetailBean.getResList();
@@ -516,7 +520,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                         contentResList.add(resListBean);
                     }
                 }
-                for (int j = 0; j<position; j++) {
+                for (int j = 0; j < position; j++) {
                     if (contentListBeanList.get(j).getType() == 3) {
                         a++;
                     }
@@ -596,6 +600,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                     goLogin();
                     return;
                 }
+                mAgentWeb.clearWebCache();
                 Intent intent = new Intent(GoodsDetailNativeActivity.this, MainActivity.class);
                 intent.putExtra("go_cart", true);
                 startActivity(intent);
@@ -801,14 +806,12 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     @Override
     protected void onResume() {
         super.onResume();
-        initWeb(Constant.WEB_GOODS_URL+"?id="+goodsId);
         Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
         Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
+
     @Override
     protected void onPause() {
-        Log.e(TAG, "onPause: ");
-        mAgentWeb.clearWebCache();
         super.onPause();
         JzvdStd.releaseAllVideos();
     }
@@ -823,6 +826,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     }
 
     private void goLogin() {
+        mAgentWeb.clearWebCache();
         Intent intent = new Intent(GoodsDetailNativeActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
@@ -849,6 +853,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
     @Override
     public void onBackPressed() {
+        mAgentWeb.clearWebCache();
         if (Jzvd.backPress()) {
             return;
         }
@@ -1123,7 +1128,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 
     private void initWeb(String webUrl) {
 
-        LogUtils.e(TAG,webUrl);
+        LogUtils.e(TAG, webUrl);
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
@@ -1137,8 +1142,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                 .createAgentWeb()
                 .ready()
                 .go(webUrl);
-            //java.lang.IllegalStateException: Unable to create layer for WebView, size 1080x8448 exceeds max size
-            mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
+        //java.lang.IllegalStateException: Unable to create layer for WebView, size 1080x8448 exceeds max size
+        mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
 //
 //        //注入对象
 //        if (mAgentWeb != null) {
@@ -1172,11 +1177,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
             params.width = getResources().getDisplayMetrics().widthPixels;
             //获取网页的高度
-            WebView mainWebView=mAgentWeb.getWebCreator().getWebView();
-            int htmlHeight= mainWebView.getContentHeight();//获取html高度
+            WebView mainWebView = mAgentWeb.getWebCreator().getWebView();
+            int htmlHeight = mainWebView.getContentHeight();//获取html高度
 //            Log.e(TAG, "onPageFinished: 高度"+htmlHeight);
-            float scale= mainWebView.getScale();//手机上网页缩放比例
-            int webViewHeight= mainWebView.getHeight();//WebView控件的高度
+            float scale = mainWebView.getScale();//手机上网页缩放比例
+            int webViewHeight = mainWebView.getHeight();//WebView控件的高度
             float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度
             params.height = (int) v;
             mLinearLayout.setLayoutParams(params);
