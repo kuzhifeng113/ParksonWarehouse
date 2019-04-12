@@ -38,6 +38,7 @@ import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.cart.CartFragment;
 import com.woyun.warehouse.find.FindFragment;
+import com.woyun.warehouse.grabbuy.GrabBuyFragment;
 import com.woyun.warehouse.mall.MallFragmentTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.MyFragment;
@@ -181,7 +182,7 @@ public class MainActivity extends BaseActivity {
 //        list.add(new VoteFragment());
         list.add(new MallFragmentTwo());
         list.add(new VipFragment());
-        list.add(new FindFragment());
+        list.add(new GrabBuyFragment());
         list.add(new CartFragment());
         list.add(new MyFragment());
         viewPagerAdapter.setList(list);
@@ -244,7 +245,7 @@ public class MainActivity extends BaseActivity {
                 case R.id.navigation_vip:
                     viewPager.setCurrentItem(1);
                     return true;
-                case R.id.navigation_find:
+                case R.id.navigation_grab:
                     viewPager.setCurrentItem(2);
                     return true;
                 case R.id.navigation_cart:

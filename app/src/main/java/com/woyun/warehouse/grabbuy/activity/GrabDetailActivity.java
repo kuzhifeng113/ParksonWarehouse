@@ -1,26 +1,34 @@
-package com.woyun.warehouse.mall.activity;
+package com.woyun.warehouse.grabbuy.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -31,7 +39,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
-import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
@@ -55,22 +62,25 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.baseparson.KeFuWebViewActivity;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.bean.CartShopBean;
+import com.woyun.warehouse.bean.ContentListBean;
 import com.woyun.warehouse.bean.GoodsDetailBean;
+import com.woyun.warehouse.bean.ResListBean;
 import com.woyun.warehouse.bean.SkuListBean;
 import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.mall.ProductSkuDialog;
-import com.woyun.warehouse.my.activity.AboutMeActivity;
-import com.woyun.warehouse.my.activity.ShareActivity;
-import com.woyun.warehouse.utils.AndroidInterface;
+import com.woyun.warehouse.mall.activity.LookImageVideoActivity;
+import com.woyun.warehouse.mall.adapter.NativeContentAdapter;
+import com.woyun.warehouse.mall.adapter.NativeViewPageAdapter;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
+import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
 
 import org.json.JSONArray;
@@ -83,25 +93,31 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jzvd.Jzvd;
+import cn.jzvd.JzvdStd;
+import cn.udesk.UdeskSDKManager;
+import cn.udesk.config.UdeskConfig;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
+import udesk.core.UdeskConst;
 
 import static com.woyun.warehouse.utils.ShareWx.bmpToByteArray2;
 import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 
 
 /**
- * 商品详情--webview
+ * 抢购商品详情
  */
-public class GoodsDetailActivity extends BaseActivity implements CommonPopupWindow.ViewInterface ,WbShareCallback {
-    private static final String TAG = "GoodsDetailActivity";
+public class GrabDetailActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, WbShareCallback {
+    private static final String TAG = "GrabDetailActivity";
     private static final int THUMB_SIZE = 150;
     private static final int REFRESH_COMPLETE = 1000;
     @BindView(R.id.toolBar)
@@ -109,36 +125,46 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 
     @BindView(R.id.webViewDetail)
     RelativeLayout mLinearLayout;
-    //    @BindView(R.id.img_kf)
-//    ImageView imgKf;
-    @BindView(R.id.img_collection)
-    ImageView imgCollection;
-    @BindView(R.id.img_cart)
-    ImageView imgCart;
+    @BindView(R.id.img_kf)
+    ImageView imgKf;
+
+
     @BindView(R.id.img_goods_buy)
-    ImageView imgGoodsBuy;
-    @BindView(R.id.img_goods_join_cart)
-    ImageView imgGoodsJoinCart;
+    Button imgGoodsBuy;
+
     @BindView(R.id.rl_mall)
     RelativeLayout rlMall;
-    @BindView(R.id.rl_vote_kf)
-    RelativeLayout rlVoteKf;
-    @BindView(R.id.tv_vote_num_want)
-    TextView tvVoteNumWant;
-    @BindView(R.id.preview_progressBar)
-    ProgressBar previewProgressBar;
-    @BindView(R.id.btn_vote_want)
-    TextView btnVoteWant;
-    @BindView(R.id.rl_vote)
-    RelativeLayout rlVote;
-    @BindView(R.id.btn_vote_buy)
-    TextView btnVoteBuy;
+
     @BindView(R.id.img_goods_share)
     ImageView imgGoodsShare;
     @BindView(R.id.img_bijia)
     ImageView imgBijia;
-    @BindView(R.id.tv_content)
-    TextView tvRichContent;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.tv_show_num)
+    TextView tvShowNum;
+//    @BindView(R.id.tv_vip_back)
+//    TextView tvVipBack;
+    @BindView(R.id.tv_goods_price)
+    TextView tvGoodsPrice;
+    @BindView(R.id.tv_goods_title)
+    TextView tvGoodsTitle;
+    @BindView(R.id.tv_transport)
+    TextView tvTransport;
+    @BindView(R.id.tv_sales_volume)
+    TextView tvSalesVolume;
+    @BindView(R.id.tv_stock)
+    TextView tvStock;
+    @BindView(R.id.tv_bao_you)
+    TextView tvBaoYou;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.img_back_top)
+    ImageView imgBackTop;
+    @BindView(R.id.tv_price)
+    TextView tvPrice;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
 
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
@@ -149,27 +175,24 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     private boolean isLogin;
 
     private int goodsId;//商品id
-    private int fromType;//投票页面过来的 1   还是商城页面过来的2
-    private int voteId;//投票id
-    private boolean isHistory;//是否是历史期数
-    private boolean isVote;//是否投票
-    private boolean isShelf;//历史期数商品是否上架
-    private int wanNum;
-    private int totalNum;
     private String goodesWebUrl;
-
     private String compareUrl;//比价url
-
     protected AgentWeb mAgentWeb;
     Badge cartBadge;
     private int cartNum;
+    //bannner
+    private List<ResListBean> resListBeanList = new ArrayList<>();
+    private NativeViewPageAdapter nativeViewPageAdapter;
 
+    private List<ContentListBean> contentListBeanList = new ArrayList<>();
+    private List<ResListBean> contentResList = new ArrayList<>();
+    private NativeContentAdapter nativeContentAdapter;
     //分享
     private CommonPopupWindow popupWindow;
     private IWXAPI iwxApi;
     private String shareTile, shareContent, shareUrl, shareIconUrl;
     private Bitmap mBitmapCover;
-
+    private String kfGoodsUrl;//发送给客服的商品链接
     private Tencent mTencent;
     private Activity mContext;
     private ShareQQListener mIUiListener;
@@ -190,22 +213,24 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_goods_detail_web);
+        setContentView(R.layout.activity_grab_detail);
         ButterKnife.bind(this);
-        mContext = GoodsDetailActivity.this;
+        mContext = GrabDetailActivity.this;
         mIUiListener = new ShareQQListener();
-        iwxApi = WXAPIFactory.createWXAPI(GoodsDetailActivity.this, Constant.WX_APP_ID);
+        iwxApi = WXAPIFactory.createWXAPI(GrabDetailActivity.this, Constant.WX_APP_ID);
         iwxApi.registerApp(Constant.WX_APP_ID);
         mTencent = Tencent.createInstance(Constant.QQ_APP_ID, getApplicationContext());
         //微博
-        shareHandler = new WbShareHandler(GoodsDetailActivity.this);
+        shareHandler = new WbShareHandler(GrabDetailActivity.this);
         shareHandler.registerApp();
 
-        isVip = (boolean) SPUtils.getInstance(GoodsDetailActivity.this).get(Constant.USER_IS_VIP, false);
-        isLogin = (boolean) SPUtils.getInstance(GoodsDetailActivity.this).get(Constant.IS_LOGIN, false);
-        cartBadge = new QBadgeView(this);
-        toolBar.setNavigationOnClickListener(v -> finish());
+        isVip = (boolean) SPUtils.getInstance(GrabDetailActivity.this).get(Constant.USER_IS_VIP, false);
+        isLogin = (boolean) SPUtils.getInstance(GrabDetailActivity.this).get(Constant.IS_LOGIN, false);
 
+        toolBar.setNavigationOnClickListener(v -> {
+            mAgentWeb.clearWebCache();
+            finish();
+        });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
         if (isVip) {
@@ -214,78 +239,36 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 0;
         }
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
-        ModelLoading.getInstance(GoodsDetailActivity.this).showLoading("", true);
-        initWeb(goodesWebUrl);
-        fromType = getIntent().getIntExtra("from_id", 0);
-        voteId = getIntent().getIntExtra("vote_id", 0);
-        isHistory = getIntent().getBooleanExtra("is_History", false);
-        isVote = getIntent().getBooleanExtra("is_vote", false);
-        wanNum = getIntent().getIntExtra("wan_count", 0);
-        totalNum = getIntent().getIntExtra("total_count", 0);
-        isShelf = getIntent().getBooleanExtra("is_shelf", false);
-        tvVoteNumWant.setText(wanNum + "人想要");
-//        Log.e(TAG, "onCreate:商品id===" + goodsId);
-//        Log.e(TAG, "onCreate:fromType===" + fromType);
-//        Log.e(TAG, "onCreate:voteId===" + voteId);
-//        Log.e(TAG, "onCreate:isHistory===" + isHistory);
-//        Log.e(TAG, "onCreate:wanNum===" + wanNum);
-//        Log.e(TAG, "onCreate:totalNum===" + totalNum);
-//        Log.e(TAG, "onCreate:isShelf===" + isShelf);
+        kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
 
-        if (fromType == 1) {//投票页面
-            rlMall.setVisibility(View.GONE);
-            rlVote.setVisibility(View.VISIBLE);
 
-            if (isHistory) {//历史期数
-                btnVoteWant.setVisibility(View.GONE);
-                btnVoteBuy.setVisibility(View.VISIBLE);
-                if (isShelf) {//上架
-                    btnVoteBuy.setClickable(true);
-                    btnVoteBuy.setText("购买");
-                    btnVoteBuy.setBackgroundResource(R.drawable.shape_vote_buy_detail);
-                } else {
-                    btnVoteBuy.setClickable(false);
-                    btnVoteBuy.setText("已下架");
-                    btnVoteBuy.setBackgroundResource(R.drawable.shape_vote_no_buy_detail);
-                }
+        initWeb(Constant.WEB_GOODS_URL + "?id=" + goodsId);
 
-            } else {
-                btnVoteWant.setVisibility(View.VISIBLE);
-                btnVoteBuy.setVisibility(View.GONE);
-                if (isVote) {//已投票
-                    btnVoteWant.setText("已预购");
-                    btnVoteWant.setClickable(false);
-                    btnVoteWant.setEnabled(false);
-                    btnVoteWant.setBackgroundResource(R.drawable.shape_vote_detail_want_no);
-                } else {
-                    btnVoteWant.setText("预购");
-                    btnVoteWant.setClickable(true);
-                    btnVoteWant.setEnabled(true);
-                    btnVoteWant.setBackgroundResource(R.drawable.shape_vote_detail_want);
-                }
-            }
-
-            NumberFormat numberFormat = NumberFormat.getInstance();
-            numberFormat.setMaximumFractionDigits(2);//保留2位小数
-            String percentage = numberFormat.format((float) wanNum / (float) totalNum * 100);
-            if (percentage.contains(".")) {
-                String result = percentage.substring(0, percentage.indexOf("."));
-                previewProgressBar.setProgress(Integer.valueOf(result));
-            } else {
-                previewProgressBar.setProgress(Integer.valueOf(percentage));
-            }
-        } else if (fromType == 2) {
-            rlMall.setVisibility(View.VISIBLE);
-            rlVote.setVisibility(View.GONE);
-        } else {//会员礼包---代理礼包
-            setMargins(mLinearLayout, 0, 0, 0, 0);
-            rlMall.setVisibility(View.GONE);
-            rlVote.setVisibility(View.GONE);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (recyclerView.getItemDecorationCount() == 0) {
+            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(GrabDetailActivity.this, 7)));//垂直间距
         }
-
-
         initData();
 
+        WindowManager manager = this.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int width = outMetrics.widthPixels;
+        int height = outMetrics.heightPixels;
+//        Log.e(TAG, "onCreate: 屏幕高2"+height);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
+
+                if (scrollY > 2 * height) {//大于2个屏幕的高度
+                    imgBackTop.setVisibility(View.VISIBLE);
+                } else {
+                    imgBackTop.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -330,58 +313,54 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
      * @param
      */
     private void getData(int goodsID) {
-
+        ModelLoading.getInstance(GrabDetailActivity.this).showLoading("", true);
         //获取数据
         try {
             JSONObject params = new JSONObject();
             params.put("goodsId", goodsID);
             params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailActivity.this, params, TAG, ReqConstance.I_GOODS_DETAIL, 1, new HSRequestCallBackInterface() {
+            RequestInterface.goodsPrefix(GrabDetailActivity.this, params, TAG, ReqConstance.I_GOODS_DETAIL, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-//                    ModelLoading.getInstance(GoodsDetailActivity.this).closeLoading();
-                    tokenTimeLimit(GoodsDetailActivity.this, code);
+                    ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+                    tokenTimeLimit(GrabDetailActivity.this, code);
                     if (code == 0) {
                         String jsonResult = jsonArray.toString();
                         try {
                             Gson gson = new Gson();
                             goodsDetailBean = gson.fromJson(jsonArray.get(0).toString(), GoodsDetailBean.class);
-//                            goodsDetailBean = gson.fromJson(jsonArray.get(0).toString(), GoodsDetailBean.class);
                             compareUrl = goodsDetailBean.getCompareUrl();
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
-//                            initWeb(goodesWebUrl);
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
-                            cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
-                            cartBadge.setGravityOffset(-2, -2, true);
+//                            cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
+//                            cartBadge.setGravityOffset(-2, -2, true);
                             isFavorite = goodsDetailBean.isIsFavorite();
                             shareTile = goodsDetailBean.getName();
                             shareContent = goodsDetailBean.getTitle();
                             shareIconUrl = goodsDetailBean.getImage();
 
-                            if (isFavorite) {//是否收藏
-                                imgCollection.setImageResource(R.mipmap.ic_goods_sc_red);
-                            } else {
-                                imgCollection.setImageResource(R.mipmap.ic_goods_sc);
-                            }
+//                            if (isFavorite) {//是否收藏
+//                                imgCollection.setImageResource(R.mipmap.ic_goods_sc_red);
+//                            } else {
+//                                imgCollection.setImageResource(R.mipmap.ic_goods_sc);
+//                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-//                            Log.e(TAG, "requestSuccess: " + jsonResult);
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GrabDetailActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-//                    ModelLoading.getInstance(GoodsDetailActivity.this).closeLoading();
-                    imgGoodsJoinCart.setClickable(false);
+                    ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+//                    imgGoodsJoinCart.setClickable(false);
                     imgGoodsBuy.setClickable(false);
                     imgGoodsShare.setClickable(false);
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -396,8 +375,99 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
      * @param goodsDetailBean
      */
     private void pasterData(GoodsDetailBean goodsDetailBean) {
+        resListBeanList.clear();
+        contentListBeanList.clear();
         List<SkuListBean> skuList = goodsDetailBean.getSkuList();
         skuListBeanList.addAll(skuList);
+        //ui
+        tvShowNum.setText("1/" + goodsDetailBean.getResList().size());
+        tvPrice.setText(goodsDetailBean.getVipPrice());
+//        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
+        tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsTitle.setText(goodsDetailBean.getName());
+
+        tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
+        tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
+        tvStock.setText("库存：" + goodsDetailBean.getStock());
+        if (isVip) {
+            tvBaoYou.setText("VIP包邮");
+        } else {
+            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+        }
+        resListBeanList = goodsDetailBean.getResList();
+        contentListBeanList = goodsDetailBean.getContentList();
+
+        nativeContentAdapter = new NativeContentAdapter(GrabDetailActivity.this, contentListBeanList);
+        recyclerView.setAdapter(nativeContentAdapter);
+
+        nativeViewPageAdapter = new NativeViewPageAdapter(GrabDetailActivity.this, resListBeanList);
+        viewPager.setAdapter(nativeViewPageAdapter);
+
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int index, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int index) {
+                tvShowNum.setText(index + 1 + "/" + resListBeanList.size());
+                Jzvd.releaseAllVideos();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        //查看大图
+        nativeViewPageAdapter.setOnItemClickListener(new NativeViewPageAdapter.OnItemClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemClick(int index) {
+                Intent toLook = new Intent(GrabDetailActivity.this, LookImageVideoActivity.class);
+                toLook.putExtra("reslist", (Serializable) resListBeanList);
+                toLook.putExtra("index", index);
+                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GrabDetailActivity.this).toBundle());
+            }
+        });
+        //内容查看大图  下标 判断他之前有多少种type=3  文字然后减去 得到最新的下标
+        nativeContentAdapter.setOnItemClickListener(new NativeContentAdapter.OnItemClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onItemClick(int position) {
+                contentResList.clear();
+                int a = 0;
+                for (int i = 0; i < contentListBeanList.size(); i++) {
+                    if (contentListBeanList.get(i).getType() == 1 || contentListBeanList.get(i).getType() == 2) {
+                        ResListBean resListBean = new ResListBean();
+                        resListBean.setType(contentListBeanList.get(i).getType());
+                        resListBean.setVideoUrl(contentListBeanList.get(i).getVideoUrl());
+                        resListBean.setImage(contentListBeanList.get(i).getImage());
+                        contentResList.add(resListBean);
+                    }
+                }
+                for (int j = 0; j < position; j++) {
+                    if (contentListBeanList.get(j).getType() == 3) {
+                        a++;
+                    }
+                }
+
+                Log.e(TAG, "onItemClick: a===" + a);
+
+                Intent toLook = new Intent(GrabDetailActivity.this, LookImageVideoActivity.class);
+                toLook.putExtra("reslist", (Serializable) contentResList);
+                if (a > position) {
+                    toLook.putExtra("index", position);
+                } else {
+                    toLook.putExtra("index", position - a);
+                }
+
+                startActivity(toLook, ActivityOptions.makeSceneTransitionAnimation(GrabDetailActivity.this).toBundle());
+            }
+        });
+
+
     }
 
     @Override
@@ -406,104 +476,62 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         mImmersionBar.statusBarDarkFont(true).init();
     }
 
-    private void initWeb(String webUrl) {
-        mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
-                .useDefaultIndicator()
-                .setWebChromeClient(mWebChromeClient)
-                .setWebViewClient(mWebViewClient)
-                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
-                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-//                .setWebLayout(new WebLayout(this))
-                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
-                .interceptUnkownUrl() //拦截找不到相关页面的Scheme
-                .createAgentWeb()
-                .ready()
-                .go(webUrl);
 
-        //注入对象
-        if (mAgentWeb != null) {
-            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, GoodsDetailActivity.this));
-        }
-
-        mAgentWeb.getJsAccessEntrace().quickCallJs("getImage()");
-
-    }
-
-    private WebViewClient mWebViewClient = new WebViewClient() {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            //do you  work
-            Log.i("Info", "BaseWebActivity onPageStarted");
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
-            ModelLoading.getInstance(GoodsDetailActivity.this).closeLoading();
-        }
-    };
-
-    private WebChromeClient mWebChromeClient = new WebChromeClient() {
-        @Override
-        public void onProgressChanged(WebView view, int newProgress) {
-            Log.e(TAG, "onProgressChanged: ");
-            if (newProgress == 100) {
-
-            }
-            //do you work
-//            Log.i("Info","onProgress:"+newProgress);
-        }
-
-        @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-
-        }
-
-    };
-
-
-    @OnClick({R.id.img_collection, R.id.img_cart, R.id.img_goods_buy, R.id.img_goods_join_cart, R.id.rl_vote_kf, R.id.btn_vote_want, R.id.btn_vote_buy, R.id.img_goods_share, R.id.img_bijia})
+    @OnClick({R.id.img_goods_buy, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top, R.id.img_kf})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-//            case R.id.img_kf://客服
+            case R.id.img_kf://客服
+                if (!isLogin) {
+                    goLogin();
+                    return;
+                }
+                Log.e(TAG, "onViewClicked: kf");
+//                UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
+//                        Constant.UDESK_KEY, Constant.UDESK_APPID);
+                String sdkToken = loginUserId;
+
+                Map<String, String> info = new HashMap<String, String>();
+                //以下信息是可选
+                info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(GrabDetailActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+                info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(GrabDetailActivity.this).get(Constant.USER_MOBILE, ""));//手机
+
+                UdeskConfig.Builder builder = new UdeskConfig.Builder();
+
+                //toolBar 背景色
+                builder.setUdeskTitlebarBgResId(R.color.white)//设置标题栏TitleBar的背景色
+                        .setUdeskTitlebarTextLeftRightResId(R.color.text_black)//设置标题栏TitleBar，左右两侧文字的颜色
+                        .setUdeskbackArrowIconResId(R.mipmap.back_black) // 设置返回箭头图标资源id
+                        .setUdeskProductLinkColorResId(R.color.white) //设置商品信息 带链接时显示的颜色
+
+                        .setDefualtUserInfo(info)
+                        .setCustomerUrl((String) SPUtils.getInstance(GrabDetailActivity.this).get(Constant.USER_AVATAR, ""))//用户头像
+                        .setCommodity(UdeskHelp.getInstance().createCommodity(goodsDetailBean, kfGoodsUrl))
+                        .setProduct(UdeskHelp.getInstance().createProduct(goodsDetailBean, kfGoodsUrl));
+                UdeskSDKManager.getInstance().entryChat(getApplicationContext(), builder.build(), sdkToken);
+
+                break;
+//            case R.id.img_collection://收藏
 //                if (!isLogin) {
 //                    goLogin();
 //                    return;
 //                }
-//                Intent kefu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
-//                kefu.putExtra("web_url", Constant.WEB_KE_FU);
-//                startActivity(kefu);
+//                if (isFavorite) {
+//                    //取消
+//                    deleteFavorite();
+//                } else {
+//                    insertFavorite();
+//                }
 //                break;
-            case R.id.img_collection://收藏
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                if (isFavorite) {
-                    //取消
-                    deleteFavorite();
-                } else {
-                    insertFavorite();
-                }
-                break;
-            case R.id.img_cart://去往购物车
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                Intent intent = new Intent(GoodsDetailActivity.this, MainActivity.class);
-                intent.putExtra("go_cart", true);
-                startActivity(intent);
-                finish();
-                break;
+//            case R.id.img_cart://去往购物车
+//                if (!isLogin) {
+//                    goLogin();
+//                    return;
+//                }
+//                Intent intent = new Intent(GrabDetailActivity.this, MainActivity.class);
+//                intent.putExtra("go_cart", true);
+//                startActivity(intent);
+//                finish();
+//                break;
             case R.id.img_goods_buy://购买
                 if (!isLogin) {
                     goLogin();
@@ -511,121 +539,36 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
                 }
                 showDilog(2);
                 break;
-            case R.id.img_goods_join_cart://加入购物车
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                showDilog(1);
-                break;
-            case R.id.rl_vote_kf://投票--客服
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                Intent voteKeFu = new Intent(GoodsDetailActivity.this, KeFuWebViewActivity.class);
-                voteKeFu.putExtra("web_url", Constant.WEB_KE_FU);
-                startActivity(voteKeFu);
-                break;
-            case R.id.btn_vote_want://投票--我想要
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                Log.e(TAG, "onViewClicked:投票--我想要 ");
-                doVote(loginUserId, voteId, goodsId);
-                break;
-            case R.id.btn_vote_buy://投票--购买
-                if (!isLogin) {
-                    goLogin();
-                    return;
-                }
-                Log.e(TAG, "onViewClicked: 投票--购买");
-                showDilog(2);
-                break;
+//            case R.id.img_goods_join_cart://加入购物车
+//                if (!isLogin) {
+//                    goLogin();
+//                    return;
+//                }
+//                showDilog(1);
+//                break;
+
             case R.id.img_goods_share:
                 returnBitMap(shareIconUrl);
 //                showSharePop();
                 break;
             case R.id.img_bijia://比价
                 if (TextUtils.isEmpty(compareUrl)) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast("未找到同类商品~");
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast("未找到同类商品~");
                 } else {
-                    Intent priva = new Intent(GoodsDetailActivity.this, MyWebViewActivity.class);
+                    Intent priva = new Intent(GrabDetailActivity.this, MyWebViewActivity.class);
                     priva.putExtra("web_url", compareUrl);
                     startActivity(priva);
                 }
                 break;
-        }
-    }
-
-    /**
-     * 添加收藏
-     *
-     * @param
-     */
-    private void insertFavorite() {
-        //获取数据
-        try {
-            JSONObject params = new JSONObject();
-            params.put("goodsId", goodsDetailBean.getGoodsId());
-            params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_INSERT, 1, new HSRequestCallBackInterface() {
-                @Override
-                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    if (code == 0) {
-                        imgCollection.setImageResource(R.mipmap.ic_goods_sc_red);
-                        isFavorite = true;
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                    } else {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                    }
-                }
-
-                @Override
-                public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(s);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+            case R.id.img_back_top://置顶
+                nestedScrollView.fling(0);
+                nestedScrollView.smoothScrollTo(0, 0);
+                break;
         }
     }
 
 
-    /**
-     * 取消收藏
-     *
-     * @param
-     */
-    private void deleteFavorite() {
-        //获取数据
-        try {
-            JSONObject params = new JSONObject();
-            params.put("goodsId", goodsDetailBean.getGoodsId());
-            params.put("userid", loginUserId);
-            RequestInterface.goodsPrefix(GoodsDetailActivity.this, params, TAG, ReqConstance.I_GOODS_FAVORITE_DELETE, 1, new HSRequestCallBackInterface() {
-                @Override
-                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    if (code == 0) {
-                        imgCollection.setImageResource(R.mipmap.ic_goods_sc);
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                        isFavorite = false;
 
-                    } else {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                    }
-                }
-
-                @Override
-                public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(s);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**
@@ -659,22 +602,22 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
             params.put("memo", memo);//SKU 的specValue值拼接，“黑色，L”
 
 
-            RequestInterface.cartPrefix(GoodsDetailActivity.this, params, TAG, ReqConstance.I_CART_ADD, 1, new HSRequestCallBackInterface() {
+            RequestInterface.cartPrefix(GrabDetailActivity.this, params, TAG, ReqConstance.I_CART_ADD, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast(msg);
                     if (code == 0) {
                         cartBadge.setBadgeNumber(cartNum + 1);
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GrabDetailActivity.this).showToast(msg);
                         String jsonResult = jsonArray.toString();
                     } else {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
+                        ToastUtils.getInstanc(GrabDetailActivity.this).showToast(msg);
                     }
                 }
 
                 @Override
                 public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(s);
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast(s);
                 }
             });
         } catch (Exception e) {
@@ -713,7 +656,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         List<CartShopBean.CartListBean> selectList = new ArrayList<>();
         selectList.add(entity);
 
-        Intent intent = new Intent(GoodsDetailActivity.this, OrderXiaDanActivity.class);
+        Intent intent = new Intent(GrabDetailActivity.this, OrderXiaDanActivity.class);
         intent.putExtra("total_price", totalPrice);
         intent.putExtra("select_data", (Serializable) selectList);
         startActivity(intent);
@@ -721,66 +664,17 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     }
 
 
-    /**
-     * 投票
-     */
-    private void doVote(String userid, int votid, int goodsid) {
-        try {
-            JSONObject params = new JSONObject();
-            params.put("userid", userid);
-            params.put("voteId", votid);
-            params.put("goodsId", goodsid);
-            RequestInterface.voteRequest(GoodsDetailActivity.this, params, TAG, ReqConstance.I_VOTE_GOODS_INSERT, 1, new HSRequestCallBackInterface() {
-                @Override
-                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    if (code == 0) {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                        btnVoteWant.setText("已预购");
-                        btnVoteWant.setClickable(false);
-                        btnVoteWant.setEnabled(false);
-                        btnVoteWant.setBackgroundResource(R.drawable.shape_vote_detail_want_no);
-                        tvVoteNumWant.setText(wanNum + 1 + "人想要");
-                    } else {
-                        ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(msg);
-                    }
-                }
-
-                @Override
-                public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(GoodsDetailActivity.this).showToast(s);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    protected void onResume() {
+        super.onResume();
+        Jzvd.FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        Jzvd.NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
 
     @Override
     protected void onPause() {
-        if (mAgentWeb != null) {
-            mAgentWeb.getWebLifeCycle().onPause();
-        }
         super.onPause();
-
-    }
-
-    @Override
-    protected void onResume() {
-        if (mAgentWeb != null) {
-            mAgentWeb.getWebLifeCycle().onResume();
-        }
-        super.onResume();
+        JzvdStd.releaseAllVideos();
     }
 
     @Override
@@ -789,12 +683,12 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
-        mAgentWeb.clearWebCache();
-        ModelLoading.getInstance(GoodsDetailActivity.this).closeLoading();
+        ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
     }
 
     private void goLogin() {
-        Intent intent = new Intent(GoodsDetailActivity.this, LoginActivity.class);
+        mAgentWeb.clearWebCache();
+        Intent intent = new Intent(GrabDetailActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
@@ -817,16 +711,26 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        mAgentWeb.clearWebCache();
+        if (Jzvd.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
     /**
      * 弹窗 商品详情链接分享
      */
     private void showSharePop() {
 
         if (popupWindow != null && popupWindow.isShowing()) return;
-        View upView = LayoutInflater.from(GoodsDetailActivity.this).inflate(R.layout.popup_share, null);
+        View upView = LayoutInflater.from(GrabDetailActivity.this).inflate(R.layout.popup_share, null);
         //测量View的宽高
         DensityUtils.measureWidthAndHeight(upView);
-        popupWindow = new CommonPopupWindow.Builder(GoodsDetailActivity.this)
+        popupWindow = new CommonPopupWindow.Builder(GrabDetailActivity.this)
                 .setView(R.layout.popup_share)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
                 .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
@@ -874,7 +778,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
                 /**
                  * 第三方应用发送请求消息到微博，唤起微博分享界面。
                  */
-                sendMessage(true,false);
+                sendMessage(true, false);
             }
         });
 
@@ -912,6 +816,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 
     /**
      * 微博分享
+     *
      * @param hasText
      * @param hasImage
      */
@@ -937,6 +842,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 
     /**
      * 创建文本消息对象。
+     *
      * @return 文本消息对象。
      */
     private TextObject getTextObj() {
@@ -949,11 +855,12 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 
     /**
      * 创建图片消息对象。
+     *
      * @return 图片消息对象。
      */
     private ImageObject getImageObj() {
         ImageObject imageObject = new ImageObject();
-        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg_agent_center);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg_agent_center);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }
@@ -962,7 +869,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
      * 获取分享的文本模板。
      */
     private String getSharedText(String shareContent) {
-        String text =shareContent+shareUrl ;
+        String text = shareContent + shareUrl;
         return text;
     }
 
@@ -1038,7 +945,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         @Override
         public void onError(UiError error) {
             Log.e(TAG, "onError: ");
-            Toast.makeText(GoodsDetailActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
+            Toast.makeText(GrabDetailActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -1053,7 +960,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
-        shareHandler.doResultIntent(data,this);
+        shareHandler.doResultIntent(data, this);
         if (requestCode == Constants.REQUEST_API) {
             if (resultCode == Constants.REQUEST_QQ_SHARE || resultCode == Constants.REQUEST_QZONE_SHARE || resultCode == Constants.REQUEST_OLD_SHARE) {
                 Tencent.handleResultData(data, mIUiListener);
@@ -1078,4 +985,87 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     public void onWbShareCancel() {
         Toast.makeText(this, R.string.weibosdk_demo_toast_share_canceled, Toast.LENGTH_LONG).show();
     }
+
+
+    private void initWeb(String webUrl) {
+
+        LogUtils.e(TAG, webUrl);
+        mAgentWeb = AgentWeb.with(this)
+                .setAgentWebParent(mLinearLayout, new LinearLayout.LayoutParams(-1, -1))
+                .useDefaultIndicator()
+                .setWebChromeClient(mWebChromeClient)
+                .setWebViewClient(mWebViewClient)
+                .setMainFrameErrorView(R.layout.agentweb_error_page, -1)
+                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
+//                .setWebLayout(new WebLayout(this))
+                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
+                .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+                .createAgentWeb()
+                .ready()
+                .go(webUrl);
+        //java.lang.IllegalStateException: Unable to create layer for WebView, size 1080x8448 exceeds max size
+        mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
+//
+//        //注入对象
+//        if (mAgentWeb != null) {
+//            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, GoodsDetailNativeWebActivity.this));
+//        }
+//
+//        mAgentWeb.getJsAccessEntrace().quickCallJs("getImage()");
+
+    }
+
+
+    private WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            //do you  work
+            ModelLoading.getInstance(GrabDetailActivity.this).showLoading("", true);
+            Log.e("Info", "BaseWebActivity onPageStarted");
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            Log.e(TAG, "onPageFinished: ");
+            ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+            //webview加载完成之后重新测量webview的高度
+            ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
+            params.width = getResources().getDisplayMetrics().widthPixels;
+            //获取网页的高度
+            WebView mainWebView = mAgentWeb.getWebCreator().getWebView();
+            int htmlHeight = mainWebView.getContentHeight();//获取html高度
+//            Log.e(TAG, "onPageFinished: 高度"+htmlHeight);
+            float scale = mainWebView.getScale();//手机上网页缩放比例
+            int webViewHeight = mainWebView.getHeight();//WebView控件的高度
+            float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度
+            params.height = (int) v;
+            mLinearLayout.setLayoutParams(params);
+
+        }
+    };
+
+    private WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+
+            if (newProgress == 100) {
+
+            }
+            //do you work
+//            Log.i("Info","onProgress:"+newProgress);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+
+        }
+
+    };
 }

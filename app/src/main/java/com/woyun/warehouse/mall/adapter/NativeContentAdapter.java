@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.ContentListBean;
-import com.zzhoujay.richtext.RichText;
 
 import java.util.List;
 
@@ -101,11 +100,10 @@ public class NativeContentAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 3:
                 ThreeViewHolder threeViewHolder = (ThreeViewHolder) holder;
                 String html=contentListBean.getContent();
-                RichText.from(html).singleLoad(false).into(threeViewHolder.tvContent);
-//                CharSequence charSequence= Html.fromHtml(html);
-//                threeViewHolder.tvContent.setText(charSequence);
-//                //该语句在设置后必加，不然没有任何效果
-//                threeViewHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+                CharSequence charSequence= Html.fromHtml(html);
+                threeViewHolder.tvContent.setText(charSequence);
+                //该语句在设置后必加，不然没有任何效果h
+                threeViewHolder.tvContent.setMovementMethod(LinkMovementMethod.getInstance());
                 break;
         }
 

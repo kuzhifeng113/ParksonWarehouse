@@ -35,16 +35,7 @@ public class FuLiFragment extends BaseFragment {
     private static final String FIND_TYPE = "find_type";
 
     Unbinder unbinder;
-    @BindView(R.id.tv)
-    TextView tv;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.iv_empty)
-    ImageView ivEmpty;
-    @BindView(R.id.tv_empty_text)
-    TextView tvEmptyText;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
+
 
 
     private String userId;
@@ -70,64 +61,53 @@ public class FuLiFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_find_fuli, container, false);
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
-        tv.setText("福利" + findTypeId);
         return view;
     }
 
 
-    private void intView(){
-        //创建VirtualLayoutManager对象
-        VirtualLayoutManager virtualLayoutManager=new VirtualLayoutManager(getActivity());
-        recyclerView.setLayoutManager(virtualLayoutManager);
-
-        //设置回收复用池大小，（如果一屏内相同类型的 View 个数比较多，需要设置一个合适的大小，防止来回滚动时重新创建 View）
-        RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
-        recyclerView.setRecycledViewPool(viewPool);
-        viewPool.setMaxRecycledViews(0, 20);
-
-    }
+//    private void intView()
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         Log.e(TAG, "onFragmentFirstVisible:");
-        initData();
+//        initData();
     }
 
 
-    private void initData() {
-        //触发自动刷新
-        mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        listData.clear();
-//                        pager=1;
-                        getData();
-                        mRefreshLayout.finishRefresh();
-                        mRefreshLayout.resetNoMoreData();
-                    }
-                }, 500);
-            }
-        });
-
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-//                        pager++;
-//                        getData(userId, pager);
-                        mRefreshLayout.finishLoadmore();
-
-                    }
-                }, 1000);
-            }
-        });
-    }
+//    private void initData() {
+//        //触发自动刷新
+//        mRefreshLayout.autoRefresh();
+//        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                refreshLayout.getLayout().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        listData.clear();
+////                        pager=1;
+//                        getData();
+//                        mRefreshLayout.finishRefresh();
+//                        mRefreshLayout.resetNoMoreData();
+//                    }
+//                }, 500);
+//            }
+//        });
+//
+//        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+//            @Override
+//            public void onLoadmore(RefreshLayout refreshlayout) {
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        pager++;
+////                        getData(userId, pager);
+//                        mRefreshLayout.finishLoadmore();
+//
+//                    }
+//                }, 1000);
+//            }
+//        });
+//    }
 
     /**
      * 模拟获取数据

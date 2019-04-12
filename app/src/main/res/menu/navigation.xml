@@ -14,10 +14,15 @@
         android:icon="@drawable/navigation_icon_selector_vip"
         android:title="@string/navigation_vip" />
 
+    <!--<item-->
+        <!--android:id="@+id/navigation_find"-->
+        <!--android:icon="@drawable/navigation_icon_selector_find"-->
+        <!--android:title="@string/navigation_find" />-->
+
     <item
-        android:id="@+id/navigation_find"
-        android:icon="@drawable/navigation_icon_selector_find"
-        android:title="@string/navigation_find" />
+        android:id="@+id/navigation_grab"
+        android:icon="@drawable/navigation_icon_selector_grab"
+        android:title="@string/navigation_grab" />
     <item
         android:id="@+id/navigation_cart"
         android:icon="@drawable/navigation_icon_selector_cart"

@@ -228,5 +228,9 @@ public class ReqConstance {
         public static final int I_USER_BINDING = 118;
 
 
-
+        ///////////////////////限时抢购////////////////////////////////
+        public static final String RUSH_PREFIX = "/rush";
+        //限时抢购列表
+        public static final int I_RUSH_GET_LIST = 100;
+        public static final int I_RUSH_GOODS_GET_LIST = 101;
 }

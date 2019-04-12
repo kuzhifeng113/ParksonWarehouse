@@ -1,6 +1,7 @@
 package com.woyun.warehouse.api;
 
 import android.content.Context;
+
 import com.woyun.httptools.net.HSNetTools;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.MyApplication;
@@ -11,38 +12,42 @@ import org.json.JSONObject;
 public class RequestInterface extends HSNetTools {
     /**
      * 每个继承HSNetTools的类必须获取并设置用户TOKEN
+     *
      * @return
      */
-    private static String getUserToken(){
-        String token = (String) SPUtils.getInstance(MyApplication.context).get(Constant.TOKEN,"token");
+    private static String getUserToken() {
+        String token = (String) SPUtils.getInstance(MyApplication.context).get(Constant.TOKEN, "token");
         return token;
     }
 
-    private static String getUserId(){
-        String userid= (String) SPUtils.getInstance(MyApplication.context).get(Constant.USER_ID,"");
-        return  userid;
+    private static String getUserId() {
+        String userid = (String) SPUtils.getInstance(MyApplication.context).get(Constant.USER_ID, "");
+        return userid;
     }
 
     /**
      * 登录模块
-     * @param context  上下文
-     * @param params 请求参数
-     * @param tag   tag标识
-     * @param funcID 功能ID
-     * @param reqID  请求id
+     *
+     * @param context           上下文
+     * @param params            请求参数
+     * @param tag               tag标识
+     * @param funcID            功能ID
+     * @param reqID             请求id
      * @param callBackInterface
      */
-    public static void requestLogin(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    public static void requestLogin(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.LOGIN_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.LOGIN_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    /** 用户模块
+    /**
+     * 用户模块
+     *
      * @param context
      * @param params
      * @param tag
@@ -50,103 +55,129 @@ public class RequestInterface extends HSNetTools {
      * @param reqID
      * @param callBackInterface
      */
-    public static void userPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    public static void userPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.USER_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.USER_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    public static void userPrefixVersiontTwo(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    public static void userPrefixVersiontTwo(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR_TWO);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.USER_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.USER_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    /** 系统相关 **/
-    public static void sysPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 系统相关
+     **/
+    public static void sysPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.SYS_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.SYS_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 
-
-    /** 投票模块 **/
-    public static void voteRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 投票模块
+     **/
+    public static void voteRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.VOTE_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.VOTE_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 
-    /** 商城模块 **/
-    public static void goodsPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 商城模块
+     **/
+    public static void goodsPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.GOODS_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.GOODS_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 
-    /** 购物车模块 **/
-    public static void cartPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 购物车模块
+     **/
+    public static void cartPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.CART_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.CART_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    /** 支付模块 **/
-    public static void payPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 支付模块
+     **/
+    public static void payPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.PAY_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.PAY_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    /** 代理模块 **/
-    public static void agentPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 代理模块
+     **/
+    public static void agentPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
         //调用request 之前必须设置userid
         setUserId(getUserId());
-        request(context,ReqConstance.AGENT_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.AGENT_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
-    /** 获取上传头像图片OSS 参数 **/
-    public static void uploadImg(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 限时抢购
+     **/
+    public static void rushPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
-        request(context,ReqConstance.USER_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        //调用request 之前必须设置userid
+        setUserId(getUserId());
+        request(context, ReqConstance.RUSH_PREFIX, params, tag, funcID, reqID, callBackInterface);
+    }
+
+    /**
+     * 获取上传头像图片OSS 参数
+     **/
+    public static void uploadImg(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
+        //调用request之前必须设置服务器地址
+        setHostAddress(ReqConstance.HOST_ADDR);
+        //调用request之前请必须设置Token
+        setUserToken(getUserToken());
+        request(context, ReqConstance.USER_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 //    /** 获取上传动态图片OSS 参数 **/
@@ -212,13 +243,15 @@ public class RequestInterface extends HSNetTools {
 //    }
 
 
-    /** 支付 vip**/
-    public static void vipAndVipRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 支付 vip
+     **/
+    public static void vipAndVipRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
-        request(context,ReqConstance.PAY_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.PAY_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 //    /** 首页 **/
@@ -230,13 +263,15 @@ public class RequestInterface extends HSNetTools {
 //        request(context,ReqConstance.Meet_PREFIX,params,tag,funcID,reqID,callBackInterface);
 //    }
 
-    /** 广告**/
-    public static void advRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface){
+    /**
+     * 广告
+     **/
+    public static void advRequest(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
         //调用request之前必须设置服务器地址
         setHostAddress(ReqConstance.HOST_ADDR);
         //调用request之前请必须设置Token
         setUserToken(getUserToken());
-        request(context,ReqConstance.ADV_PREFIX,params,tag,funcID,reqID,callBackInterface);
+        request(context, ReqConstance.ADV_PREFIX, params, tag, funcID, reqID, callBackInterface);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.woyun.warehouse.mall.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
@@ -11,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -67,7 +72,30 @@ public class BannerViewPageAdapter extends PagerAdapter {
         if (imageBanners.get(position).getType() == 1) {//图片
             View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager, null);
             ImageView imageView = view.findViewById(R.id.iv_icon);
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).asBitmap().into(imageView);
+            ProgressBar progressBar=view.findViewById(R.id.progress_bar);
+
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).into(new GlideDrawableImageViewTarget(imageView) {
+                @Override
+                public void onLoadStarted(Drawable placeholder) {
+                    // 开始加载图片
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    progressBar.setVisibility(View.GONE);
+
+
+                }
+
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    super.onResourceReady(resource, glideAnimation);
+                    // 图片加载完成
+                    imageView.setImageDrawable(resource);
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
 
             if(itemClickListener!=null){
                 imageView.setOnClickListener(new View.OnClickListener() {
@@ -76,8 +104,8 @@ public class BannerViewPageAdapter extends PagerAdapter {
                         itemClickListener.onItemClick(position);
                     }
                 });
-
             }
+
             container.addView(view);
 
             return view;
