@@ -1,6 +1,7 @@
 package com.woyun.warehouse.mall.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,9 @@ public class CategoryGoodsAdapterTwo extends RecyclerView.Adapter<CategoryGoodsA
         holder.tv_goods_title.setText(goodsListBean.getTitle());
         holder.tv_vip_price.setText(goodsListBean.getVipPrice());
         holder.tv_goods_price.setText("原价:"+goodsListBean.getPrice());
-        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
+        holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
+        holder.tv_vip_back.setText("会员价");
         holder.tv_sales_volume.setText("销量："+goodsListBean.getSellNum());
         holder.tv_supplier.setText(goodsListBean.getSupplier());
 

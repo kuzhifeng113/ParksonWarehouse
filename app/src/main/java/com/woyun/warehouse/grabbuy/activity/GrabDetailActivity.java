@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -56,7 +57,6 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.LoginActivity;
-import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
@@ -79,6 +79,7 @@ import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
+import com.woyun.warehouse.utils.TimeTools;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
@@ -93,6 +94,8 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +109,6 @@ import cn.jzvd.JzvdStd;
 import cn.udesk.UdeskSDKManager;
 import cn.udesk.config.UdeskConfig;
 import q.rorbin.badgeview.Badge;
-import q.rorbin.badgeview.QBadgeView;
 import udesk.core.UdeskConst;
 
 import static com.woyun.warehouse.utils.ShareWx.bmpToByteArray2;
@@ -120,6 +122,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     private static final String TAG = "GrabDetailActivity";
     private static final int THUMB_SIZE = 150;
     private static final int REFRESH_COMPLETE = 1000;
+    private static final int TIME_DESC = 1001;
     @BindView(R.id.toolBar)
     Toolbar toolBar;
 
@@ -143,7 +146,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     ViewPager viewPager;
     @BindView(R.id.tv_show_num)
     TextView tvShowNum;
-//    @BindView(R.id.tv_vip_back)
+    //    @BindView(R.id.tv_vip_back)
 //    TextView tvVipBack;
     @BindView(R.id.tv_goods_price)
     TextView tvGoodsPrice;
@@ -165,17 +168,24 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     TextView tvPrice;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
+    @BindView(R.id.tv_end_time)
+    TextView tvEndTime;
+    @BindView(R.id.preview_progressBar)
+    ProgressBar previewProgressBar;
+    @BindView(R.id.tv_yiqiang)
+    TextView tvYiqiang;
+    @BindView(R.id.tv_sheng)
+    TextView tvSheng;
 
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
     private ProductSkuDialog dialog;
     private boolean isVip;
-    private boolean isFavorite;//是否收藏
     private boolean isLogin;
 
     private int goodsId;//商品id
-    private String goodesWebUrl;
+
     private String compareUrl;//比价url
     protected AgentWeb mAgentWeb;
     Badge cartBadge;
@@ -206,9 +216,22 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 //                    iwxApi.sendReq(shareWxUrl(goodesWebUrl, shareTile, shareContent, 0, shareIconUrl));
                     showSharePop();
                     break;
+                case TIME_DESC:
+                    chaTime= chaTime-1000;
+                    if (chaTime > 0) {
+                        imgGoodsBuy.setClickable(true);
+                        mHandler.sendEmptyMessageDelayed(TIME_DESC, 1000);
+                        tvEndTime.setText(TimeTools.getCountTimeByLong(chaTime));
+                    } else {
+                        tvEndTime.setText("已结束");
+                        imgGoodsBuy.setClickable(false);
+                    }
+                    break;
             }
         }
     };
+
+    private long chaTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -233,11 +256,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
-        if (isVip) {
-            goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 1;
-        } else {
-            goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 0;
-        }
+
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
 
@@ -335,7 +354,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
 //                            cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
 //                            cartBadge.setGravityOffset(-2, -2, true);
-                            isFavorite = goodsDetailBean.isIsFavorite();
+
                             shareTile = goodsDetailBean.getName();
                             shareContent = goodsDetailBean.getTitle();
                             shareIconUrl = goodsDetailBean.getImage();
@@ -374,7 +393,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
      *
      * @param goodsDetailBean
      */
-    private void pasterData(GoodsDetailBean goodsDetailBean) {
+    private void pasterData(GoodsDetailBean goodsDetailBean)  {
         resListBeanList.clear();
         contentListBeanList.clear();
         List<SkuListBean> skuList = goodsDetailBean.getSkuList();
@@ -384,18 +403,68 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         tvPrice.setText(goodsDetailBean.getVipPrice());
 //        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
         tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tvGoodsTitle.setText(goodsDetailBean.getName());
 
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
+
         if (isVip) {
             tvBaoYou.setText("VIP包邮");
         } else {
             tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
         }
+
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
+        //距离结束时间
+        long currentTimeMillis=System.currentTimeMillis();
+        long endTime= 0;
+        try {
+            endTime = TimeTools.dateToStamp(Constant.end_day);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(currentTimeMillis<endTime){
+            imgGoodsBuy.setClickable(true);
+            chaTime=endTime-currentTimeMillis;
+            mHandler.sendEmptyMessage(TIME_DESC);
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    tvEndTime.setText(TimeTools.getCountTimeByLong(chaTime));
+//                    if (chaTime > 0) {
+//                        mHandler.postDelayed(this, 1000);
+//                    } else {
+//                        tvEndTime.setText("已结束");
+//                        imgGoodsBuy.setClickable(false);
+////                        Toast.makeText(mContext,"运行结束", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            },1000);
+        }else{
+            tvEndTime.setText("已结束");
+            imgGoodsBuy.setClickable(false);
+        }
+
+        tvSheng.setText("剩余"+goodsDetailBean.getStock()+"件");
+        tvYiqiang.setText("已抢购"+goodsDetailBean.getSellNum()+"件");
+        int totalNum=goodsDetailBean.getStock()+goodsDetailBean.getSellNum();
+        //算进度比
+        if(goodsDetailBean.getSellNum()<totalNum){
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            numberFormat.setMaximumFractionDigits(2);//保留2位小数
+            String percentage=numberFormat.format((float) goodsDetailBean.getSellNum() / (float) totalNum  * 100);
+            if(percentage.contains(".")){
+                String  result= percentage.substring(0,percentage.indexOf("."));
+                previewProgressBar.setProgress(Integer.valueOf(result));
+            }else{
+                previewProgressBar.setProgress(Integer.valueOf(percentage));
+            }
+        }else{
+            previewProgressBar.setProgress(100);
+        }
 
         nativeContentAdapter = new NativeContentAdapter(GrabDetailActivity.this, contentListBeanList);
         recyclerView.setAdapter(nativeContentAdapter);
@@ -568,9 +637,6 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     }
 
 
-
-
-
     /**
      * 加入购物车
      *
@@ -684,6 +750,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 //        webView.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+//        mHandler.r
     }
 
     private void goLogin() {

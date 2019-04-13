@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -466,8 +467,11 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         //ui
         tvShowNum.setText("1/" + goodsDetailBean.getResList().size());
         tvPrice.setText(goodsDetailBean.getVipPrice());
-        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
+//        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
+        tvVipBack.setText("会员价");
         tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
         tvGoodsTitle.setText(goodsDetailBean.getName());
 
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());

@@ -1,6 +1,7 @@
 package com.woyun.warehouse.mall.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -110,7 +111,9 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
                     viewHolderOne.tv_goods_title.setText(goodsListBean.getTitle());
                     viewHolderOne.tv_vip_price.setText(goodsListBean.getVipPrice());
                     viewHolderOne.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+                    viewHolderOne.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+                    viewHolderOne.tv_vip_back.setText("会员价");
                     viewHolderOne.tv_sales_volume.setText("销量：" + goodsListBean.getSellNum());
                     viewHolderOne.tv_supplier.setText(goodsListBean.getSupplier());
 
@@ -155,7 +158,9 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
                     viewHolderOne.tv_goods_title.setText(goodsListBean.getTitle());
                     viewHolderOne.tv_vip_price.setText(goodsListBean.getVipPrice());
                     viewHolderOne.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+                    viewHolderOne.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+                    viewHolderOne.tv_vip_back.setText("会员价");
                     viewHolderOne.tv_sales_volume.setText("销量：" + goodsListBean.getSellNum());
                     viewHolderOne.tv_supplier.setText(goodsListBean.getSupplier());
                     break;

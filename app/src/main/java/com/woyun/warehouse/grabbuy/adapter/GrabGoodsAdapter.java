@@ -16,10 +16,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.bean.GrabGoodsBean;
 import com.woyun.warehouse.utils.TimeTools;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -61,7 +63,13 @@ public class GrabGoodsAdapter extends RecyclerView.Adapter<GrabGoodsAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         GrabGoodsBean goodsListBean = listData.get(position);
         //剩余时间
-        long time = goodsListBean.getEndTime();
+//        long time = goodsListBean.getEndTime();
+        long time= 0;
+        try {
+            time = TimeTools.dateToStamp(Constant.end_day);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         time = time - System.currentTimeMillis();
         //将前一个缓存清除
         if (holder.countDownTimer != null) {
@@ -94,17 +102,17 @@ public class GrabGoodsAdapter extends RecyclerView.Adapter<GrabGoodsAdapter.MyVi
 
         int kuCun=goodsListBean.getStock();
         int sellNum=goodsListBean.getSellNum();
-
+        int totalNum=kuCun+sellNum;
         //已抢够
         holder.tv_yiqiang.setText("已抢购"+goodsListBean.getSellNum()+"件");
         //剩余
-        holder.tv_sheng.setText("剩余"+(kuCun-sellNum)+"件");
+        holder.tv_sheng.setText("剩余"+kuCun+"件");
 
         //算进度比
-        if(sellNum<kuCun){
+        if(sellNum<totalNum){
             NumberFormat numberFormat = NumberFormat.getInstance();
             numberFormat.setMaximumFractionDigits(2);//保留2位小数
-            String percentage=numberFormat.format((float) sellNum / (float) kuCun  * 100);
+            String percentage=numberFormat.format((float) sellNum / (float) totalNum  * 100);
             if(percentage.contains(".")){
                 String  result= percentage.substring(0,percentage.indexOf("."));
                 holder.preview_progressBar.setProgress(Integer.valueOf(result));

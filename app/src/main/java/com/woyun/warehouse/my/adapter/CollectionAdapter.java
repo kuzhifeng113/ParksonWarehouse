@@ -2,6 +2,7 @@ package com.woyun.warehouse.my.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     private List<CollectionBean.ContentBean> dataList;
     private boolean isShow = false;//是否显示编辑/完成
     private CheckInterface checkInterface;
+
     /**
      * 单选接口
      *
@@ -38,7 +40,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     }
 
     public CollectionAdapter(Context context, List<CollectionBean.ContentBean> dataList) {
-        boolean isVip= (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP,false);
+        boolean isVip = (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP, false);
         this.dataList = dataList;
         this.context = context;
     }
@@ -66,21 +68,20 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
         Glide.with(context).load(collectionBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.iv_show_pic);
         holder.tv_goods_name.setText(collectionBean.getName());
         holder.tv_collection_num.setText(collectionBean.getFavoriteNum() + "人收藏");
-        holder.tv_vip_back.setText("会员返"+String.valueOf(collectionBean.getBkCoin()));
-//        if(isVip){
-            holder.tv_vip_price.setText( String.valueOf(collectionBean.getVipPrice()));
-//        }else{
-            holder.tv_goods_price.setText("原价:" + String.valueOf(collectionBean.getPrice()));
-//        }
-        if(position==dataList.size()-1){
+//        holder.tv_vip_back.setText("会员返"+String.valueOf(collectionBean.getBkCoin()));
+        holder.tv_vip_back.setText("会员价");
+        holder.tv_vip_price.setText(String.valueOf(collectionBean.getVipPrice()));
+        holder.tv_goods_price.setText("原价:" + String.valueOf(collectionBean.getPrice()));
+        holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        if (position == dataList.size() - 1) {
             holder.view_line.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.view_line.setVisibility(View.VISIBLE);
         }
 
-        if(isShow){//编辑状态
+        if (isShow) {//编辑状态
             holder.checkBox.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.checkBox.setVisibility(View.GONE);
         }
 
@@ -126,8 +127,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
     class MyViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkBox;
         ImageView iv_show_pic;
-        TextView tv_goods_name, tv_collection_num, tv_vip_price,tv_goods_price,tv_vip_back;
+        TextView tv_goods_name, tv_collection_num, tv_vip_price, tv_goods_price, tv_vip_back;
         View view_line;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.checkbox);
@@ -137,7 +139,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
             tv_vip_price = (TextView) itemView.findViewById(R.id.tv_vip_price);
             tv_goods_price = (TextView) itemView.findViewById(R.id.tv_goods_price);
             tv_vip_back = (TextView) itemView.findViewById(R.id.tv_vip_back);
-            view_line =  itemView.findViewById(R.id.view_line);
+            view_line = itemView.findViewById(R.id.view_line);
         }
     }
 

@@ -148,7 +148,7 @@ public class BannerViewPageAdapter extends PagerAdapter {
             jzvdStd.setUp(
                     imageBanners.get(position).getVideoUrl(),
                     "", Jzvd.SCREEN_WINDOW_NORMAL);// SCREEN_WINDOW_LIST
-            Glide.with(mContext).load(imageBanners.get(position).getImage()).into(jzvdStd.thumbImageView);
+            Glide.with(mContext).load(imageBanners.get(position).getImage()).centerCrop().into(jzvdStd.thumbImageView);
 //            if(onCompletionListener!=null){
 //                imgPlay.setOnClickListener(v -> {
 //                    ToastUtils.getInstanc(mContext).showToast("播放按钮点击");

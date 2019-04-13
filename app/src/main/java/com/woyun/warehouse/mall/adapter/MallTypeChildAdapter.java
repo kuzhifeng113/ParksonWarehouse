@@ -1,6 +1,7 @@
 package com.woyun.warehouse.mall.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -115,10 +116,11 @@ public class MallTypeChildAdapter extends BaseAdapter {
 
             Glide.with(context).load(goodsListBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(myViewHolder.round_img_goods);
             myViewHolder.tv_goods_name.setText(goodsListBean.getName());
-            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+//            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+            myViewHolder.tv_vip_back.setText("会员价");
             myViewHolder.tv_vip_price.setText(goodsListBean.getVipPrice());
             myViewHolder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-
+            myViewHolder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             convertView.setTag(myViewHolder);
 //        if( onItemClickListener!= null){
 //            holder.itemView.setOnClickListener( new View.OnClickListener() {
@@ -134,10 +136,11 @@ public class MallTypeChildAdapter extends BaseAdapter {
 
             Glide.with(context).load(goodsListBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(myViewHolder.round_img_goods);
             myViewHolder.tv_goods_name.setText(goodsListBean.getName());
-            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+//            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+            myViewHolder.tv_vip_back.setText("会员价");
             myViewHolder.tv_vip_price.setText(goodsListBean.getVipPrice());
             myViewHolder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-
+            myViewHolder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
         return convertView;
     }

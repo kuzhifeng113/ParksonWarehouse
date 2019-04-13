@@ -7,11 +7,19 @@ public class RushTimeBean {
      * endTime : 1554775200000
      * status
      */
-
+    private String name;
     private int rushBuyId;
     private long startTime;
     private long endTime;
     private String status;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getStatus() {
         return status;

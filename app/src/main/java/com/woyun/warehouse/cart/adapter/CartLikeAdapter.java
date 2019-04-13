@@ -52,8 +52,9 @@ public class CartLikeAdapter extends RecyclerView.Adapter<CartLikeAdapter.MyView
         Boolean isVip = (Boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP, false);
         holder.tv_vip_price.setText(goodsListBean.getVipPrice());
         holder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
-
+//        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
+        holder.tv_vip_back.setText("会员价");
+        holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         if (onItemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

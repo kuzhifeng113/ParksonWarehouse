@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -85,7 +86,9 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
         holder.tv_goods_title.setText(goodsListBean.getName());
         holder.tv_vip_price.setText(String.valueOf(goodsListBean.getVipPrice()));
         holder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
-        holder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+        holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        holder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
+        holder.tv_vip_back.setText("会员价");
         holder.tv_youfei.setText("·全场满" + goodsListBean.getFreeShopping() + "包邮");
         holder.tv_sales_volume.setText("·销量:" + goodsListBean.getSellNum());
         holder.tv_kucun.setText("·库存:" + goodsListBean.getStock());

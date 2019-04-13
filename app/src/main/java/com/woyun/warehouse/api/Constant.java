@@ -136,4 +136,6 @@ public class Constant {
     //    public static  String  USER_HEAD_URL = "user_head_url";
 //ERROR
     public final static String NET_ERROR = "手机网络不在状态噢，差点跑偏了~哟";
+
+    public static final String end_day="2019-4-16 08:00:00";
 }

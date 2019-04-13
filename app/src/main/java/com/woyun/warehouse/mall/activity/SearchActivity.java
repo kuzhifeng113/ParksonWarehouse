@@ -115,7 +115,7 @@ public class SearchActivity extends BaseActivity {
                     //保存为历史搜索
                     SearchBean bean = new SearchBean();
                     bean.setName(editText.getText().toString().trim());
-                    historyList.add(bean);
+                    historyList.add(0,bean);
                     Gson gson = new Gson();
                     String history = gson.toJson(historyList);
                     SPUtils.getInstance(SearchActivity.this).put(Constant.USER_SEARCH_HISTORY, history);
