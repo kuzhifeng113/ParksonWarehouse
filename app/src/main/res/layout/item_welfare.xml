@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:orientation="vertical"
+   >
+
+
+
+   <com.makeramen.roundedimageview.RoundedImageView
+       android:id="@+id/round_img"
+       android:layout_width="130dp"
+       android:layout_height="130dp"
+       android:layout_marginLeft="15dp"
+       android:scaleType="centerCrop"
+      android:layout_centerVertical="true"
+       android:src="@mipmap/img_default"
+       />
+
+
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="18dp"
+       android:layout_marginLeft="10dp"
+       android:layout_toRightOf="@id/round_img"
+       android:layout_marginRight="15dp"
+       android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/tv_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="end"
+          android:maxLines="2"
+          android:text="美国丨足不出户享受到美国明星"
+          android:layout_marginRight="10dp"
+          android:textColor="@color/text_black"
+          android:textStyle="bold"
+          android:textSize="16sp" />
+
+      <TextView
+          android:id="@+id/tv_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="end"
+          android:layout_marginTop="9dp"
+          android:singleLine="true"
+          android:text="已售0件  |  剩余0件"
+          android:layout_marginRight="10dp"
+          android:textColor="#FFF8B551"
+          android:textSize="12sp" />
+
+
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="22dp"
+          android:orientation="vertical">
+
+         <TextView
+             android:id="@+id/tv_vip_price"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="￥560"
+             android:textColor="#FFF5336F"
+             android:textSize="18sp"
+            />
+
+         <TextView
+             android:id="@+id/tv_price"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="2dp"
+             android:text="市场价："
+             android:textColor="#D2D2D2"
+             android:textSize="12sp"
+              />
+      </LinearLayout>
+
+
+
+   </LinearLayout>
+   
+   <Button
+       android:id="@+id/bt_goumai"
+       android:layout_width="wrap_content"
+       android:layout_height="30dp"
+       android:text="抢购福利"
+       android:textColor="@color/white"
+       android:textSize="12sp"
+       android:background="@drawable/shape_main_btn"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true"
+       android:gravity="center"
+       android:layout_marginBottom="20dp"
+       android:layout_marginRight="16dp"/>
+      
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="0.8dp"
+       android:layout_alignParentBottom="true"
+       android:background="@color/line"
+       android:layout_marginLeft="@dimen/udesk_15"
+       android:layout_marginRight="15dp"/>
+
+</RelativeLayout>

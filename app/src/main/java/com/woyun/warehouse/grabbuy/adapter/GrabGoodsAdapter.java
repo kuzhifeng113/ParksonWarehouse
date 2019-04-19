@@ -65,40 +65,54 @@ public class GrabGoodsAdapter extends RecyclerView.Adapter<GrabGoodsAdapter.MyVi
         //剩余时间
 //        long time = goodsListBean.getEndTime();
         long time= 0;
-        try {
-            time = TimeTools.dateToStamp(Constant.end_day);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        time = time - System.currentTimeMillis();
+//        try {
+//            time = TimeTools.dateToStamp(Constant.end_day);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        time=listData.get(position).getEndTime();
+        long startTime=listData.get(position).getStartTime();
+        long currentTime= System.currentTimeMillis();
+        time = time -currentTime;
         //将前一个缓存清除
         if (holder.countDownTimer != null) {
             holder.countDownTimer.cancel();
         }
-        if (time > 0) {
-            holder.countDownTimer = new CountDownTimer(time, 1000) {
-                public void onTick(long millisUntilFinished) {
-                    holder.tv_end_time.setText("距结束剩余:"+TimeTools.getCountTimeByLong(millisUntilFinished));
-
-                }
-                public void onFinish() {
-                    holder.tv_end_time.setText("距结束剩余:"+"00:00:00");
-
-                }
-            }.start();
-
-            countDownMap.put(holder.tv_end_time.hashCode(), holder.countDownTimer);
-        } else {
-            holder.tv_end_time.setText("距结束剩余:"+"00:00:00");
+        if(currentTime < startTime){
+            holder.tv_end_time.setText("未开始");
         }
+        if(currentTime>listData.get(position).getEndTime()){
+            holder.tv_end_time.setText("已结束");
+        }
+
+        if(currentTime>=startTime && currentTime<listData.get(position).getEndTime()){
+            if (time > 0) {
+                holder.countDownTimer = new CountDownTimer(time, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        holder.tv_end_time.setText("距结束剩余:"+TimeTools.getCountTimeByLong(millisUntilFinished));
+
+                    }
+                    public void onFinish() {
+//                        holder.tv_end_time.setText("距结束剩余:"+"00:00:00");
+                        holder.tv_end_time.setText("已结束");
+
+                    }
+                }.start();
+
+                countDownMap.put(holder.tv_end_time.hashCode(), holder.countDownTimer);
+            } else {
+//                holder.tv_end_time.setText("距结束剩余:"+"00:00:00");
+                holder.tv_end_time.setText("已结束");
+            }
+        }
+
 
         Glide.with(context).load(goodsListBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.round_img);
 
         holder.tv_vip_price.setText(String.valueOf(goodsListBean.getVipPrice()));
-        holder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+        holder.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
         holder.tv_goods_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
         holder.tv_goods_title.setText(goodsListBean.getName());
-        holder.tv_goods_title.setText(goodsListBean.getTitle());
 
         int kuCun=goodsListBean.getStock();
         int sellNum=goodsListBean.getSellNum();

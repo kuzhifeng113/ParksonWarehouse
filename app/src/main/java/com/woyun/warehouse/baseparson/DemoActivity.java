@@ -2,12 +2,11 @@ package com.woyun.warehouse.baseparson;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.view.HorizontalProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,11 +15,13 @@ import butterknife.ButterKnife;
 /**
  * demo
  */
-public class DemoActivity extends BaseActivity  {
+public class DemoActivity extends BaseActivity {
     private static final String TAG = "RealNameActivity";
     @BindView(R.id.toolBar)
     Toolbar toolBar;
-    private RecyclerView recyclerView;
+    @BindView(R.id.progress_bar)
+    HorizontalProgressBar progressBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,13 @@ public class DemoActivity extends BaseActivity  {
     }
 
     private void initData() {
+        progressBar.setTextString("1200");
+        progressBar.setProgressWithAnimation(60).setProgressListener(new HorizontalProgressBar.ProgressListener() {
+            @Override
+            public void currentProgressListener(float currentProgress) {
+            }
+        });
+        progressBar.startProgressAnimation();
     }
 
     @Override

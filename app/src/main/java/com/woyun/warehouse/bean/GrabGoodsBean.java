@@ -22,6 +22,7 @@ public class GrabGoodsBean {
      * wantNum : 0
      * sortBy : 1
      * endTime : 1554775200000
+     * c
      * stock : 64
      * categoryId : 38
      * sellNum : 645
@@ -43,6 +44,8 @@ public class GrabGoodsBean {
     private String vipPrice;
     private int wantNum;
     private int sortBy;
+    private long startTime;
+    private long currTime;
     private long endTime;
     private int stock;
     private int categoryId;
@@ -168,6 +171,22 @@ public class GrabGoodsBean {
 
     public void setSortBy(int sortBy) {
         this.sortBy = sortBy;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getCurrTime() {
+        return currTime;
+    }
+
+    public void setCurrTime(long currTime) {
+        this.currTime = currTime;
     }
 
     public long getEndTime() {

@@ -54,7 +54,7 @@ public class AgentGiftAdapter extends RecyclerView.Adapter<AgentGiftAdapter.MyVi
         Glide.with(context).load(giftBean.getImage()).placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.round_img);
         holder.tv_title.setText(giftBean.getTitle());
         holder.tv_vip_price.setText("￥"+giftBean.getVipPrice());
-        holder.tv_price.setText("原价:"+giftBean.getPrice());
+        holder.tv_price.setText("市场价:"+giftBean.getPrice());
 
         holder.tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 

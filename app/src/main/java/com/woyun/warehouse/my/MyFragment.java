@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +53,7 @@ import com.woyun.warehouse.my.activity.SettingActivity;
 import com.woyun.warehouse.my.activity.ShangJiaJoinActivity;
 import com.woyun.warehouse.my.activity.ShareActivity;
 import com.woyun.warehouse.my.activity.UserInfoActivity;
+import com.woyun.warehouse.my.activity.VipEnterActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.LogUtils;
@@ -61,6 +61,7 @@ import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.CommonPopupWindow;
+import com.woyun.warehouse.view.HorizontalProgressBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -137,12 +138,11 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     TextView tvLeiji;
     @BindView(R.id.tv_zhitui)
     TextView tvZhitui;
-    @BindView(R.id.tv_xin_ren)
-    TextView tvXinRen;
+    //    @BindView(R.id.tv_xin_ren)
+//    TextView tvXinRen;
     @BindView(R.id.tv_yiji_daili)
     TextView tvYijiDaili;
-    @BindView(R.id.tv_guan_li)
-    TextView tvGuanLi;
+
     @BindView(R.id.tv_gou_wu)
     TextView tvGouWu;
     @BindView(R.id.tv_yaoqing_code)
@@ -157,23 +157,38 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @BindView(R.id.img_tishi)
     ImageView imgTishi;
     @BindView(R.id.tv_yesterday_money)
-    TextView tvLastWeekMoney ;
+    TextView tvLastWeekMoney;
     @BindView(R.id.tv_today_money)
     TextView tvWeekMoney;
     @BindView(R.id.tv_before_money)
-    TextView tvMonthMoney ;
+    TextView tvMonthMoney;
     @BindView(R.id.tv_agent_wen)
     TextView tvAgentWen;
-    @BindView(R.id.tv_guanli_wen)
-    TextView tvGuanliWen;
+//    @BindView(R.id.tv_guanli_wen)
+//    TextView tvGuanliWen;
     @BindView(R.id.img_agent_tishi)
     ImageView imgAgentTishi;
-    @BindView(R.id.img_guanli_tishi)
-    ImageView imgGuanliTishi;
+
     @BindView(R.id.tv_gouwu_wen)
     TextView tvGouwuWen;
     @BindView(R.id.img_gouwu_tishi)
     ImageView imgGouwuTishi;
+
+    @BindView(R.id.img_vip_enter)
+    ImageView imgVipEnter;
+
+    @BindView(R.id.tv_total_bkmoney)
+    TextView tvToalBkMoney;
+    @BindView(R.id.tv_leji_des)
+    TextView tvLejiDes;
+    @BindView(R.id.rl_zt)
+    RelativeLayout rlZt;
+    @BindView(R.id.progress_bar)
+    HorizontalProgressBar progressBar;
+    @BindView(R.id.rl_agent_sy)
+    RelativeLayout relativeLayoutAgentSy;
+
+
 
     private boolean isAgent;//是否是代理
     private boolean isVip;//是否是VIP
@@ -210,6 +225,13 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
 //            @Override
 //            public void onClick(View v) {
 //                Intent intent=new Intent(getActivity(),AllCategoriesActivityTwo.class);
+//                startActivity(intent);
+//            }
+//        });
+//        view.findViewById(R.id.rl_zt).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(getActivity(), DemoActivity.class);
 //                startActivity(intent);
 //            }
 //        });
@@ -279,19 +301,8 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
         }
     }
 
-//    @OnClick(R.id.btn_login_out)
-//    public void onViewClicked() {
-//        SPUtils.getInstance(getActivity()).remove(Constant.IS_LOGIN);
-//        SPUtils.getInstance(getActivity()).remove(Constant.USER_ID);
-//        SPUtils.getInstance(getActivity()).remove(Constant.USER_INFO_BEAN);
-//        SPUtils.getInstance(getActivity()).remove(Constant.TOKEN);
-//        SPUtils.getInstance(getActivity()).remove(Constant.USER_AVATAR);
-//        Intent intent = new Intent(getActivity(), LoginActivity.class);
-//        startActivity(intent);
-//        getActivity().finish();
-//    }
 
-    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_about_me, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_real_name, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.img_tishi, R.id.tv_agent_wen, R.id.tv_guanli_wen, R.id.img_agent_tishi, R.id.img_guanli_tishi,R.id.tv_gouwu_wen,R.id.img_gouwu_tishi})
+    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_about_me, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_real_name, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.img_tishi, R.id.tv_agent_wen, R.id.img_agent_tishi, R.id.tv_gouwu_wen, R.id.img_gouwu_tishi, R.id.img_vip_enter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_head:
@@ -416,9 +427,9 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
             case R.id.tv_agent_wen:
                 imgAgentTishi.setVisibility(View.VISIBLE);
                 break;
-            case R.id.tv_guanli_wen:
-                imgGuanliTishi.setVisibility(View.VISIBLE);
-                break;
+//            case R.id.tv_guanli_wen:
+//                imgGuanliTishi.setVisibility(View.VISIBLE);
+//                break;
             case R.id.tv_gouwu_wen:
                 imgGouwuTishi.setVisibility(View.VISIBLE);
                 break;
@@ -427,15 +438,19 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                     imgAgentTishi.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.img_guanli_tishi:
-                if (imgGuanliTishi.getVisibility() == View.VISIBLE) {
-                    imgGuanliTishi.setVisibility(View.GONE);
-                }
-                break;
+//            case R.id.img_guanli_tishi:
+//                if (imgGuanliTishi.getVisibility() == View.VISIBLE) {
+//                    imgGuanliTishi.setVisibility(View.GONE);
+//                }
+//                break;
             case R.id.img_gouwu_tishi://购物提示
                 if (imgGouwuTishi.getVisibility() == View.VISIBLE) {
                     imgGouwuTishi.setVisibility(View.GONE);
                 }
+                break;
+            case R.id.img_vip_enter://VIP 入口
+                Intent vipEnter = new Intent(getActivity(), VipEnterActivity.class);
+                startActivity(vipEnter);
                 break;
         }
     }
@@ -480,14 +495,16 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                             tvWffangYuer.setText(String.valueOf(userInfoBean.getGrantMoney()));
                             tvLeiji.setText(String.valueOf(userInfoBean.getTotalMoney()));
                             tvZhitui.setText(String.valueOf(userInfoBean.getPushMoney()));
-                            tvXinRen.setText(String.valueOf(userInfoBean.getNewMoney()));
+
+//                            tvToalBkMoney.setText(String.valueOf(userInfoBean.getNewMoney()));
+
 
                             tvWeekMoney.setText(String.valueOf(userInfoBean.getWeekMoney()));
                             tvLastWeekMoney.setText(String.valueOf(userInfoBean.getLastWeekMoney()));
                             tvMonthMoney.setText(String.valueOf(userInfoBean.getMonthMoney()));
 
                             tvYijiDaili.setText(String.valueOf(userInfoBean.getAgentMoney()));
-                            tvGuanLi.setText(String.valueOf(userInfoBean.getManageMoney()));
+//                            tvGuanLi.setText(String.valueOf(userInfoBean.getManageMoney()));
                             tvGouWu.setText(String.valueOf(userInfoBean.getShoppingMoney()));
 
 //                            SPUtils.getInstance(getActivity()).put(Constant.USER_INFO_BEAN, object.toString());
@@ -519,22 +536,44 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                                     tvVipType.setText("金牌代理");
                                 }
                             } else {
-                                tvVipType.setText("普通用户");
+                                tvVipType.setText("普通会员");
                                 llIsAgent.setVisibility(View.INVISIBLE);
                             }
-                            LogUtils.e(TAG, "requestSuccess:是否邀满3个人" + userInfoBean.getUserInfo().isTree());
-                            if (!userInfoBean.getUserInfo().isTree()) {//是否邀满3个人
-                                tvXinRen.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                            } else {
-                                tvXinRen.getPaint().setFlags(0); // 取消设置的的中划
+                            float f=0.0f;
+                            if(isAgent){
+                                tvToalBkMoney.setText(String.valueOf(userInfoBean.getAgentTotalBkMoney()));
+                                double v = userInfoBean.getNewMoney() / userInfoBean.getAgentTotalBkMoney();
+                                f= (float) v*100;
+                            }else{
+                                tvToalBkMoney.setText(String.valueOf(userInfoBean.getTotalBkMoney()));
+                                double v = userInfoBean.getNewMoney() / userInfoBean.getTotalBkMoney();
+                                f= (float) v*100;
                             }
+
+                            progressBar.setTextString(String.valueOf(userInfoBean.getNewMoney()));
+                            progressBar.setProgressWithAnimation(f).setProgressListener(new HorizontalProgressBar.ProgressListener() {
+                                @Override
+                                public void currentProgressListener(float currentProgress) {
+                                }
+                            });
+                            progressBar.startProgressAnimation();
+                            LogUtils.e(TAG, "requestSuccess:是否邀满3个人" + userInfoBean.getUserInfo().isTree());
+//                            if (!userInfoBean.getUserInfo().isTree()) {//是否邀满3个人
+//                                tvXinRen.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                            } else {
+//                                tvXinRen.getPaint().setFlags(0); // 取消设置的的中划
+//                            }
+
                             if (!isAgent) {//不是代理
+                                relativeLayoutAgentSy.setVisibility(View.GONE);
                                 tvYijiDaili.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                                tvGuanLi.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                                tvGuanLi.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                                 tvGouWu.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                             } else {
+
+                                relativeLayoutAgentSy.setVisibility(View.VISIBLE);
                                 tvYijiDaili.getPaint().setFlags(0); // 取消设置的的中划线
-                                tvGuanLi.getPaint().setFlags(0); // 取消设置的的中划
+//                                tvGuanLi.getPaint().setFlags(0); // 取消设置的的中划
                                 tvGouWu.getPaint().setFlags(0);
                             }
 
@@ -559,7 +598,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                     if (vip) {
                         tvVipType.setText("VIP会员");
                     } else {
-                        tvVipType.setText("普通用户");
+                        tvVipType.setText("普通会员");
                     }
                 }
             });

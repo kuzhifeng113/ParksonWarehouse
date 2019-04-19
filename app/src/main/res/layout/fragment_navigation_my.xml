@@ -529,6 +529,14 @@
                 android:layout_marginTop="15dp"
                 android:background="#F6F9FA"/>
 
+            <!--VIP 入口-->
+            <ImageView
+                android:id="@+id/img_vip_enter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@mipmap/bg_openvip_enter"/>
+
             <!--我的收益 start-->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -695,7 +703,7 @@
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="45dp"
+                        android:layout_marginRight="26dp"
                         android:textSize="19sp" />
                     <View
                         android:layout_width="match_parent"
@@ -703,7 +711,7 @@
                         android:background="#EEEEEE"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="45dp"
-                        android:layout_marginRight="45dp"/>
+                        android:layout_marginRight="14dp"/>
                 </RelativeLayout>
 
                 <!--新人奖励-->
@@ -715,7 +723,7 @@
 
                     <TextView
                         android:id="@+id/tv_xinren_wen"
-                        android:text="新人收益"
+                        android:text="分润收益"
                         android:layout_marginLeft="45dp"
                         android:textColor="#AFAFAF"
                         android:layout_centerVertical="true"
@@ -725,105 +733,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <com.woyun.warehouse.view.HorizontalProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/tv_xinren_wen"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content" />
                     <TextView
-                        android:id="@+id/tv_xin_ren"
+                        android:id="@+id/tv_total_bkmoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.00"
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="45dp"
-                        android:textSize="19sp" />
+                        android:layout_marginRight="26dp"
+                        android:textSize="12sp" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.8dp"
                         android:background="#EEEEEE"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="45dp"
-                        android:layout_marginRight="45dp"/>
+                        android:layout_marginRight="14dp"/>
                 </RelativeLayout>
 
 
-                <!--代理奖励-->
+                <!--购物收益-->
                 <RelativeLayout
                     android:id="@+id/rl_yjdl"
                     android:layout_below="@id/rl_xinren"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:id="@+id/tv_agent_wen"
-                        android:text="代理收益"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
-                        android:layout_centerVertical="true"
-                        android:textSize="14sp"
-                        android:drawablePadding="3dp"
-                        android:drawableRight="@mipmap/xinren_wen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/tv_yiji_daili"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0.00"
-                        android:textColor="#F5336F"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="45dp"
-                        android:textSize="19sp" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="45dp"/>
-                </RelativeLayout>
-
-                <!--管理-->
-                <RelativeLayout
-                    android:id="@+id/rl_gl"
-                    android:layout_below="@id/rl_yjdl"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_guanli_wen"
-                        android:text="管理收益"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
-                        android:layout_centerVertical="true"
-                        android:textSize="14sp"
-                        android:drawablePadding="3dp"
-                        android:drawableRight="@mipmap/xinren_wen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/tv_guan_li"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0.00"
-                        android:textColor="#F5336F"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="45dp"
-                        android:textSize="19sp" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="45dp"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_below="@id/rl_yjdl"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
 
@@ -847,7 +786,7 @@
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="45dp"
+                        android:layout_marginRight="26dp"
                         android:textSize="19sp" />
                     <View
                         android:layout_width="match_parent"
@@ -855,7 +794,45 @@
                         android:background="#EEEEEE"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="45dp"
-                        android:layout_marginRight="45dp"/>
+                        android:layout_marginRight="14dp"/>
+                </RelativeLayout>
+
+                <!--代理收益-->
+                <RelativeLayout
+                    android:id="@+id/rl_agent_sy"
+                    android:layout_below="@id/rl_yjdl"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tv_agent_wen"
+                        android:text="代理收益"
+                        android:layout_marginLeft="45dp"
+                        android:textColor="#AFAFAF"
+                        android:layout_centerVertical="true"
+                        android:textSize="14sp"
+                        android:drawablePadding="3dp"
+                        android:drawableRight="@mipmap/xinren_wen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_yiji_daili"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="#F5336F"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="26dp"
+                        android:textSize="19sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:background="#EEEEEE"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="45dp"
+                        android:layout_marginRight="14dp"/>
                 </RelativeLayout>
 
                 <ImageView
@@ -869,17 +846,8 @@
 
                 <ImageView
                     android:id="@+id/img_agent_tishi"
-                    android:layout_marginTop="130dp"
-                    android:src="@mipmap/img_dl_tishi"
-                    android:layout_marginLeft="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
-
-                <ImageView
-                    android:id="@+id/img_guanli_tishi"
                     android:layout_marginTop="177dp"
-                    android:src="@mipmap/img_gl_tishi"
+                    android:src="@mipmap/img_dl_tishi"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -888,7 +856,7 @@
                 <!--  android:layout_marginTop="224dp"-->
                 <ImageView
                     android:id="@+id/img_gouwu_tishi"
-                    android:layout_marginTop="177dp"
+                    android:layout_marginTop="130dp"
                     android:src="@mipmap/img_gw_tishi"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
@@ -920,9 +888,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="160dp"
                 android:layout_marginBottom="30dp"
-                android:src="@mipmap/my_shangjia"/>
+                android:src="@mipmap/my_shangjia"
+                android:visibility="invisible"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

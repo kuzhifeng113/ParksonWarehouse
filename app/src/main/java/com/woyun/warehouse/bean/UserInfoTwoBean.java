@@ -19,6 +19,8 @@ public class UserInfoTwoBean {
      * bcMoney : 0.0
      * agentMoney : 0.0
      * isTree
+     * totalBkMoney
+     * agentTotalBkMoney
      */
 
     private double manageMoney;
@@ -43,6 +45,24 @@ public class UserInfoTwoBean {
     private double lastWeekMoney;//上周奖励
     private double weekMoney;//本周奖励
     private double monthMoney;//本月奖励
+    private double totalBkMoney;//最终可获得返回收益
+    private double agentTotalBkMoney;//最终可获得返回收益
+
+    public double getAgentTotalBkMoney() {
+        return agentTotalBkMoney;
+    }
+
+    public void setAgentTotalBkMoney(double agentTotalBkMoney) {
+        this.agentTotalBkMoney = agentTotalBkMoney;
+    }
+
+    public double getTotalBkMoney() {
+        return totalBkMoney;
+    }
+
+    public void setTotalBkMoney(double totalBkMoney) {
+        this.totalBkMoney = totalBkMoney;
+    }
 
     public double getLastWeekMoney() {
         return lastWeekMoney;

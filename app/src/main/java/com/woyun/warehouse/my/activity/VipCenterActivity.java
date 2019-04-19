@@ -378,7 +378,7 @@ public class VipCenterActivity extends BaseActivity implements CommonPopupWindow
                                     llXuFei.setVisibility(View.GONE);
                                 }
                             } else {
-                                tvYearVip.setText("普通用户");
+                                tvYearVip.setText("普通会员");
                                 llJhbuyVip.setVisibility(View.VISIBLE);
                                 llXuFei.setVisibility(View.GONE);
                             }

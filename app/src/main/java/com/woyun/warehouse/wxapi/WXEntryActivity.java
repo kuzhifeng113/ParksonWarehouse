@@ -30,10 +30,12 @@ import com.woyun.warehouse.SMSCodeActivity;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
+import com.woyun.warehouse.baseparson.event.ShareEvent;
 import com.woyun.warehouse.baseparson.event.WxUserInfoEvent;
 import com.woyun.warehouse.bean.UserInfoBean;
 import com.woyun.warehouse.bean.WxAccessResult;
 import com.woyun.warehouse.bean.WxUserInfoResult;
+import com.woyun.warehouse.grabbuy.activity.GrabDetailActivity;
 import com.woyun.warehouse.my.activity.BindAccountActivity;
 import com.woyun.warehouse.my.activity.BindPhoneActivity;
 import com.woyun.warehouse.utils.ModelLoading;
@@ -43,6 +45,8 @@ import com.woyun.warehouse.utils.SystemUtil;
 import com.woyun.warehouse.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +61,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import udesk.org.jivesoftware.smackx.xevent.packet.MessageEvent;
 
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -107,7 +112,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (resp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {//分享
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
+                    if(resp.transaction.contains("timewebpage")){//限时抢购商品分享
+                        Log.e(TAG, "onResp:限时抢购商品分享 ");
+                        EventBus.getDefault().post(new ShareEvent(true));
+                    }
                     finish();
+
                     break;
             }
         }
@@ -349,54 +359,4 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         }
     }
 
-
-    /**
-     *
-     * @param userid
-     * @param type   1 绑定 微信  2  支付宝
-     * @param wx
-
-     */
-//    private void doBind(String userid, final int type, String wx){
-//        ModelLoading.getInstance(WXEntryActivity.this).showLoading("",true);
-//        try {
-//            JSONObject params = new JSONObject();
-//            params.put("userid", userid);
-//            params.put("type", type);
-//            params.put("wx", wx);
-//
-//
-//            RequestInterface.agentPrefix(WXEntryActivity.this, params, TAG, ReqConstance.I_AGENT_BINDING, 1, new HSRequestCallBackInterface() {
-//                @Override
-//                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-//                    ModelLoading.getInstance(WXEntryActivity.this).closeLoading();
-//                    if (code == 0) {
-////                        if(type==2){
-////                            tvAlipay.setText("("+zfb+") 已绑定");
-////                            tvAlipay.setTextColor(getResources().getColor(R.color.mainColor));
-////                        }else{
-////                            tvWechat.setText("("+zfb+") 已绑定");
-////                            tvWechat.setTextColor(getResources().getColor(R.color.mainColor));
-////                        }
-//                        ToastUtils.getInstanc(WXEntryActivity.this).showToast(msg);
-//                    } else {
-//                        ToastUtils.getInstanc(WXEntryActivity.this).showToast(msg);
-//                    }
-//                }
-//
-//                @Override
-//                public void requestError(String s, int i) {
-//                    ModelLoading.getInstance(WXEntryActivity.this).closeLoading();
-//                    ToastUtils.getInstanc(WXEntryActivity.this).showToast(s);
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            Intent intent=new Intent(WXEntryActivity.this,BindAccountActivity.class);
-//
-//        }
-//
-//
-//    }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +14,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +41,6 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.baseparson.adapter.ListDemoAdapter;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.WxPayBean;
@@ -126,16 +121,25 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
     Switch switchBcmoney;
     @BindView(R.id.iv_invoice)
     ImageView ivInvoice;
+    @BindView(R.id.tv_beizhu)
+    TextView tvBeizhu;
+    @BindView(R.id.tv_share_money)
+    TextView tvShareMoney;
+    @BindView(R.id.rl_share)
+    RelativeLayout rlShare;
+    @BindView(R.id.view_share)
+    View viewShare;
 
     private OrderXiaDanAdapter orderDeatailAdapter;
     private double totalPrice;
+
     private double trnasPort = 0.0;//邮费
     private ShipAddressBean orderAddres;
     private CommonPopupWindow popupWindow;
     private CommonPopupWindow downWindow;
     private IWXAPI api;
     private String tradeNo;//生成订单的订单号
-    private String bcCoin, bcMoney;//仓币 余额
+    private String bcCoin, bcMoney, shareMoney;//仓币 余额  分享减免钱
 
     private List<ShipAddressBean.InvoiceListBean> peopleDatas = new ArrayList<>();//个人发票集合
     private List<ShipAddressBean.InvoiceListBean> unitDatas = new ArrayList<>();//单位发票集合
@@ -147,6 +151,9 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
     private String province, city, county;//省市区
     private String manTransport;//满多少包邮
 
+    private int goodsId;//商品id
+    private int rushId;//限时抢购id
+    private boolean isLimitedTime;//是否是限时抢购商品--不能用仓币
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,14 +168,18 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(orderDeatailAdapter);
 
+        isLimitedTime = getIntent().getBooleanExtra("is_limited_time", false);
+        rushId = getIntent().getIntExtra("rush_id", 0);
+        goodsId = getIntent().getIntExtra("goods_id", 0);
+
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        getAddressData(loginUserId);
-//        initData();
+
+        getAddressData(loginUserId, rushId, goodsId);
 
         switchBcoin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -266,12 +277,17 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      *
      * @param userId
      */
-    private void getAddressData(String userId) {
+    private void getAddressData(String userId, int rushId, int goodsId) {
         ModelLoading.getInstance(OrderXiaDanActivity.this).showLoading("", true);
         //获取数据
         try {
             JSONObject params = new JSONObject();
             params.put("userid", userId);
+            if (isLimitedTime) {
+                params.put("rushId", rushId);
+                params.put("goodsId", goodsId);
+            }
+
             RequestInterface.userPrefix(OrderXiaDanActivity.this, params, TAG, ReqConstance.I_DEFALUT_ADDREDSS_MONEY_CB, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
@@ -282,6 +298,16 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                             String jsonResult = jsonArray.get(0).toString();
                             orderAddres = gson.fromJson(jsonResult, ShipAddressBean.class);
                             manTransport = orderAddres.getTransport();
+                            //判断是否显示分享减免
+                            shareMoney = orderAddres.getShareMoney();
+                            tvShareMoney.setText("-￥"+shareMoney);
+                            if(!shareMoney.equals("0")){
+                                rlShare.setVisibility(View.VISIBLE);
+                                viewShare.setVisibility(View.VISIBLE);
+                            }else{
+                                rlShare.setVisibility(View.GONE);
+                                viewShare.setVisibility(View.GONE);
+                            }
                             initData();
                             if (TextUtils.isEmpty(orderAddres.getProvince())) {//没设置地址
                                 tvNoAddress.setVisibility(View.VISIBLE);
@@ -301,26 +327,18 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 //                            tvBcMoney.setText("-￥" + orderAddres.getBcMoney());
                             bcCoin = orderAddres.getBcCoin();
                             bcMoney = orderAddres.getBcMoney();
+
                             tvKeyongBcoin.setText("可用" + orderAddres.getBcCoin() + "仓币抵用");
                             tvKeyongBcmoney.setText("可用余额" + orderAddres.getBcMoney());
+
                             if (orderAddres.getBcCoin().equals("0")) {
                                 switchBcoin.setClickable(false);
                             }
                             if (orderAddres.getBcMoney().equals("0")) {
                                 switchBcmoney.setClickable(false);
                             }
+
                             allInvoiceDatas = orderAddres.getInvoiceList();
-
-//                            if(orderAddres.getInvoiceList().size()>0){
-//                                for(ShipAddressBean.InvoiceListBean invoiceListBean:orderAddres.getInvoiceList()){
-//                                    if(invoiceListBean.getType()==0){
-//                                        peopleDatas.add(invoiceListBean);
-//                                    }else{
-//                                        unitDatas.add(invoiceListBean);
-//                                    }
-//                                }
-//                            }
-
                             calculationPrice();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -348,17 +366,18 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      * 计算合计价格
      */
     private void calculationPrice() {
-        Log.e(TAG, "计算价格calculationPrice: " );
+        Log.e(TAG, "计算价格calculationPrice: ");
 //        描述：
 //        1，非VIP只能微信支付宝支付，并且计算邮费
 //        2，VIP 和代理 都可以使用仓币+余额
 //        3，代理才可以使用仓币+余额
         double zongjia = 0.0;
-        boolean isaddYfei=false;//是否加过邮费
+        boolean isaddYfei = false;//是否加过邮费
         double transPortPrice = Double.valueOf(tvTransport.getText().toString());//邮费
         double bcCoinPrice = Double.valueOf(orderAddres.getBcCoin());//仓币
 //        double bcCoinPrice = 5;//仓币
         double bcMoneyPrice = Double.valueOf(orderAddres.getBcMoney());//余额
+        double bcSharePrice = Double.valueOf(orderAddres.getShareMoney());//分享减额
 
         if (isVip || isAgent) {// VIP 跟代理
             if (bcCoin.equals("0")) {
@@ -373,6 +392,10 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 switchBcmoney.setClickable(true);
             }
 
+            if (isLimitedTime) {
+                switchBcoin.setClickable(false);
+            }
+
             //仓币不抵押邮费
             if (switchBcoin.isChecked()) {
                 //判断仓币是否大于商品价格
@@ -384,7 +407,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                     tvBcCoin.setText("-￥" + bcCoinPrice);
                     zongjia = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
                     zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
-                    isaddYfei=true;
+                    isaddYfei = true;
                 }
             } else {
                 tvBcCoin.setText("-￥0");
@@ -395,14 +418,15 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             //余额开关选中
             if (switchBcmoney.isChecked()) {
                 if (bcMoneyPrice > totalPrice) {//余额大于商品价格
-                    tvBcMoney.setText("-￥" + BigDecimalUtil.getAdd(totalPrice, transPortPrice));//加上邮费
+                    double current= BigDecimalUtil.getAdd(totalPrice, transPortPrice);//加上邮费
+                    tvBcMoney.setText("-￥" + BigDecimalUtil.geSub(current, bcSharePrice));//减去分享减免的
                     zongjia = BigDecimalUtil.getAdd(0, 0);
                 } else {
                     tvBcMoney.setText("-￥" + bcMoneyPrice);
                     zongjia = BigDecimalUtil.geSub(zongjia, bcMoneyPrice);
-                    if(isaddYfei){
-                        Log.e(TAG, "不用加" );
-                    }else{
+                    if (isaddYfei) {
+                        Log.e(TAG, "不用加");
+                    } else {
                         zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
                     }
                 }
@@ -417,7 +441,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             if (switchBcoin.isChecked() && switchBcmoney.isChecked()) {
                 if (bcCoinPrice > totalPrice) {//仓币大于商品价格
                     tvBcCoin.setText("-￥" + totalPrice);
-                    tvBcMoney.setText("-￥"+transPortPrice);
+                    tvBcMoney.setText("-￥" + transPortPrice);
                 } else {
                     tvBcCoin.setText("-￥" + bcCoinPrice);
                     double chaValue = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
@@ -427,7 +451,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                         tvBcMoney.setText("-￥" + bcMoneyPrice);
                     }
                 }
-            }else if(!switchBcoin.isChecked() &&!switchBcmoney.isChecked()){
+            } else if (!switchBcoin.isChecked() && !switchBcmoney.isChecked()) {
                 //加上邮费
                 zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
             }
@@ -436,6 +460,8 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             switchBcmoney.setClickable(false);
             zongjia = BigDecimalUtil.getAdd(totalPrice, transPortPrice);
         }
+        //减去分享减额的
+        zongjia=BigDecimalUtil.geSub(zongjia,bcSharePrice);
         if (zongjia > 0) {
             tvHejiPrice.setText("￥" + zongjia);
         } else {
@@ -599,7 +625,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 
             @Override
             public void onInputCompleted(CharSequence s) {
-                Log.e(TAG, "onInputCompleted: 输入完成" );
+                Log.e(TAG, "onInputCompleted: 输入完成");
                 //输入完成请求接口
                 String code = s.toString();
                 int type = 0;
@@ -620,7 +646,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 } else {
                 }
                 twoPassWordDialog.dismiss();
-                if(s.toString().length()==4){
+                if (s.toString().length() == 4) {
                     payOperation(loginUserId, type, MD5Util.getMD5(code));
                 }
             }
@@ -643,7 +669,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      * @param
      */
     private void payOperation(String userId, final int payType, String pwd) {
-        Log.e(TAG, "payOperation:################################## " +payType);
+        Log.e(TAG, "payOperation:################################## " + payType);
         ModelLoading.getInstance(OrderXiaDanActivity.this).showLoading("", true);
         //获取数据
         try {
@@ -669,6 +695,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
             params.put("userid", userId);
+            params.put("rushId",rushId);
             params.put("province", province);
             params.put("city", city);
             params.put("county", county);
@@ -677,7 +704,11 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             params.put("phone", tvPhone.getText().toString());
             params.put("memo", editMemo.getText().toString());
             params.put("pwd", pwd);
-            params.put("tradeType", Constant.PAY_TYPE_SHOP);
+            if (isLimitedTime) {
+                params.put("tradeType", Constant.PAY_TYPE_LIMITED_TIME);
+            } else {
+                params.put("tradeType", Constant.PAY_TYPE_SHOP);
+            }
             params.put("payType", payType);
             params.put("usecb", switchBcoin.isChecked());
             params.put("useba", switchBcmoney.isChecked());
@@ -720,7 +751,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         ToastUtils.getInstanc(OrderXiaDanActivity.this).showToast(msg);
                     }
                 }

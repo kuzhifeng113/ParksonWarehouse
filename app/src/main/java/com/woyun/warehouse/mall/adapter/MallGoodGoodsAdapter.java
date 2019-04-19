@@ -85,12 +85,13 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
         GoodCategoryBean.PageBean.ContentBean goodsListBean = listData.get(position);
         holder.tv_goods_title.setText(goodsListBean.getName());
         holder.tv_vip_price.setText(String.valueOf(goodsListBean.getVipPrice()));
-        holder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+        holder.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
         holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //        holder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
         holder.tv_vip_back.setText("会员价");
-        holder.tv_youfei.setText("·全场满" + goodsListBean.getFreeShopping() + "包邮");
-        holder.tv_sales_volume.setText("·销量:" + goodsListBean.getSellNum());
+//        holder.tv_youfei.setText("·全场满" + goodsListBean.getFreeShopping() + "包邮");
+        holder.tv_youfei.setText("·全场一件包邮");
+        holder.tv_sales_volume.setText("·已售:" + goodsListBean.getSellNum());
         holder.tv_kucun.setText("·库存:" + goodsListBean.getStock());
         holder.tv_supplier.setText(goodsListBean.getSupplier());
         holder.tv_show_num.setText("1/" + listData.get(position).getResList().size());

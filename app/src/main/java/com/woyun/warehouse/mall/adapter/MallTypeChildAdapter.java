@@ -73,7 +73,7 @@ public class MallTypeChildAdapter extends BaseAdapter {
 //        holder.tv_goods_name.setText(goodsListBean.getName());
 //        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
 //        holder.tv_vip_price.setText(goodsListBean.getVipPrice());
-//        holder.tv_goods_price.setText("原价:"+goodsListBean.getPrice());
+//        holder.tv_goods_price.setText("市场价:"+goodsListBean.getPrice());
 //
 ////        if( onItemClickListener!= null){
 ////            holder.itemView.setOnClickListener( new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class MallTypeChildAdapter extends BaseAdapter {
 //            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
             myViewHolder.tv_vip_back.setText("会员价");
             myViewHolder.tv_vip_price.setText(goodsListBean.getVipPrice());
-            myViewHolder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+            myViewHolder.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
             myViewHolder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             convertView.setTag(myViewHolder);
 //        if( onItemClickListener!= null){
@@ -139,7 +139,7 @@ public class MallTypeChildAdapter extends BaseAdapter {
 //            myViewHolder.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
             myViewHolder.tv_vip_back.setText("会员价");
             myViewHolder.tv_vip_price.setText(goodsListBean.getVipPrice());
-            myViewHolder.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+            myViewHolder.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
             myViewHolder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
         return convertView;

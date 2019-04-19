@@ -38,6 +38,7 @@ public class GoodsDetailBean implements Serializable {
     private int goodsId;
     private String bkCoin;//返多少
     private String transport;
+    private String shareMoney;//分享多少钱
     private String title;
     private String content;
     private String price;
@@ -135,6 +136,14 @@ public class GoodsDetailBean implements Serializable {
 
     public void setTransport(String transport) {
         this.transport = transport;
+    }
+
+    public String getShareMoney() {
+        return shareMoney;
+    }
+
+    public void setShareMoney(String shareMoney) {
+        this.shareMoney = shareMoney;
     }
 
     public String getTitle() {

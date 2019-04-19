@@ -3,6 +3,7 @@ package com.woyun.warehouse.grabbuy.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -63,6 +64,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
+import com.woyun.warehouse.baseparson.event.ShareEvent;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.ContentListBean;
 import com.woyun.warehouse.bean.GoodsDetailBean;
@@ -70,7 +72,9 @@ import com.woyun.warehouse.bean.ResListBean;
 import com.woyun.warehouse.bean.SkuListBean;
 import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.mall.ProductSkuDialog;
+import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.LookImageVideoActivity;
+import com.woyun.warehouse.mall.activity.PosterActivity;
 import com.woyun.warehouse.mall.adapter.NativeContentAdapter;
 import com.woyun.warehouse.mall.adapter.NativeViewPageAdapter;
 import com.woyun.warehouse.utils.BigDecimalUtil;
@@ -84,6 +88,9 @@ import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,7 +102,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -176,6 +182,10 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     TextView tvYiqiang;
     @BindView(R.id.tv_sheng)
     TextView tvSheng;
+    @BindView(R.id.tv_less_money)
+    TextView tvLessMoney;
+    @BindView(R.id.btn_share_jian)
+    LinearLayout btnShareJian;
 
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
@@ -217,7 +227,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                     showSharePop();
                     break;
                 case TIME_DESC:
-                    chaTime= chaTime-1000;
+                    chaTime = chaTime - 1000;
                     if (chaTime > 0) {
                         imgGoodsBuy.setClickable(true);
                         mHandler.sendEmptyMessageDelayed(TIME_DESC, 1000);
@@ -231,13 +241,16 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         }
     };
 
+    private int rushId;//限时抢购 id
     private long chaTime;
+    private long startTime, endTime;//结束时间
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grab_detail);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         mContext = GrabDetailActivity.this;
         mIUiListener = new ShareQQListener();
         iwxApi = WXAPIFactory.createWXAPI(GrabDetailActivity.this, Constant.WX_APP_ID);
@@ -256,7 +269,11 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
-
+        rushId = getIntent().getIntExtra("rush_id", 0);
+        startTime = getIntent().getLongExtra("start_time", 0);
+        endTime = getIntent().getLongExtra("end_time", 0);
+        Log.e(TAG, "onCreateendTime==: " + startTime);
+        Log.e(TAG, "onCreatestartTime==: " + endTime);
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
 
@@ -294,6 +311,13 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         getData(goodsId);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getShareValue(ShareEvent shareEvent) {
+        Log.e(TAG, "getShareValue: "+shareEvent.isShare() );
+        if(shareEvent.isShare()){
+           shareSussessRequest();
+        }
+    }
     /**
      * @param type 1 加入购物车
      *             2  直接购买
@@ -344,7 +368,6 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                     ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
                     tokenTimeLimit(GrabDetailActivity.this, code);
                     if (code == 0) {
-                        String jsonResult = jsonArray.toString();
                         try {
                             Gson gson = new Gson();
                             goodsDetailBean = gson.fromJson(jsonArray.get(0).toString(), GoodsDetailBean.class);
@@ -393,7 +416,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
      *
      * @param goodsDetailBean
      */
-    private void pasterData(GoodsDetailBean goodsDetailBean)  {
+    private void pasterData(GoodsDetailBean goodsDetailBean) {
         resListBeanList.clear();
         contentListBeanList.clear();
         List<SkuListBean> skuList = goodsDetailBean.getSkuList();
@@ -402,67 +425,62 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         tvShowNum.setText("1/" + goodsDetailBean.getResList().size());
         tvPrice.setText(goodsDetailBean.getVipPrice());
 //        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
-        tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsPrice.setText("市场价:" + goodsDetailBean.getPrice());
         tvGoodsPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tvGoodsTitle.setText(goodsDetailBean.getName());
 
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
-        tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
+        tvSalesVolume.setText("已售：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
 
-        if (isVip) {
-            tvBaoYou.setText("VIP包邮");
-        } else {
-            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
-        }
+//        if (isVip) {
+//            tvBaoYou.setText("VIP包邮");
+//        } else {
+//            tvBaoYou.setText("普通用户包邮");
+////            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+//        }
+        tvBaoYou.setText("全场一件包邮");
 
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
         //距离结束时间
-        long currentTimeMillis=System.currentTimeMillis();
-        long endTime= 0;
-        try {
-            endTime = TimeTools.dateToStamp(Constant.end_day);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        long currentTimeMillis = System.currentTimeMillis();
+//        long endTime= 0;
+//        try {
+//            endTime = TimeTools.dateToStamp(Constant.end_day);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        //当前时间大于开始时间 小于结束时间
+        if (currentTimeMillis < startTime) {//未开始
+            imgGoodsBuy.setClickable(false);
+            tvEndTime.setText("未开始");
         }
-        if(currentTimeMillis<endTime){
+        if (currentTimeMillis >= startTime && currentTimeMillis < endTime) {
             imgGoodsBuy.setClickable(true);
-            chaTime=endTime-currentTimeMillis;
+            chaTime = endTime - currentTimeMillis;
             mHandler.sendEmptyMessage(TIME_DESC);
-//            mHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    tvEndTime.setText(TimeTools.getCountTimeByLong(chaTime));
-//                    if (chaTime > 0) {
-//                        mHandler.postDelayed(this, 1000);
-//                    } else {
-//                        tvEndTime.setText("已结束");
-//                        imgGoodsBuy.setClickable(false);
-////                        Toast.makeText(mContext,"运行结束", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            },1000);
-        }else{
+        } else {
             tvEndTime.setText("已结束");
             imgGoodsBuy.setClickable(false);
         }
+        tvLessMoney.setText(goodsDetailBean.getShareMoney()+"元");
 
-        tvSheng.setText("剩余"+goodsDetailBean.getStock()+"件");
-        tvYiqiang.setText("已抢购"+goodsDetailBean.getSellNum()+"件");
-        int totalNum=goodsDetailBean.getStock()+goodsDetailBean.getSellNum();
+        tvSheng.setText("剩余" + goodsDetailBean.getStock() + "件");
+        tvYiqiang.setText("已抢购" + goodsDetailBean.getSellNum() + "件");
+        int totalNum = goodsDetailBean.getStock() + goodsDetailBean.getSellNum();
         //算进度比
-        if(goodsDetailBean.getSellNum()<totalNum){
+        if (goodsDetailBean.getSellNum() < totalNum) {
             NumberFormat numberFormat = NumberFormat.getInstance();
             numberFormat.setMaximumFractionDigits(2);//保留2位小数
-            String percentage=numberFormat.format((float) goodsDetailBean.getSellNum() / (float) totalNum  * 100);
-            if(percentage.contains(".")){
-                String  result= percentage.substring(0,percentage.indexOf("."));
+            String percentage = numberFormat.format((float) goodsDetailBean.getSellNum() / (float) totalNum * 100);
+            if (percentage.contains(".")) {
+                String result = percentage.substring(0, percentage.indexOf("."));
                 previewProgressBar.setProgress(Integer.valueOf(result));
-            }else{
+            } else {
                 previewProgressBar.setProgress(Integer.valueOf(percentage));
             }
-        }else{
+        } else {
             previewProgressBar.setProgress(100);
         }
 
@@ -546,7 +564,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     }
 
 
-    @OnClick({R.id.img_goods_buy, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top, R.id.img_kf})
+    @OnClick({R.id.img_goods_buy, R.id.img_goods_share, R.id.img_bijia, R.id.img_back_top, R.id.img_kf,R.id.btn_share_jian})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_kf://客服
@@ -619,6 +637,9 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
             case R.id.img_goods_share:
                 returnBitMap(shareIconUrl);
 //                showSharePop();
+                break;
+            case R.id.btn_share_jian://分享得多少money
+                returnBitMap(shareIconUrl);
                 break;
             case R.id.img_bijia://比价
                 if (TextUtils.isEmpty(compareUrl)) {
@@ -725,6 +746,9 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         Intent intent = new Intent(GrabDetailActivity.this, OrderXiaDanActivity.class);
         intent.putExtra("total_price", totalPrice);
         intent.putExtra("select_data", (Serializable) selectList);
+        intent.putExtra("is_limited_time",true);//是否是限时抢购商品
+        intent.putExtra("rush_id",rushId);
+        intent.putExtra("goods_id",goodsId);
         startActivity(intent);
 //        finish();
     }
@@ -748,6 +772,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         super.onDestroy();
         Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
+        EventBus.getDefault().unregister(this);
         mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
 //        mHandler.r
@@ -794,11 +819,11 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     private void showSharePop() {
 
         if (popupWindow != null && popupWindow.isShowing()) return;
-        View upView = LayoutInflater.from(GrabDetailActivity.this).inflate(R.layout.popup_share, null);
+        View upView = LayoutInflater.from(GrabDetailActivity.this).inflate(R.layout.popup_share_haibao, null);
         //测量View的宽高
         DensityUtils.measureWidthAndHeight(upView);
         popupWindow = new CommonPopupWindow.Builder(GrabDetailActivity.this)
-                .setView(R.layout.popup_share)
+                .setView(R.layout.popup_share_haibao)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
                 .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
                 .setAnimationStyle(R.style.AnimUp)
@@ -811,7 +836,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     public void getChildView(View view, int layoutResId) {
         ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
         ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
-        ImageView shareWb = (ImageView) view.findViewById(R.id.img_share_wb);
+        ImageView shareHB = (ImageView) view.findViewById(R.id.img_share_haibao);
         ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
         TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
 
@@ -836,16 +861,22 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
             }
         });
 
-        shareWb.setOnClickListener(new View.OnClickListener() {
+        //生成海报
+        shareHB.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                /**
-                 * 第三方应用发送请求消息到微博，唤起微博分享界面。
-                 */
-                sendMessage(true, false);
+                Intent intent=new Intent(GrabDetailActivity.this,PosterActivity.class);
+                intent.putExtra("share_goods_id",goodsId);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GrabDetailActivity.this).toBundle());
+
+//                /**
+//                 * 第三方应用发送请求消息到微博，唤起微博分享界面。
+//                 */
+//                sendMessage(true, false);
             }
         });
 
@@ -961,12 +992,16 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         //网络图片
         Bitmap thumbBmp = Bitmap.createScaledBitmap(mBitmapCover, THUMB_SIZE, THUMB_SIZE, true);
         msg.thumbData = bmpToByteArray2(thumbBmp, true);
+
         mBitmapCover.recycle();
         //构造一个Req
         SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = buildTransaction("webpage");
+//        req.transaction = buildTransaction("webpage");//对应该请求的事务ID，通常由Req发起，回复Resp时应填入对应事务ID
+        req.transaction = "timewebpage"+System.currentTimeMillis();//对应该请求的事务ID，通常由Req发起，回复Resp时应填入对应事务ID
+
         req.message = msg;
         req.scene = id;
+
         return req;
     }
 
@@ -1007,6 +1042,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         public void onComplete(Object object) {
             Log.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
+            shareSussessRequest();
         }
 
         @Override
@@ -1026,19 +1062,20 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
-        Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
-        shareHandler.doResultIntent(data, this);
-        if (requestCode == Constants.REQUEST_API) {
-            if (resultCode == Constants.REQUEST_QQ_SHARE || resultCode == Constants.REQUEST_QZONE_SHARE || resultCode == Constants.REQUEST_OLD_SHARE) {
+//        Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
+        if (requestCode == Constants.REQUEST_QQ_SHARE) {//REQUEST_QQ_SHARE = 10103;  qq分享请求   1 微博分享
                 Tencent.handleResultData(data, mIUiListener);
-            }
+        }else{
+            shareHandler.doResultIntent(data, this);
         }
     }
 
     //微博分享回调
     @Override
     public void onWbShareSuccess() {
-        Toast.makeText(this, R.string.weibosdk_demo_toast_share_success, Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, R.string.weibosdk_demo_toast_share_success, Toast.LENGTH_LONG).show();
+        Log.e(TAG, "onWbShareSuccess: ====" );
+        shareSussessRequest();
     }
 
     @Override
@@ -1072,13 +1109,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                 .go(webUrl);
         //java.lang.IllegalStateException: Unable to create layer for WebView, size 1080x8448 exceeds max size
         mAgentWeb.getWebCreator().getWebView().setLayerType(View.LAYER_TYPE_NONE, null);
-//
-//        //注入对象
-//        if (mAgentWeb != null) {
-//            mAgentWeb.getJsInterfaceHolder().addJavaObject("android", new AndroidInterface(mAgentWeb, GoodsDetailNativeWebActivity.this));
-//        }
-//
-//        mAgentWeb.getJsAccessEntrace().quickCallJs("getImage()");
+
 
     }
 
@@ -1135,4 +1166,37 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         }
 
     };
+
+    /**
+     * 分享成功回调
+     */
+    private  void shareSussessRequest(){
+        ModelLoading.getInstance(GrabDetailActivity.this).showLoading("", true);
+        //获取数据
+        try {
+            JSONObject params = new JSONObject();
+            params.put("rushId", rushId);
+            params.put("goodsId", goodsId);
+            params.put("userid", loginUserId);
+            RequestInterface.rushPrefix(GrabDetailActivity.this, params, TAG, ReqConstance.I_RUSH_GOODS_SHARE, 1, new HSRequestCallBackInterface() {
+                @Override
+                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
+                    ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+                        ToastUtils.getInstanc(GrabDetailActivity.this).showToast(msg);
+                }
+
+                @Override
+                public void requestError(String s, int i) {
+                    ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast(s);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 }

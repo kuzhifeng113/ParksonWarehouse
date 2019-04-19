@@ -454,17 +454,18 @@ public class GoodsDetailNativeWebActivity extends BaseActivity implements Common
         tvPrice.setText(goodsDetailBean.getVipPrice());
 //        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
         tvVipBack.setText("会员价");
-        tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsPrice.setText("市场价:" + goodsDetailBean.getPrice());
         tvGoodsPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tvGoodsTitle.setText(goodsDetailBean.getName());
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
-        tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
+        tvSalesVolume.setText("已售：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        if(isVip){
-            tvBaoYou.setText("VIP包邮");
-        }else{
-            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
-        }
+//        if(isVip){
+//            tvBaoYou.setText("VIP包邮");
+//        }else{
+//            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+//        }
+        tvBaoYou.setText("全场一件包邮");
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
 

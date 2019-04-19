@@ -95,8 +95,8 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
 
     @BindView(R.id.scrollView)
     JudgeNestedScrollView scrollView;
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
+    @BindView(R.id.iv_tool_back)
+    ImageView ivToolBack;
     @BindView(R.id.buttonBarLayout)
     ButtonBarLayout buttonBarLayout;
     @BindView(R.id.text_memu)
@@ -110,7 +110,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     @BindView(R.id.img_ding)
     TextView imgDing;
     @BindView(R.id.tv_username)
-    TextView tvUsername;
+    ImageView tvUsername;
     @BindView(R.id.img_head)
     CircleImageView imgHead;
     @BindView(R.id.tv_name)
@@ -185,6 +185,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
         unbinder = ButterKnife.bind(this, view);
         EventBus.getDefault().register(this);
         initView();
+        initViewState();
         Log.e(TAG, "onCreateView:@@@@@@@ ");
         toolBar.setVisibility(View.GONE);
         ImmersionBar.setTitleBar(getActivity(), toolBar);
@@ -335,35 +336,65 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             Log.e(TAG, "setUserVisibleHint:###########");
-            isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
-            isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
-            boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
-            if (isLogin) {
-                tvName.setText((String) SPUtils.getInstance(getActivity()).get(Constant.USER_NICK_NAME, ""));
-                String headUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_AVATAR, "");
-                Glide.with(getActivity()).load(headUrl).error(R.mipmap.ic_head_default).into(imgHead);
-                if (isVip) {
-                    tvVipType.setText("VIP会员");
-                }
-                if (isAgent) {
-                    tvVipType.setText("金牌代理");
-                }
-                tvVipType.setVisibility(View.VISIBLE);
-            } else {
-                tvName.setText("立即登录");
-                tvVipType.setVisibility(View.INVISIBLE);
-                tvName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent goIntent = new Intent(getActivity(), LoginActivity.class);
-                        startActivity(goIntent);
-                        getActivity().finish();
-                    }
-                });
-            }
+//            isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
+//            isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
+//            boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
+//            if (isLogin) {
+//                tvName.setText((String) SPUtils.getInstance(getActivity()).get(Constant.USER_NICK_NAME, ""));
+//                String headUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_AVATAR, "");
+//                Glide.with(getActivity()).load(headUrl).error(R.mipmap.ic_head_default).into(imgHead);
+//                if (isVip) {
+//                    tvVipType.setText("VIP会员");
+//                }
+//                if (isAgent) {
+//                    tvVipType.setText("金牌代理");
+//                }
+//                tvVipType.setVisibility(View.VISIBLE);
+//            } else {
+//                tvName.setText("立即登录");
+//                tvVipType.setVisibility(View.INVISIBLE);
+//                tvName.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent goIntent = new Intent(getActivity(), LoginActivity.class);
+//                        startActivity(goIntent);
+//                        getActivity().finish();
+//                    }
+//                });
+//            }
 
         }
         super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    private void initViewState(){
+        Log.e(TAG, "setUserVisibleHint:###########");
+        isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
+        isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
+        boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
+        if (isLogin) {
+            tvName.setText((String) SPUtils.getInstance(getActivity()).get(Constant.USER_NICK_NAME, ""));
+            String headUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_AVATAR, "");
+            Glide.with(getActivity()).load(headUrl).error(R.mipmap.ic_head_default).into(imgHead);
+            if (isVip) {
+                tvVipType.setText("VIP会员");
+            }
+            if (isAgent) {
+                tvVipType.setText("金牌代理");
+            }
+            tvVipType.setVisibility(View.VISIBLE);
+        } else {
+            tvName.setText("立即登录");
+            tvVipType.setVisibility(View.INVISIBLE);
+            tvName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent goIntent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(goIntent);
+                    getActivity().finish();
+                }
+            });
+        }
     }
 
     private void initView() {
@@ -423,13 +454,13 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                 if (scrollY == 0) {
                     toolBar.setVisibility(View.GONE);
                     ivMenu.setVisibility(View.GONE);
-                    ivBack.setImageResource(R.mipmap.back_white);
+                    ivToolBack.setImageResource(R.mipmap.back_white);
 //                    ivMenu.setImageResource(R.mipmap.icon_menu_white);
                 } else {
                     toolBar.setVisibility(View.VISIBLE);
                     ivMenu.setVisibility(View.VISIBLE);
                     toolBar.setBackgroundColor(Color.parseColor("#F6CB66"));
-                    ivBack.setImageResource(R.mipmap.back_black);
+//                    ivBack.setImageResource(R.mipmap.back_black);
 //                    ivMenu.setImageResource(R.mipmap.icon_menu_black);
                 }
 
@@ -500,8 +531,8 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
             RequestInterface.userPrefixVersiontTwo(getActivity(), params, TAG, ReqConstance.I_USER_MAKE_MOENY, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
-                    MainActivity mainActivity = (MainActivity) getActivity();
-                    mainActivity.tokenTimeLimit(getActivity(), code);
+//                    MainActivity mainActivity = (MainActivity) getActivity();
+//                    mainActivity.tokenTimeLimit(getActivity(), code);
                     if (code == 0 && jsonArray.length() > 0) {
                         try {
                             JSONObject object = (JSONObject) jsonArray.get(0);
@@ -521,7 +552,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                                     }
 
                             } else {
-                                tvVipType.setText("普通用户");
+                                tvVipType.setText("普通会员");
 
                             }
                         } catch (JSONException e) {
@@ -562,7 +593,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
     }
 
 
-    @OnClick({R.id.img_ding, R.id.text_memu, R.id.btn_vip_share})
+    @OnClick({R.id.img_ding, R.id.text_memu, R.id.btn_vip_share,R.id.tv_username,R.id.iv_tool_back})
     public void onViewClicked(View view) {
         boolean isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
         boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
@@ -628,6 +659,10 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
                 }
                 Intent share = new Intent(getActivity(), ShareActivity.class);
                 startActivity(share);
+                break;
+            case R.id.tv_username://
+            case R.id.iv_tool_back://
+                getActivity().finish();
                 break;
 
 

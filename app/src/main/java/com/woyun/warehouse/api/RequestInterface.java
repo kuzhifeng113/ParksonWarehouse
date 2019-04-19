@@ -170,6 +170,19 @@ public class RequestInterface extends HSNetTools {
     }
 
     /**
+     * 福利模块
+     **/
+    public static void redpackPrefix(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {
+        //调用request之前必须设置服务器地址
+        setHostAddress(ReqConstance.HOST_ADDR);
+        //调用request之前请必须设置Token
+        setUserToken(getUserToken());
+        //调用request 之前必须设置userid
+        setUserId(getUserId());
+        request(context, ReqConstance.REDPACK_PREFIX, params, tag, funcID, reqID, callBackInterface);
+    }
+
+    /**
      * 获取上传头像图片OSS 参数
      **/
     public static void uploadImg(final Context context, final JSONObject params, final String tag, final int funcID, final int reqID, final HSRequestCallBackInterface callBackInterface) {

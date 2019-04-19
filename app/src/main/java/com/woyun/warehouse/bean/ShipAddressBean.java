@@ -32,6 +32,16 @@ public class ShipAddressBean implements Serializable {
     private String bcCoin;//仓币
     private String bcMoney;//余额
     private String transport;//满多少包邮
+    private String shareMoney;//分享减免多少钱
+    private String bcHb;//红包余额
+
+    public String getBcHb() {
+        return bcHb;
+    }
+
+    public void setBcHb(String bcHb) {
+        this.bcHb = bcHb;
+    }
 
     public String getTransport() {
         return transport;
@@ -202,5 +212,13 @@ public class ShipAddressBean implements Serializable {
         public void setEmail(String email) {
             this.email = email;
         }
+    }
+
+    public String getShareMoney() {
+        return shareMoney;
+    }
+
+    public void setShareMoney(String shareMoney) {
+        this.shareMoney = shareMoney;
     }
 }

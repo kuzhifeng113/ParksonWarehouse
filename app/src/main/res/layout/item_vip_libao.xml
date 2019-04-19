@@ -87,7 +87,7 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_marginTop="2dp"
-             android:text="原价"
+             android:text="市场价"
              android:textColor="#D2D2D2"
              android:textSize="12sp"
               />

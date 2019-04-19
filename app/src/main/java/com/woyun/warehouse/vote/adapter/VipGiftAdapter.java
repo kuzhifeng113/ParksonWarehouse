@@ -54,7 +54,7 @@ public class VipGiftAdapter extends RecyclerView.Adapter<VipGiftAdapter.MyViewHo
         Glide.with(context).load(vipGiftBean.getImage()).placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.round_img);
         holder.tv_title.setText(vipGiftBean.getTitle());
         holder.tv_vip_price.setText("￥"+vipGiftBean.getVipPrice());
-        holder.tv_price.setText("原价:"+vipGiftBean.getPrice());
+        holder.tv_price.setText("市场价:"+vipGiftBean.getPrice());
 
         holder.tv_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 

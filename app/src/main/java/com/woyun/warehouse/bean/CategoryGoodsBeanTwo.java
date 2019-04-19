@@ -137,7 +137,7 @@ public class CategoryGoodsBeanTwo {
             private List<?> skuList;
             private int viewType;//对应不能的布局
             private String supplier;//供应商
-            private String sellNum;//销量
+            private String sellNum;//已售
 
             public String getSupplier() {
                 return supplier;

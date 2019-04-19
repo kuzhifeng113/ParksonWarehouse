@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.PayTask;
@@ -141,6 +142,14 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     TextView tvInvoiceName;
     @BindView(R.id.ll_invoice)
     LinearLayout llInvoice;
+    @BindView(R.id.tv_yuer_des)
+    TextView tvYuerDes;
+    @BindView(R.id.tv_share_money)
+    TextView tvShareMoney;
+    @BindView(R.id.rl_share)
+    RelativeLayout rlShare;
+    @BindView(R.id.view_share)
+    View viewShare;
 
     private OrderDetailAdapter orderDeatailAdapter;
 
@@ -268,6 +277,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
 
     /**
      * 获取订单信息
+     *
      * @param userId
      * @param orderId
      */
@@ -295,6 +305,23 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                             tvBcCoin.setText("-￥" + String.valueOf(orderDetailBean.getBcCoin()));
                             tvBcMoney.setText("-￥" + String.valueOf(orderDetailBean.getBcMoney()));
                             tvShijiPay.setText("￥" + String.valueOf(orderDetailBean.getTotalFee()));
+                            //红包商品支付的  余额---》红包余额
+                            if (orderDetailBean.getPayType() == Constant.PAY_TYPE_RED_PACK) {
+                                tvYuerDes.setText("红包余额");
+                            } else {
+                                tvYuerDes.setText("余额");
+                            }
+                            //分享减免是否显示
+                            tvShareMoney.setText("-￥" + String.valueOf(orderDetailBean.getShareMoney()));
+
+                            if(orderDetailBean.getShareMoney().equals("0")){
+                                rlShare.setVisibility(View.GONE);
+                                viewShare.setVisibility(View.GONE);
+                            }else{
+                                rlShare.setVisibility(View.VISIBLE);
+                                viewShare.setVisibility(View.VISIBLE);
+                            }
+
                             if (TextUtils.isEmpty(orderDetailBean.getMemo())) {
                                 editMemo.setText("暂无备注~~~");
                             } else {
@@ -303,14 +330,14 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                             orderTime = orderDetailBean.getCreateTime();
                             tvOrderTime.setText("订单时间：" + DateUtils.longToStringTimed(orderDetailBean.getCreateTime()));
                             tvOrderNo.setText(orderDetailBean.getTradeNo());
-                            if(orderDetailBean.getUserInvoice()!=null){
+                            if (orderDetailBean.getUserInvoice() != null) {
                                 llInvoice.setVisibility(View.VISIBLE);
-                                if(orderDetailBean.getUserInvoice().getType()==1){//单位
-                                    tvInvoiceName.setText("单位名称："+orderDetailBean.getUserInvoice().getName());
-                                }else{
-                                    tvInvoiceName.setText("个人姓名："+orderDetailBean.getUserInvoice().getName());
+                                if (orderDetailBean.getUserInvoice().getType() == 1) {//单位
+                                    tvInvoiceName.setText("单位名称：" + orderDetailBean.getUserInvoice().getName());
+                                } else {
+                                    tvInvoiceName.setText("个人姓名：" + orderDetailBean.getUserInvoice().getName());
                                 }
-                            }else{
+                            } else {
                                 llInvoice.setVisibility(View.GONE);
                             }
 
@@ -333,7 +360,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                                     llYiCancel.setVisibility(View.VISIBLE);
                                 }
                             } else {//已经支付
-                                llJiaoyiMx.setVisibility(View.GONE);
+//                                llJiaoyiMx.setVisibility(View.GONE);
                                 if (orderDetailBean.getBillStatus() == 0) {// 0待处理，1已发货，2已收货，3取消订单  4 退款处理中  5 已退款
                                     tvOrderStatus.setText("待发货");
                                     llDaiFukuan.setVisibility(View.GONE);
@@ -682,8 +709,8 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                 confirmReciveOrder(tradeNo);
                 break;
             case R.id.tv_look_logistics://已发货---查看物流
-                Intent intent=new Intent(OrderDetailActivity.this, LogisticsActivity.class);
-                intent.putExtra("trade_no",tradeNo);
+                Intent intent = new Intent(OrderDetailActivity.this, LogisticsActivity.class);
+                intent.putExtra("trade_no", tradeNo);
                 startActivity(intent);
                 break;
             case R.id.tv_delete_order://删除订单
@@ -787,7 +814,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     /**
      * 确认收货
      */
-    private  void confirmReciveOrder(String tradeNoOrder) {
+    private void confirmReciveOrder(String tradeNoOrder) {
         ModelLoading.getInstance(OrderDetailActivity.this).showLoading("", true);
         //获取数据
         try {
@@ -800,7 +827,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                     ModelLoading.getInstance(OrderDetailActivity.this).closeLoading();
                     if (code == 0) {
                         ToastUtils.getInstanc(OrderDetailActivity.this).showToast(msg);
-                        getData(loginUserId,tradeNoOrder);
+                        getData(loginUserId, tradeNoOrder);
                     } else {
                         ToastUtils.getInstanc(OrderDetailActivity.this).showToast(msg);
                     }
@@ -820,20 +847,20 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     /**
      * 进入客服
      */
-    private void enterKeFu(){
+    private void enterKeFu() {
         UdeskSDKManager.getInstance().initApiKey(OrderDetailActivity.this, Constant.UDESK_DOMAN,
                 Constant.UDESK_KEY, Constant.UDESK_APPID);
-        String sdkToken= (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_ID,"");
+        String sdkToken = (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_ID, "");
 
         Map<String, String> info = new HashMap<String, String>();
         //以下信息是可选
-        info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_NICK_NAME,""));//昵称
-        info.put(UdeskConst.UdeskUserInfo.CELLPHONE,(String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_MOBILE,""));//手机
+        info.put(UdeskConst.UdeskUserInfo.NICK_NAME, (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_NICK_NAME, ""));//昵称
+        info.put(UdeskConst.UdeskUserInfo.CELLPHONE, (String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_MOBILE, ""));//手机
 
         UdeskConfig.Builder builder = new UdeskConfig.Builder();
         builder.setDefualtUserInfo(info);
-        builder.setCustomerUrl((String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_AVATAR,""));//用户头像
-        builder.setFirstMessage("你好我想咨询下这个订单号："+tradeNo);
+        builder.setCustomerUrl((String) SPUtils.getInstance(OrderDetailActivity.this).get(Constant.USER_AVATAR, ""));//用户头像
+        builder.setFirstMessage("你好我想咨询下这个订单号：" + tradeNo);
         builder.setNavigations(true, UdeskHelp.getInstance().getNavigations(), new INavigationItemClickCallBack() {
             @Override
             public void callBack(Context context, ChatActivityPresenter mPresenter, NavigationMode navigationMode) {

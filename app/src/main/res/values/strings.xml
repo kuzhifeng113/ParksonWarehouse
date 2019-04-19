@@ -33,13 +33,17 @@
     <string name="insert_address">添加编辑地址</string>
     <string name="my_collection">我的收藏</string>
     <string name="order_detail">订单详情</string>
+    <string name="poster">海报</string>
     <string name="my_order">我的订单</string>
     <string name="order_xiadan">下单</string>
+    <string name="fu_order_xiadan">福利商品下单</string>
     <string name="vip_centenr">会员中心</string>
     <string name="coin_detail">仓币明细</string>
+    <string name="redpack_detail">红包明细</string>
     <string name="yuer_detail">余额</string>
     <string name="agent_center">代理中心</string>
     <string name="with_draw">余额提现</string>
+    <string name="red_with_draw">红包余额提现</string>
     <string name="agent_rules">代理规则22</string>
     <string name="agent_open">代理开通</string>
     <string name="bind_accont">绑定账户</string>
@@ -73,6 +77,7 @@
     <string name="goods_hahuo">各地好货</string>
     <string name="look_image_video">看大图视频</string>
     <string name="native_goods">商品详情原生</string>
+    <string name="welfate_native_goods">福利商品详情原生</string>
     <string name="agent_des">1、必须成为百盛仓VIP会员才有资格升级金牌代理。\n2、金牌代理资格开通成功后长期有效。</string>
     <string name="sort_search">分类搜索</string>
     <string name="sort_detail">分类详情</string>

@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_height="wrap_content"
-            android:text="销量：100万"
+            android:text="已售：100万"
             android:textSize="10sp"
             android:textColor="@color/text_content"/>
 
@@ -122,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="原价:660"
+            android:text="市场价:660"
             android:textColor="#FFBF44"
             android:textSize="12sp"
             />

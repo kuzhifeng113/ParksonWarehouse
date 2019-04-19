@@ -73,7 +73,7 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 
 
 /**
- * 分享
+ * 分享 页面
  */
 public class ShareActivity extends BaseActivity implements CommonPopupWindow.ViewInterface,WbShareCallback {
     private static final String TAG = "ShareActivity";

@@ -49,6 +49,15 @@ public class OrderDetailBean {
     private int tradeType;
     private boolean status;
     private List<BillDetailListBean> billDetailList;
+    private String shareMoney;
+
+    public String getShareMoney() {
+        return shareMoney;
+    }
+
+    public void setShareMoney(String shareMoney) {
+        this.shareMoney = shareMoney;
+    }
 
     private UserInvoiceBean userInvoice;
 

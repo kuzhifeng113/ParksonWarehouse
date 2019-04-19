@@ -8,14 +8,14 @@ public class ReqConstance {
         public static final String VER = "/v1";
         public static final String VER2 = "/v2";
         //本地地址
-        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
-        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
+//        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
+//        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
         //服务器地址
 //        public static final String HOST_ADDR = "https://api.bscvip.com" + VER;
 //        public static final String HOST_ADDR_TWO = "https://api.bscvip.com" + VER2;
 
-//        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
-//        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
+        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
+        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
 
         //////////////////用户登陆/////////////////////////////
         public static final String LOGIN_PREFIX = "/login";
@@ -179,6 +179,10 @@ public class ReqConstance {
         public static final int I_GOODS_PACK_DETAIL = 109;
         public static final int I_GOODS_SEARCH = 109;//搜索
 
+        public static final int I_GOODS_SHARE = 110;//分享海报
+
+
+
 
 
         ///////////////////////投票////////////////////////////////
@@ -233,4 +237,12 @@ public class ReqConstance {
         //限时抢购列表
         public static final int I_RUSH_GET_LIST = 100;
         public static final int I_RUSH_GOODS_GET_LIST = 101;
+        public static final int I_RUSH_GOODS_SHARE = 102;
+
+        ////////////////////////福利中心/////////////////////////////////////
+        public static final String REDPACK_PREFIX = "/redpack";
+        public static final int I_REDPACK_HOME = 100;
+        public static final int I_REDPACK_PACK = 101;
+        public static final int I_REDPACK_PAGEQUERY = 102;
+        public static final int I_REDPACK_WITHDRAW = 103;
 }

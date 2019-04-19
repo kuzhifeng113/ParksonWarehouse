@@ -150,6 +150,8 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
 
     private TextView tv_tab;
 
+    private String redPackMoney;//分享金额
+
     public static MallFragmentTwo newInstance() {
         MallFragmentTwo fragment = new MallFragmentTwo();
         return fragment;
@@ -352,9 +354,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
 
 
     /**
-     * 获取数据
-     * 版本号
-     * 平台AND 或者 IOS
+     * 获取商城首页 数据
      *
      * @param isShow 是否显示loading
      */
@@ -383,12 +383,19 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                         LogUtils.e(TAG, "requestSuccess: " + datas.size());
                         int unreadNum=datas.get(0).getUnreadNum();
 //                        setUnreadNum(unreadNum);
+                        int redPack=datas.get(0).getRedPack();
+                         redPackMoney =datas.get(0).getRedPackMoney();
+
+
                         SPUtils.getInstance(getActivity()).put(Constant.USER_DEFAULT_ADDRESS,datas.get(0).isDefaultAddress());
                         boolean isDefaultAddress= (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_DEFAULT_ADDRESS,false);
                         boolean isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
                         if(isLogin){
                             if(!isDefaultAddress&&!show_address_pop){
-                                showSetAddress();
+//                                showSetAddress();
+                            }
+                            if(redPack==0){
+                                showGetRedPack();
                             }
                         }
                     } else {
@@ -720,7 +727,29 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                         completeAddress("",(String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,""),checkboxAddress);
                     }
                 });
+                break;
 
+            case R.layout.popup_main_redpack://红包弹窗
+                ImageView  img_main_get=view.findViewById(R.id.img_main_get);
+                TextView tv_red_money=view.findViewById(R.id.tv_red_money);
+                ImageView close=view.findViewById(R.id.img_close);
+
+                tv_red_money.setText(redPackMoney);
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+                //领取红包
+                img_main_get.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getRedPack((String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,""));
+                    }
+                });
                 break;
         }
     }
@@ -877,6 +906,68 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
 
     }
 
+
+    /**
+     * 领取红包弹窗  redPack  0 未领取  已领取
+     */
+    public void showGetRedPack() {
+//        SPUtils.getInstance(getActivity()).put("isFirstVotes", true);
+        if (popupWindow != null && popupWindow.isShowing()) return;
+        View upView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_main_redpack, null);
+        //测量View的宽高
+        DensityUtils.measureWidthAndHeight(upView);
+        popupWindow = new CommonPopupWindow.Builder(getActivity())
+                .setView(R.layout.popup_main_redpack)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
+                .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
+//                .setAnimationStyle(R.style.AnimUp)
+//                .setOutsideTouchable(false)
+                .setViewOnclickListener(this)
+                .create();
+        popupWindow.showAtLocation(getActivity().findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+//        SPUtils.getInstance(getActivity()).put("isFirstVote", true);
+    }
+
+
+
+
+    /**
+     * 领红包
+     * @param userId
+     * @param
+     */
+    private void getRedPack( String userId ) {
+        //获取数据
+        try {
+            JSONObject params = new JSONObject();
+            params.put("userid", userId);
+
+            RequestInterface.redpackPrefix(getActivity(), params, TAG, ReqConstance.I_REDPACK_PACK, 1, new HSRequestCallBackInterface() {
+                @Override
+                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
+                    if (code == 0) {
+                        ToastUtils.getInstanc(getActivity()).showToast("领取红包成功~");
+                        if(popupWindow!=null){
+                            popupWindow.dismiss();
+                        }
+                    }
+                }
+
+                @Override
+                public void requestError(String s, int i) {
+                    ToastUtils.getInstanc(getActivity()).showToast(s);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 返回顶部
+     * @param appBar
+     */
     private void setAppBarToTop(AppBarLayout appBar){
         CoordinatorLayout.Behavior behavior =
                 ((CoordinatorLayout.LayoutParams) appBar.getLayoutParams()).getBehavior();

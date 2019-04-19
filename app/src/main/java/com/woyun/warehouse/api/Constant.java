@@ -131,7 +131,8 @@ public class Constant {
     public static final int PAY_TYPE_VIP = 1;
     public static final int PAY_TYPE_AGENT_BUY_VIP = 2;
     public static final int PAY_TYPE_SHOP = 3;
-    public static final int PAY_AGENT_WITHDRAWS = 4;
+    public static final int PAY_TYPE_LIMITED_TIME = 4;
+    public static final int PAY_TYPE_RED_PACK = 5;//红包购物订单
 
     //    public static  String  USER_HEAD_URL = "user_head_url";
 //ERROR

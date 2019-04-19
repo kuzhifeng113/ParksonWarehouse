@@ -11,6 +11,8 @@ public class MallHomeTwoBean implements Serializable{
      */
     private int unreadNum;
     private boolean defaultAddress;
+    private int redPack;
+    private String redPackMoney;
     private List<CategoryListBean> categoryList;
     private List<AdvBannerListBean> advBannerList;
 
@@ -43,6 +45,22 @@ public class MallHomeTwoBean implements Serializable{
 
     public void setAdvBannerList(List<AdvBannerListBean> advBannerList) {
         this.advBannerList = advBannerList;
+    }
+
+    public int getRedPack() {
+        return redPack;
+    }
+
+    public void setRedPack(int redPack) {
+        this.redPack = redPack;
+    }
+
+    public String getRedPackMoney() {
+        return redPackMoney;
+    }
+
+    public void setRedPackMoney(String redPackMoney) {
+        this.redPackMoney = redPackMoney;
     }
 
     public static class CategoryListBean {

@@ -110,11 +110,11 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
                     viewHolderOne.tv_goods_name.setText(goodsListBean.getName());
                     viewHolderOne.tv_goods_title.setText(goodsListBean.getTitle());
                     viewHolderOne.tv_vip_price.setText(goodsListBean.getVipPrice());
-                    viewHolderOne.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+                    viewHolderOne.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
                     viewHolderOne.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
                     viewHolderOne.tv_vip_back.setText("会员价");
-                    viewHolderOne.tv_sales_volume.setText("销量：" + goodsListBean.getSellNum());
+                    viewHolderOne.tv_sales_volume.setText("已售：" + goodsListBean.getSellNum());
                     viewHolderOne.tv_supplier.setText(goodsListBean.getSupplier());
 
                     convertView.setTag(viewHolderOne);
@@ -157,11 +157,11 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
                     viewHolderOne.tv_goods_name.setText(goodsListBean.getName());
                     viewHolderOne.tv_goods_title.setText(goodsListBean.getTitle());
                     viewHolderOne.tv_vip_price.setText(goodsListBean.getVipPrice());
-                    viewHolderOne.tv_goods_price.setText("原价:" + goodsListBean.getPrice());
+                    viewHolderOne.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
                     viewHolderOne.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //                    viewHolderOne.tv_vip_back.setText("会员返" + goodsListBean.getBkCoin());
                     viewHolderOne.tv_vip_back.setText("会员价");
-                    viewHolderOne.tv_sales_volume.setText("销量：" + goodsListBean.getSellNum());
+                    viewHolderOne.tv_sales_volume.setText("已售：" + goodsListBean.getSellNum());
                     viewHolderOne.tv_supplier.setText(goodsListBean.getSupplier());
                     break;
 
@@ -238,9 +238,9 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
 //                oneViewHolder.tv_goods_name.setText(goodsListBean.getName());
 //                oneViewHolder.tv_goods_title.setText(goodsListBean.getTitle());
 //                oneViewHolder.tv_vip_price.setText(goodsListBean.getVipPrice());
-//                oneViewHolder.tv_goods_price.setText("原价:"+goodsListBean.getPrice());
+//                oneViewHolder.tv_goods_price.setText("市场价:"+goodsListBean.getPrice());
 //                oneViewHolder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
-//                oneViewHolder.tv_sales_volume.setText("销量："+goodsListBean.getSellNum());
+//                oneViewHolder.tv_sales_volume.setText("已售："+goodsListBean.getSellNum());
 //                oneViewHolder.tv_supplier.setText(goodsListBean.getSupplier());
 //
 //                if( onItemClickListener!= null){

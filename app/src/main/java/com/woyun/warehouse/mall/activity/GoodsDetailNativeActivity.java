@@ -458,18 +458,21 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         tvPrice.setText(goodsDetailBean.getVipPrice());
 //        tvVipBack.setText("会员返" + goodsDetailBean.getBkCoin());
         tvVipBack.setText("会员价");
-        tvGoodsPrice.setText("原价:" + goodsDetailBean.getPrice());
+        tvGoodsPrice.setText("市场价:" + goodsDetailBean.getPrice());
         tvGoodsPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tvGoodsTitle.setText(goodsDetailBean.getName());
 
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
-        tvSalesVolume.setText("销量：" + goodsDetailBean.getSellNum());
+        tvSalesVolume.setText("已售：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-        if (isVip) {
-            tvBaoYou.setText("VIP包邮");
-        } else {
-            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
-        }
+//        if (isVip) {
+//            tvBaoYou.setText("VIP包邮");
+//        } else {
+//            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
+//        }
+
+        tvBaoYou.setText("全场一件包邮");
+
         resListBeanList = goodsDetailBean.getResList();
         contentListBeanList = goodsDetailBean.getContentList();
 
@@ -869,11 +872,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     private void showSharePop() {
 
         if (popupWindow != null && popupWindow.isShowing()) return;
-        View upView = LayoutInflater.from(GoodsDetailNativeActivity.this).inflate(R.layout.popup_share, null);
+        View upView = LayoutInflater.from(GoodsDetailNativeActivity.this).inflate(R.layout.popup_share_haibao, null);
         //测量View的宽高
         DensityUtils.measureWidthAndHeight(upView);
         popupWindow = new CommonPopupWindow.Builder(GoodsDetailNativeActivity.this)
-                .setView(R.layout.popup_share)
+                .setView(R.layout.popup_share_haibao)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
                 .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
                 .setAnimationStyle(R.style.AnimUp)
@@ -886,7 +889,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     public void getChildView(View view, int layoutResId) {
         ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
         ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
-        ImageView shareWb = (ImageView) view.findViewById(R.id.img_share_wb);
+        ImageView shareHB = (ImageView) view.findViewById(R.id.img_share_haibao);
         ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
         TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
 
@@ -911,16 +914,22 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             }
         });
 
-        shareWb.setOnClickListener(new View.OnClickListener() {
+        //生成海报
+        shareHB.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onClick(View v) {
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                /**
-                 * 第三方应用发送请求消息到微博，唤起微博分享界面。
-                 */
-                sendMessage(true, false);
+                Intent intent=new Intent(GoodsDetailNativeActivity.this,PosterActivity.class);
+                intent.putExtra("share_goods_id",goodsId);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailNativeActivity.this).toBundle());
+
+//                /**
+//                 * 第三方应用发送请求消息到微博，唤起微博分享界面。
+//                 */
+//                sendMessage(true, false);
             }
         });
 

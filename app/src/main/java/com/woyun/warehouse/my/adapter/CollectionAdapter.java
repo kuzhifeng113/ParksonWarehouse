@@ -71,7 +71,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<CollectionAdapter.My
 //        holder.tv_vip_back.setText("会员返"+String.valueOf(collectionBean.getBkCoin()));
         holder.tv_vip_back.setText("会员价");
         holder.tv_vip_price.setText(String.valueOf(collectionBean.getVipPrice()));
-        holder.tv_goods_price.setText("原价:" + String.valueOf(collectionBean.getPrice()));
+        holder.tv_goods_price.setText("市场价:" + String.valueOf(collectionBean.getPrice()));
         holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         if (position == dataList.size() - 1) {
             holder.view_line.setVisibility(View.GONE);

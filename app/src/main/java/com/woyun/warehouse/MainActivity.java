@@ -49,6 +49,7 @@ import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.view.BaseDialogg;
 import com.woyun.warehouse.view.ViewPagerSlide;
 import com.woyun.warehouse.vip.VipFragment;
+import com.woyun.warehouse.welfare.WelfareFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -181,7 +182,8 @@ public class MainActivity extends BaseActivity {
         List<Fragment> list = new ArrayList<>();
 //        list.add(new VoteFragment());
         list.add(new MallFragmentTwo());
-        list.add(new VipFragment());
+        list.add(new WelfareFragment());
+//        list.add(new VipFragment());
         list.add(new GrabBuyFragment());
         list.add(new CartFragment());
         list.add(new MyFragment());
@@ -243,8 +245,14 @@ public class MainActivity extends BaseActivity {
                     viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_vip:
-                    viewPager.setCurrentItem(1);
-                    return true;
+                    if (!isLogin) {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        return false;
+                    } else {
+                        viewPager.setCurrentItem(1);
+                        return true;
+                    }
                 case R.id.navigation_grab:
                     viewPager.setCurrentItem(2);
                     return true;

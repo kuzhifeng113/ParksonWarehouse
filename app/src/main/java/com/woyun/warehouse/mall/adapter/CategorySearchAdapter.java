@@ -51,7 +51,7 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
         holder.tv_goods_name.setText(goodsListBean.getName());
         holder.tv_goods_title.setText(goodsListBean.getTitle());
         holder.tv_vip_price.setText("￥"+String.valueOf(goodsListBean.getVipPrice()));
-        holder.tv_goods_price.setText("原价:"+goodsListBean.getPrice());
+        holder.tv_goods_price.setText("市场价:"+goodsListBean.getPrice());
 //        holder.tv_vip_back.setText("会员返"+goodsListBean.getBkCoin());
         holder.tv_vip_back.setText("会员价");
         holder.tv_goods_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

@@ -59,7 +59,7 @@ public class GrabGoodsFragment extends BaseFragment {
     @BindView(R.id.swipeRefreshLayout)
     SmartRefreshLayout mRefreshLayout;
 
-    private int rushId;//时间id
+    private int rushId;//限时抢购id
 
     private GrabGoodsAdapter grabGoodsAdapter;
     private List<GrabGoodsBean> listDatas=new ArrayList<>();
@@ -85,22 +85,29 @@ public class GrabGoodsFragment extends BaseFragment {
         grabGoodsAdapter.setOnItemClickListener(new GrabGoodsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    toDetail(listDatas.get(position).getGoodsId());
+                    toDetail(listDatas.get(position).getGoodsId(),
+                            listDatas.get(position).getStartTime(),
+                            listDatas.get(position).getEndTime());
                 }
             });
 
         grabGoodsAdapter.setOnButtonClickListener(new GrabGoodsAdapter.OnButtonClickListener() {
                 @Override
                 public void onButtonClick(View view, int positon) {
-                    toDetail(listDatas.get(positon).getGoodsId());
+                    toDetail(listDatas.get(positon).getGoodsId(),
+                            listDatas.get(positon).getStartTime(),
+                            listDatas.get(positon).getEndTime());
                 }
             });
 
         return rootView;
     }
-    private void toDetail(int goodId){
+    private void toDetail(int goodId,long startTime,long endTime){
         Intent intent=new Intent(getActivity(), GrabDetailActivity.class);
         intent.putExtra("goods_id",goodId);
+        intent.putExtra("start_time",startTime);
+        intent.putExtra("end_time",endTime);
+        intent.putExtra("rush_id",rushId);
         startActivity(intent);
     }
 

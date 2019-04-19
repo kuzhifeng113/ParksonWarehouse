@@ -45,8 +45,10 @@
         android:background="@color/line"
        />
 
-
-
-
+    
+    <com.woyun.warehouse.view.HorizontalProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

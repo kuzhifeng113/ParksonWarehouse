@@ -102,7 +102,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="60dp"
-                        android:text="原价:0"
+                        android:text="市场价:0"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:layout_marginRight="14dp"/>
@@ -227,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="销量：0"
+                    android:text="已售：0"
                     android:textColor="@color/mainColor"
                     android:textSize="14sp" />
 
@@ -438,8 +438,8 @@
 
             <Button
                 android:id="@+id/img_goods_buy"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:layout_height="46dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
@@ -447,6 +447,34 @@
                 android:text="购买"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/btn_share_jian"
+                android:layout_width="100dp"
+                android:layout_height="46dp"
+                android:layout_toLeftOf="@id/img_goods_buy"
+                android:orientation="vertical"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/shape_less_money"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/tv_less_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0元"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分享可减免"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
 
         </RelativeLayout>
     </RelativeLayout>

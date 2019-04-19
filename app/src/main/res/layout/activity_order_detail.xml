@@ -202,6 +202,7 @@
                         android:layout_height="40dp">
 
                         <TextView
+                            android:id="@+id/tv_yuer_des"
                             style="@style/smallGrayTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -222,6 +223,37 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:background="@color/line" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/rl_share"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/smallGrayTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="分享减免:" />
+
+                        <TextView
+                            android:id="@+id/tv_share_money"
+                            style="@style/moneyGrayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-￥0" />
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view_share"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/line" />
+
                 </LinearLayout>
                 
                 <!-- ===========================================  -->
