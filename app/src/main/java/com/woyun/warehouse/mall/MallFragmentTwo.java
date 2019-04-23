@@ -747,6 +747,9 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                 img_main_get.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
                         getRedPack((String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,""));
                     }
                 });

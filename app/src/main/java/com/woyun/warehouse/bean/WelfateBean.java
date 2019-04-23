@@ -120,16 +120,16 @@ public class WelfateBean {
         private int cartNum;
         private String content;
         private int favoriteNum;
-        private int price;
+        private String price;
         private String supplier;
         private String name;
-        private int vipPrice;
+        private String vipPrice;
         private int wantNum;
         private int sortBy;
         private int stock;
         private int categoryId;
         private int sellNum;
-        private int freeShopping;
+        private String freeShopping;
         private boolean isFavorite;
         private List<ResListBean> resList;
 
@@ -205,11 +205,11 @@ public class WelfateBean {
             this.favoriteNum = favoriteNum;
         }
 
-        public int getPrice() {
+        public String getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(String price) {
             this.price = price;
         }
 
@@ -229,11 +229,11 @@ public class WelfateBean {
             this.name = name;
         }
 
-        public int getVipPrice() {
+        public String getVipPrice() {
             return vipPrice;
         }
 
-        public void setVipPrice(int vipPrice) {
+        public void setVipPrice(String vipPrice) {
             this.vipPrice = vipPrice;
         }
 
@@ -277,11 +277,11 @@ public class WelfateBean {
             this.sellNum = sellNum;
         }
 
-        public int getFreeShopping() {
+        public String getFreeShopping() {
             return freeShopping;
         }
 
-        public void setFreeShopping(int freeShopping) {
+        public void setFreeShopping(String freeShopping) {
             this.freeShopping = freeShopping;
         }
 

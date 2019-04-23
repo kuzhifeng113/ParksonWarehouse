@@ -119,9 +119,7 @@
             android:screenOrientation="portrait"
             />
 
-        <activity android:name=".my.activity.MallGoodsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/goods_hahuo"/>
+
 
         <activity android:name=".mall.activity.MallGoodGoodsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -236,10 +234,6 @@
         <activity android:name=".my.activity.VipEnterActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".my.activity.VipCenterActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"
-            android:label="@string/vip_centenr"/>
 
         <activity android:name=".my.activity.CangCoinDetailActivity"
             android:screenOrientation="portrait"
@@ -261,9 +255,7 @@
             android:screenOrientation="portrait"
             android:label="@string/yuer_detail"/>
 
-        <activity android:name=".my.activity.AgentCenterActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/agent_center"/>
+
 
         <activity android:name=".my.activity.WithDrawActivity"
             android:screenOrientation="portrait"
@@ -278,17 +270,12 @@
             android:screenOrientation="portrait"
             android:label="@string/agent_rules"/>
 
-        <activity android:name=".my.activity.AgentOpenActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/agent_open"/>
 
         <activity android:name=".my.activity.BindAccountActivity"
             android:screenOrientation="portrait"
             android:label="@string/bind_accont"/>
 
-        <activity android:name=".my.activity.AgentBuyActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/agent_buy_vip"/>
+
 
 
 

@@ -20,6 +20,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="177dp"
                     android:background="@mipmap/bg_wd">
+                    <ImageView
+                        android:id="@+id/img_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginRight="16dp"
+                        android:src="@mipmap/ic_wd_set" />
 
                     <RelativeLayout
                         android:id="@+id/rl_head"
@@ -33,7 +41,7 @@
                             android:id="@+id/img_head"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginLeft="24dp"
+                            android:layout_marginLeft="20dp"
                             android:src="@mipmap/ic_head_default"
                             app:civ_border_color="#EE7DB9"
                             app:civ_border_width="1dp" />
@@ -42,7 +50,7 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="12dp"
                             android:layout_toRightOf="@id/img_head"
                             android:orientation="vertical">
 
@@ -96,7 +104,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="15dp"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="12dp"
+                                    android:layout_marginLeft="5dp"
                                     android:background="@drawable/shape_vip_copy"
                                     android:gravity="center"
                                     android:minWidth="27dp"
@@ -111,14 +119,15 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/img_setting"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
+                            android:id="@+id/img_vip_center"
+                            android:layout_width="95dp"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="20dp"
-                            android:src="@mipmap/ic_wd_set" />
+                            android:layout_alignParentRight="true"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/im_myvip_center"/>
+
                     </RelativeLayout>
+
                 </RelativeLayout>
 
 
@@ -670,9 +679,11 @@
             </RelativeLayout>
 
             <!--end-->
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/rl_zt"
@@ -683,9 +694,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="45dp"
+                        android:layout_marginLeft="36dp"
                         android:text="推荐收益"
-                        android:textColor="#AFAFAF"
+                        android:textColor="#FF373A42"
                         android:textSize="14sp" />
 
                     <TextView
@@ -696,40 +707,49 @@
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="26dp"
+                        android:layout_marginRight="36dp"
                         android:textSize="19sp" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="14dp"/>
                 </RelativeLayout>
+
+                <TextView
+                    android:text="每推荐一个朋友升级VIP会员可获得84元推荐收益，升级VIP会员后可提现；普通会员推荐2位朋友升级VIP会员后，系统自动激活您VIP会员身份"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:textSize="11sp"
+                    android:textColor="#FFAFAFAF"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="#EEEEEE"/>
 
                 <!--新人奖励-->
                 <RelativeLayout
                     android:id="@+id/rl_xinren"
                     android:layout_below="@id/rl_zt"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:id="@+id/tv_xinren_wen"
-                        android:text="分润收益"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
+                        android:text="系统收益"
+                        android:layout_marginLeft="36dp"
+                        android:textColor="#FF373A42"
                         android:layout_centerVertical="true"
                         android:textSize="14sp"
                         android:drawablePadding="3dp"
-                        android:drawableRight="@mipmap/xinren_wen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <com.woyun.warehouse.view.HorizontalProgressBar
                         android:id="@+id/progress_bar"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/tv_xinren_wen"
+                        android:layout_marginLeft="23dp"
+                        android:layout_centerHorizontal="true"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -740,55 +760,27 @@
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="26dp"
-                        android:textSize="12sp" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="14dp"/>
-                </RelativeLayout>
-
-
-                <!--购物收益-->
-                <RelativeLayout
-                    android:id="@+id/rl_yjdl"
-                    android:layout_below="@id/rl_xinren"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp">
-
-                    <TextView
-                        android:id="@+id/tv_gouwu_wen"
-                        android:text="购物收益"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
-                        android:layout_centerVertical="true"
-                        android:textSize="14sp"
-                        android:drawablePadding="3dp"
-                        android:drawableRight="@mipmap/xinren_wen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/tv_gou_wu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0.00"
-                        android:textColor="#F5336F"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="26dp"
+                        android:layout_marginRight="36dp"
                         android:textSize="19sp" />
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="14dp"/>
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_sys_dec"
+                    android:textSize="11sp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:textColor="#FFAFAFAF"
+                    android:text="所有VIP会员均可获得平台盈利分润最高1680元，预计6-12个月分期到账。"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="#EEEEEE"/>
 
                 <!--代理收益-->
                 <RelativeLayout
@@ -800,12 +792,11 @@
                     <TextView
                         android:id="@+id/tv_agent_wen"
                         android:text="代理收益"
-                        android:layout_marginLeft="45dp"
-                        android:textColor="#AFAFAF"
+                        android:layout_marginLeft="36dp"
+                        android:textColor="#FF373A42"
                         android:layout_centerVertical="true"
                         android:textSize="14sp"
                         android:drawablePadding="3dp"
-                        android:drawableRight="@mipmap/xinren_wen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
@@ -817,47 +808,74 @@
                         android:textColor="#F5336F"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="26dp"
+                        android:layout_marginRight="36dp"
                         android:textSize="19sp" />
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:background="#EEEEEE"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="45dp"
-                        android:layout_marginRight="14dp"/>
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="23dp"
+                        android:layout_marginRight="23dp"
+                        android:background="#EEEEEE"/>
                 </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/img_tishi"
-                    android:layout_marginTop="81dp"
-                    android:src="@mipmap/img_xr_tishi"
-                    android:layout_marginLeft="30dp"
+                <!--购物收益-->
+                <RelativeLayout
+                    android:id="@+id/rl_yjdl"
+                    android:layout_below="@id/rl_xinren"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tv_gouwu_wen"
+                        android:text="购物收益"
+                        android:layout_marginLeft="36dp"
+                        android:textColor="#FF373A42"
+                        android:layout_centerVertical="true"
+                        android:textSize="14sp"
+                        android:drawablePadding="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/tv_gou_wu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="#F5336F"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="36dp"
+                        android:textSize="19sp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:text="普通会员和VIP会员推荐朋友注册，系统会自动绑定推荐关系；可获得所推荐朋友购买产品金额10%-30%购物奖励，推荐购买人数越，奖励越多，轻松月入10万。"
+                    android:textSize="11sp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:textColor="#FFAFAFAF"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="20dp"
+                    android:background="#EEEEEE"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"/>
 
-                <ImageView
-                    android:id="@+id/img_agent_tishi"
-                    android:layout_marginTop="177dp"
-                    android:src="@mipmap/img_dl_tishi"
-                    android:layout_marginLeft="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
 
-                <!--  android:layout_marginTop="224dp"-->
-                <ImageView
-                    android:id="@+id/img_gouwu_tishi"
-                    android:layout_marginTop="130dp"
-                    android:src="@mipmap/img_gw_tishi"
-                    android:layout_marginLeft="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+            </LinearLayout>
 
-            </RelativeLayout>
-
+            <ImageView
+                android:id="@+id/img_vip_enter"
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/img_openvip_enter"/>
 
 
             <!-- end -->

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
+import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MessageListActivity;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
@@ -102,6 +103,11 @@ public class MyMessageReceiver extends MessageReceiver {
                 Intent coinDetail=new Intent(context, YuErActivity.class);
                 coinDetail.putExtra("hb_type",2);
                 context.startActivity(coinDetail);
+            }
+            if(type.equals("12")){// type=12  秒杀抢购
+                Intent grabIntent=new Intent(context, MainActivity.class);
+                grabIntent.putExtra("grab_time",true);
+                context.startActivity(grabIntent);
             }
 
         } catch (JSONException e) {

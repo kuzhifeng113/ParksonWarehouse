@@ -207,11 +207,12 @@ public class CartFragment extends BaseFragment implements CartAdapter.CheckInter
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+//    @Override
+//    protected void initImmersionBar() {
+//        super.initImmersionBar();
+//        ImmersionBar.with(this)
+//                .statusBarDarkFont(true).init();
+//    }
 
     private void initView() {
         mRefreshLayout.setOnMultiPurposeListener(new SimpleMultiPurposeListener() {

@@ -199,7 +199,6 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
         iwxApi = WXAPIFactory.createWXAPI(getActivity(), Constant.WX_APP_ID);
         iwxApi.registerApp(Constant.WX_APP_ID);
         mTencent = Tencent.createInstance(Constant.QQ_APP_ID, getActivity());
-
         //微博
         shareHandler = new WbShareHandler(getActivity());
         shareHandler.registerApp();
@@ -253,7 +252,12 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
     private void initMarquee(List<WelfateBean.RedListBean> redListBeans) {
         redInfo.clear();
         for (WelfateBean.RedListBean redListBean : redListBeans) {
-            redInfo.add(redListBean.getNickname()+"邀请1名好友,拆得"+redListBean.getMoney()+"元红包~");
+            if(redListBean.getNickname().length()>7){
+                redInfo.add(redListBean.getNickname().substring(0,7)+"邀请1名好友,拆得"+redListBean.getMoney()+"元红包~");
+            }else{
+                redInfo.add(redListBean.getNickname()+"邀请1名好友,拆得"+redListBean.getMoney()+"元红包~");
+            }
+
         }
         if(redInfo.size()>1){
             rlDing.setVisibility(View.VISIBLE);
@@ -517,6 +521,13 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
         popupWindow.showAtLocation(getActivity().findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
 
     }
+
+//    @Override
+//    protected void initImmersionBar() {
+//        super.initImmersionBar();
+//        ImmersionBar.with(this)
+//                .statusBarDarkFont(true).init();
+//    }
 
     /**
      * 分享网页 下载链接

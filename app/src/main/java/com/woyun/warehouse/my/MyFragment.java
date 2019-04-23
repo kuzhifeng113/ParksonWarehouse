@@ -154,8 +154,8 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @BindView(R.id.tv_xinren_wen)
     TextView tvXinrenWen;
 
-    @BindView(R.id.img_tishi)
-    ImageView imgTishi;
+//    @BindView(R.id.img_tishi)
+//    ImageView imgTishi;
     @BindView(R.id.tv_yesterday_money)
     TextView tvLastWeekMoney;
     @BindView(R.id.tv_today_money)
@@ -164,18 +164,15 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     TextView tvMonthMoney;
     @BindView(R.id.tv_agent_wen)
     TextView tvAgentWen;
-//    @BindView(R.id.tv_guanli_wen)
+    //    @BindView(R.id.tv_guanli_wen)
 //    TextView tvGuanliWen;
-    @BindView(R.id.img_agent_tishi)
-    ImageView imgAgentTishi;
+//    @BindView(R.id.img_agent_tishi)
+//    ImageView imgAgentTishi;
 
     @BindView(R.id.tv_gouwu_wen)
     TextView tvGouwuWen;
-    @BindView(R.id.img_gouwu_tishi)
-    ImageView imgGouwuTishi;
 
-    @BindView(R.id.img_vip_enter)
-    ImageView imgVipEnter;
+
 
     @BindView(R.id.tv_total_bkmoney)
     TextView tvToalBkMoney;
@@ -187,8 +184,16 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     HorizontalProgressBar progressBar;
     @BindView(R.id.rl_agent_sy)
     RelativeLayout relativeLayoutAgentSy;
-
-
+    @BindView(R.id.img_vip_center)
+    ImageView imgVipCenter;
+    @BindView(R.id.rl_xinren)
+    RelativeLayout rlXinren;
+    @BindView(R.id.tv_sys_dec)
+    TextView tvSysDec;
+    @BindView(R.id.rl_yjdl)
+    RelativeLayout rlYjdl;
+    @BindView(R.id.img_vip_enter)
+    ImageView imgVipEnter;
 
     private boolean isAgent;//是否是代理
     private boolean isVip;//是否是VIP
@@ -211,7 +216,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_my, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_my_two, container, false);
         LogUtils.e(TAG, "onCreateView: ===");
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
@@ -221,20 +226,6 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
         iwxApi = WXAPIFactory.createWXAPI(getActivity(), Constant.WX_APP_ID);
         iwxApi.registerApp(Constant.WX_APP_ID);
 
-//        tvName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(getActivity(),AllCategoriesActivityTwo.class);
-//                startActivity(intent);
-//            }
-//        });
-//        view.findViewById(R.id.rl_zt).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(getActivity(), DemoActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         return view;
     }
 
@@ -242,14 +233,6 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
-//            checkUserId(userId);
-//            isAgent= (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT,false);
-//            isVip= (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP,false);
-//            shareTile = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_TITLE, "");
-//            shareContent = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_CONTENT, "");
-//            shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
-//            shareDownUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_URL, "");
-//            LogUtils.e(TAG, "setUserVisibleHint:------ ");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -266,11 +249,6 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-//        checkUserId(userId);
-//        shareTile = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_TITLE, "");
-//        shareContent = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_CONTENT, "");
-//        shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
-//        shareDownUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_URL, "");
     }
 
     @Override
@@ -302,7 +280,7 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
     }
 
 
-    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_about_me, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_real_name, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.img_tishi, R.id.tv_agent_wen, R.id.img_agent_tishi, R.id.tv_gouwu_wen, R.id.img_gouwu_tishi, R.id.img_vip_enter})
+    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_about_me, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_real_name, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.tv_agent_wen, R.id.tv_gouwu_wen,R.id.img_vip_enter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_head:
@@ -416,43 +394,63 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                 Intent myYuer = new Intent(getActivity(), YuErActivity.class);
                 startActivity(myYuer);
                 break;
-            case R.id.tv_xinren_wen:
-                imgTishi.setVisibility(View.VISIBLE);
-                break;
-            case R.id.img_tishi:
-                if (imgTishi.getVisibility() == View.VISIBLE) {
-                    imgTishi.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.tv_agent_wen:
-                imgAgentTishi.setVisibility(View.VISIBLE);
-                break;
+//            case R.id.tv_xinren_wen:
+//                imgTishi.setVisibility(View.VISIBLE);
+//                break;
+//            case R.id.img_tishi:
+//                if (imgTishi.getVisibility() == View.VISIBLE) {
+//                    imgTishi.setVisibility(View.GONE);
+//                }
+//                break;
+//            case R.id.tv_agent_wen:
+//                imgAgentTishi.setVisibility(View.VISIBLE);
+//                break;
 //            case R.id.tv_guanli_wen:
 //                imgGuanliTishi.setVisibility(View.VISIBLE);
 //                break;
             case R.id.tv_gouwu_wen:
-                imgGouwuTishi.setVisibility(View.VISIBLE);
+//                showTip(tvGouwuWen);
+//                imgGouwuTishi.setVisibility(View.VISIBLE);
                 break;
-            case R.id.img_agent_tishi:
-                if (imgAgentTishi.getVisibility() == View.VISIBLE) {
-                    imgAgentTishi.setVisibility(View.GONE);
-                }
-                break;
+//            case R.id.img_agent_tishi:
+//                if (imgAgentTishi.getVisibility() == View.VISIBLE) {
+//                    imgAgentTishi.setVisibility(View.GONE);
+//                }
+//                break;
 //            case R.id.img_guanli_tishi:
 //                if (imgGuanliTishi.getVisibility() == View.VISIBLE) {
 //                    imgGuanliTishi.setVisibility(View.GONE);
 //                }
 //                break;
-            case R.id.img_gouwu_tishi://购物提示
-                if (imgGouwuTishi.getVisibility() == View.VISIBLE) {
-                    imgGouwuTishi.setVisibility(View.GONE);
-                }
-                break;
+//            case R.id.img_gouwu_tishi://购物提示
+//
+////                if (imgGouwuTishi.getVisibility() == View.VISIBLE) {
+////                    imgGouwuTishi.setVisibility(View.GONE);
+////                }
+//                break;
             case R.id.img_vip_enter://VIP 入口
-                Intent vipEnter = new Intent(getActivity(), VipEnterActivity.class);
-                startActivity(vipEnter);
+                toVip();
                 break;
         }
+    }
+
+    /**
+     * 购物提示
+     * @param view
+     */
+    private void showTip(View view){
+        if (popupWindow != null && popupWindow.isShowing()) return;
+        View upView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_tip, null);
+        //测量View的宽高
+        DensityUtils.measureWidthAndHeight(upView);
+        popupWindow = new CommonPopupWindow.Builder(getActivity())
+                .setView(R.layout.popup_tip)
+                .setWidthAndHeight(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//                .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
+                .setAnimationStyle(R.style.AnimDown)
+                .setViewOnclickListener(this)
+                .create();
+        popupWindow.showAsDropDown(view,- view.getWidth(),0);
     }
 
     private void showSharePop(RelativeLayout rlShare) {
@@ -530,24 +528,26 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                             if (userInfoBean.getUserInfo().isIsVip()) {
                                 tvVipType.setText("VIP会员");
                                 llIsAgent.setVisibility(View.VISIBLE);
-                                tvYaoqingCode.setText("邀请码：" + userInfoBean.getUserInfo().getMobile());
+                                tvYaoqingCode.setText("邀请码:" + userInfoBean.getUserInfo().getMobile());
                                 if (userInfoBean.getUserInfo().isIsAgent()) {
-                                    tvYaoqingCode.setText("邀请码：" + userInfoBean.getUserInfo().getMobile());
+                                    tvYaoqingCode.setText("邀请码:" + userInfoBean.getUserInfo().getMobile());
                                     tvVipType.setText("金牌代理");
                                 }
                             } else {
                                 tvVipType.setText("普通会员");
                                 llIsAgent.setVisibility(View.INVISIBLE);
                             }
-                            float f=0.0f;
-                            if(isAgent){
+                            float f = 0.0f;
+                            if (isAgent) {
                                 tvToalBkMoney.setText(String.valueOf(userInfoBean.getAgentTotalBkMoney()));
+                                tvSysDec.setText("所有代理均可获得平台盈利分润最高16800元，预计6-12个月分期到账。");
                                 double v = userInfoBean.getNewMoney() / userInfoBean.getAgentTotalBkMoney();
-                                f= (float) v*100;
-                            }else{
+                                f = (float) v * 100;
+                            } else {
+                                tvSysDec.setText("所有VIP会员均可获得平台盈利分润最高1680元，预计6-12个月分期到账。");
                                 tvToalBkMoney.setText(String.valueOf(userInfoBean.getTotalBkMoney()));
                                 double v = userInfoBean.getNewMoney() / userInfoBean.getTotalBkMoney();
-                                f= (float) v*100;
+                                f = (float) v * 100;
                             }
 
                             progressBar.setTextString(String.valueOf(userInfoBean.getNewMoney()));
@@ -568,13 +568,10 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
                                 relativeLayoutAgentSy.setVisibility(View.GONE);
                                 tvYijiDaili.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //                                tvGuanLi.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                                tvGouWu.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                             } else {
-
                                 relativeLayoutAgentSy.setVisibility(View.VISIBLE);
                                 tvYijiDaili.getPaint().setFlags(0); // 取消设置的的中划线
 //                                tvGuanLi.getPaint().setFlags(0); // 取消设置的的中划
-                                tvGouWu.getPaint().setFlags(0);
                             }
 
                         } catch (JSONException e) {
@@ -609,63 +606,79 @@ public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewIn
 
     @Override
     public void getChildView(View view, int layoutResId) {
-        ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
-        ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
-        ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
-        TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
+        switch (layoutResId){
+            case R.layout.popup_share:
+                ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
+                ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
+                ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
+                TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
 
-        shareWeiXin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + userId, shareTile, shareContent, 0, shareIcon));
-            }
-        });
+                shareWeiXin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + userId, shareTile, shareContent, 0, shareIcon));
+                    }
+                });
 
-        shareCircle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                LogUtils.e(TAG, "onClick: " + shareDownUrl + userId + shareTile + shareContent + shareIcon);
-                iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + userId,
-                        shareTile, shareContent, 1, shareIcon));
-            }
-        });
+                shareCircle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        LogUtils.e(TAG, "onClick: " + shareDownUrl + userId + shareTile + shareContent + shareIcon);
+                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + userId,
+                                shareTile, shareContent, 1, shareIcon));
+                    }
+                });
 
-        shareQQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                LogUtils.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + userId);
-                final Bundle params = new Bundle();
-                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
-                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + userId);
-                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "叮遇");
-                params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
-                //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
+                shareQQ.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        LogUtils.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + userId);
+                        final Bundle params = new Bundle();
+                        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+                        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
+                        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + userId);
+                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "叮遇");
+                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
+                        //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
 //                        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其他附加功能");
-                // 分享操作要在主线程中完成
+                        // 分享操作要在主线程中完成
 //                mTencent.shareToQQ(mContext, params, mIUiListener);
 //                ToastUtils.getInstanc(MyCenterActivity.this).showToast("qq");
-            }
-        });
+                    }
+                });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-            }
-        });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+                break;
+
+        }
+
     }
+
+    @OnClick(R.id.img_vip_center)
+    public void onViewClicked() {
+        toVip();
+    }
+    private void toVip(){
+        Intent vipEnter = new Intent(getActivity(), VipEnterActivity.class);
+        startActivity(vipEnter);
+    }
+
 
 
     /**

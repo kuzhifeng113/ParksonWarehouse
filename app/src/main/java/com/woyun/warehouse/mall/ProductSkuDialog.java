@@ -268,7 +268,8 @@ public class ProductSkuDialog extends Dialog {
 
         updateSkuData();
         updateQuantityOperator(1);
-        if(product.getCategoryId()==-1 || product.getCategoryId()==-3){//-1 会员礼包商品  -3  代理礼包商品
+        if(product.getCategoryId()==-1 || product.getCategoryId()==-3
+                || product.getCategoryId()==-2){//-1 会员礼包商品  -3  代理礼包商品  categoryId=-2表示限时抢购商品分类
             btnSkuQuantityMinus.setEnabled(false);
             btnSkuQuantityPlus.setEnabled(false);
             etSkuQuantityInput.setEnabled(false);

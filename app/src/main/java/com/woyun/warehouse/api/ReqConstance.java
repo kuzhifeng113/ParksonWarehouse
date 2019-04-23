@@ -8,14 +8,14 @@ public class ReqConstance {
         public static final String VER = "/v1";
         public static final String VER2 = "/v2";
         //本地地址
-//        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
-//        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
+        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
+        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
         //服务器地址
 //        public static final String HOST_ADDR = "https://api.bscvip.com" + VER;
 //        public static final String HOST_ADDR_TWO = "https://api.bscvip.com" + VER2;
 
-        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
-        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
+//        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
+//        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
 
         //////////////////用户登陆/////////////////////////////
         public static final String LOGIN_PREFIX = "/login";

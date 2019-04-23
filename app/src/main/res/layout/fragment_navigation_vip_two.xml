@@ -44,7 +44,7 @@
                     <!-- android:layout_marginTop="50dp"-->
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="228dp"
+                        android:layout_height="198dp"
                         android:background="@mipmap/bg_vip_money_two"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
@@ -53,20 +53,19 @@
                             android:id="@+id/lll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:visibility="visible">
 
                             <ImageView
                                 android:id="@+id/tv_username"
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginTop="43dp"
                                 android:paddingBottom="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/img_ding"
-                                android:layout_alignParentStart="true"
-                                android:layout_marginStart="12dp"
                                 android:src="@mipmap/back_white"
+
                                 />
 
                             <TextView
@@ -81,66 +80,59 @@
                                 android:clickable="true"
                                 android:paddingBottom="10dp"
                                 android:text="规则 》"
+                                android:visibility="invisible"
                                 android:textColor="@color/white" />
                         </RelativeLayout>
 
                         <!--头像-->
+                        <!--加自己的东西 -->
+                        <!--<android.support.v7.widget.SearchView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />-->
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lll"
+                            android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
-                            android:orientation="horizontal">
+                            android:layout_marginBottom="25dp"
+                            android:orientation="vertical">
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/img_head"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginLeft="24dp"
+                                android:layout_width="43dp"
+                                android:layout_height="43dp"
+                                android:layout_gravity="center_horizontal"
                                 android:src="@mipmap/ic_head_default"
-                                app:civ_border_color="@color/white"
+                                app:civ_border_color="#FF7B5C3B"
                                 app:civ_border_width="1dp" />
 
                             <TextView
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="11dp"
                                 android:ellipsize="end"
+                                android:layout_gravity="center_horizontal"
                                 android:lines="1"
                                 android:maxWidth="110dp"
-                                android:text=""
+                                android:gravity="center"
+                                android:layout_marginTop="14dp"
+                                android:text="22"
                                 android:textColor="@color/white"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
 
-                        <!--加自己的东西 -->
-                        <!--<android.support.v7.widget.SearchView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />-->
-                    </RelativeLayout>
-
-                    <!--vip 会员-->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="120dp"
-                        android:background="@mipmap/bg_vip_qy_two">
-
                         <TextView
                             android:id="@+id/tv_vip_type"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="7dp"
-                            android:layout_marginTop="22dp"
+                            android:layout_marginRight="31dp"
+                            android:layout_marginBottom="77dp"
                             android:background="@drawable/shape_vip_type"
                             android:gravity="center"
                             android:minWidth="70dp"
@@ -149,6 +141,19 @@
                             android:text="普通会员"
                             android:textColor="#FAE394"
                             android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+
+                    <!--vip 会员-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="120dp"
+                        android:visibility="gone"
+                      >
 
                         <ImageView
                             android:id="@+id/btn_vip_share"
@@ -169,37 +174,8 @@
                     android:layout_height="match_parent"
                     android:clipChildren="false"
                     android:orientation="vertical"
+
                     >
-                    <TextView
-                        android:layout_marginTop="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="11sp"
-                        android:textColor="#8792A4"
-                        android:text="百盛仓VIP会员是指已购买商城会员礼包用户，是百盛仓商城"
-                        />
-
-                    <TextView
-                        android:layout_marginTop="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="11sp"
-                        android:textColor="#8792A4"
-                        android:text="为您能更好尊享高级服务权益和优质生活体验而设置，"
-                        />
-
-                    <TextView
-                        android:layout_marginTop="2dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="11sp"
-                        android:textColor="#8792A4"
-                        android:text="我们将全心为您打造一个快乐放心的购物平台。"
-                        />
-
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -248,11 +224,32 @@
                     </android.support.v7.widget.RecyclerView>
 
 
-                    <View
+
+
+                    <ImageView
                         android:layout_width="match_parent"
-                        android:layout_marginTop="25dp"
-                        android:layout_height="10dp"
-                        android:background="#F6F9FA"/>
+                        android:layout_marginTop="33dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/bg_vip_one"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/bg_vip_two"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="150dp"
+                        android:background="@mipmap/bg_vip_three"/>
 
                     <!--金牌代理-->
                     <RelativeLayout
@@ -340,7 +337,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp">
+                        android:layout_marginTop="30dp"
+                        android:visibility="gone">
                         <LinearLayout
                             android:id="@+id/ll_line_agent_qy"
                             android:layout_width="wrap_content"
@@ -383,7 +381,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="40dp"
                         android:clipChildren="false"
-                        android:overScrollMode="never" />
+                        android:overScrollMode="never"
+                        android:visibility="gone"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycler_view_small"
@@ -393,7 +392,7 @@
                         android:layout_marginBottom="70dp"
                         android:layout_marginTop="30dp"
                         android:overScrollMode="never"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </com.woyun.warehouse.view.JudgeNestedScrollView>
@@ -409,7 +408,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_marginBottom="0dp"
             android:background="#F6CB66"
             app:layout_collapseMode="pin">
@@ -427,7 +426,6 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/back_white"
                     android:paddingTop="10dp"
-                    android:paddingLeft="5dp"
                     android:paddingBottom="10dp"
                     android:visibility="visible" />
 
@@ -445,6 +443,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:maxLines="1"
+                        android:layout_marginLeft="40dp"
                         android:text="VIP"
                         android:textColor="@color/white"
                         android:textSize="17sp" />
@@ -460,7 +459,7 @@
                     android:layout_marginRight="20dp"
                     android:text="规则 》"
                     android:textColor="@color/white"
-                    android:visibility="visible" />
+                    android:visibility="invisible" />
 
 
             </LinearLayout>

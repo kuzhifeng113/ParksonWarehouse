@@ -558,17 +558,17 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         entity.setSkuName(sku.getSkuName());
         entity.setSkuImage(sku.getImage());
 
-        if (isVip) {
+//        if (isVip) {
             double price = Double.parseDouble(sku.getVipPrice());
             totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
             entity.setUnitPrice(sku.getVipPrice());
             entity.setTransport(goodsDetailBean.getTransport());
-        } else {
-            double price = Double.parseDouble(sku.getPrice());
-            totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
-            entity.setUnitPrice(sku.getPrice());
-            entity.setTransport(goodsDetailBean.getTransport());
-        }
+//        } else {
+//            double price = Double.parseDouble(sku.getPrice());
+//            totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
+//            entity.setUnitPrice(sku.getPrice());
+//            entity.setTransport(goodsDetailBean.getTransport());
+//        }
 
         entity.setMemo(memo);
         List<CartShopBean.CartListBean> selectList = new ArrayList<>();

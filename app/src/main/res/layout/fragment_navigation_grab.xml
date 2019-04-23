@@ -4,22 +4,53 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF8FB2"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
+    android:background="#FF8FB2"
     >
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             >
-
-            <ImageView
+            <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@mipmap/bg_grab"
-                app:layout_scrollFlags="scroll|enterAlways" />
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="64dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@mipmap/bg_grab"
+                    app:layout_scrollFlags="scroll|enterAlways" />
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="抢购"
+                        android:textColor="#373A42"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"

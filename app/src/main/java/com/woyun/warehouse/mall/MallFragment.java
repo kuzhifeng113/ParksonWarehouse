@@ -47,7 +47,6 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
 import com.woyun.warehouse.mall.adapter.MallHomeAdapter;
-import com.woyun.warehouse.my.activity.VipCenterActivity;
 import com.woyun.warehouse.utils.APKVersionCodeUtils;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.LogUtils;
@@ -408,11 +407,11 @@ public class MallFragment extends BaseFragment {
                 }else if(type==5){//会员中心
                     Intent intent=new Intent();
                    boolean isLogin= (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN,false);
-                    if(isLogin){
-                        intent.setClass(getActivity(),VipCenterActivity.class);
-                    }else{
-                        intent.setClass(getActivity(),LoginActivity.class);
-                    }
+//                    if(isLogin){
+//                        intent.setClass(getActivity(),VipCenterActivity.class);
+//                    }else{
+//                        intent.setClass(getActivity(),LoginActivity.class);
+//                    }
                     startActivity(intent);
                 }else if(type==6){//所有分类
                     Intent allCate=new Intent(getActivity(), AllCategoriesActivity.class);

@@ -379,7 +379,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
         double bcMoneyPrice = Double.valueOf(orderAddres.getBcMoney());//余额
         double bcSharePrice = Double.valueOf(orderAddres.getShareMoney());//分享减额
 
-        if (isVip || isAgent) {// VIP 跟代理
+//        if (isVip || isAgent) {// VIP 跟代理
             if (bcCoin.equals("0")) {
                 switchBcoin.setClickable(false);
             } else {
@@ -455,11 +455,11 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 //加上邮费
                 zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
             }
-        } else {//普通用户是不能用仓币
-            switchBcoin.setClickable(false);
-            switchBcmoney.setClickable(false);
-            zongjia = BigDecimalUtil.getAdd(totalPrice, transPortPrice);
-        }
+//        } else {//普通用户是不能用仓币
+//            switchBcoin.setClickable(false);
+//            switchBcmoney.setClickable(false);
+//            zongjia = BigDecimalUtil.getAdd(totalPrice, transPortPrice);
+//        }
         //减去分享减额的
         zongjia=BigDecimalUtil.geSub(zongjia,bcSharePrice);
         if (zongjia > 0) {

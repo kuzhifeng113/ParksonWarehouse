@@ -743,11 +743,11 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             params.put("skuNum", num);
             params.put("skuName", sku.getSkuName());
             params.put("skuImage", sku.getImage());
-            if (isVip) {
+//            if (isVip) {
                 params.put("unitPrice", sku.getVipPrice());
-            } else {
-                params.put("unitPrice", sku.getPrice());
-            }
+//            } else {
+//                params.put("unitPrice", sku.getPrice());
+//            }
 //            if (isVip) {
 //                params.put("transport", 0);
 //            } else {
@@ -795,17 +795,17 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         entity.setSkuName(sku.getSkuName());
         entity.setSkuImage(sku.getImage());
 
-        if (isVip) {
+//        if (isVip) {
             double price = Double.parseDouble(sku.getVipPrice());
             totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
             entity.setUnitPrice(sku.getVipPrice());
             entity.setTransport(goodsDetailBean.getTransport());
-        } else {
-            double price = Double.parseDouble(sku.getPrice());
-            totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
-            entity.setUnitPrice(sku.getPrice());
-            entity.setTransport(goodsDetailBean.getTransport());
-        }
+//        } else {
+//            double price = Double.parseDouble(sku.getPrice());
+//            totalPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(num));
+//            entity.setUnitPrice(sku.getPrice());
+//            entity.setTransport(goodsDetailBean.getTransport());
+//        }
 
         entity.setMemo(memo);
         List<CartShopBean.CartListBean> selectList = new ArrayList<>();

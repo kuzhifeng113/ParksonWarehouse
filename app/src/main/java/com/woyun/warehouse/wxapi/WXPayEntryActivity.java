@@ -7,30 +7,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.MyApplication;
 import com.woyun.warehouse.api.Constant;
-import com.woyun.warehouse.api.ReqConstance;
-import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
-import com.woyun.warehouse.bean.UserInfoBean;
-import com.woyun.warehouse.my.activity.AgentCenterActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
@@ -105,44 +96,5 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		}
 	}
 
-	/**
-	 *  查询我的信息
-	 */
-	private void checkUserInfo() {
-		ModelLoading.getInstance(WXPayEntryActivity.this).showLoading("", true);
-		try {
-			JSONObject params = new JSONObject();
-			params.put("userid", SPUtils.getInstance(WXPayEntryActivity.this).get(Constant.USER_ID,""));
-			RequestInterface.userPrefix(WXPayEntryActivity.this, params, TAG, ReqConstance.I_GET_USER_INFO, 3, new HSRequestCallBackInterface() {
-				@Override
-				public void requestSuccess(int funcID, int reqID, String reqToken, String responseMessage, int responseCode, JSONArray jsonArray) {
-					ModelLoading.getInstance(WXPayEntryActivity.this).closeLoading();
-					if (responseCode == 0) {
-						try {
-							Gson gson = new Gson();
-							JSONObject object = (JSONObject) jsonArray.get(0);
-							UserInfoBean userInfoBean = gson.fromJson(object.toString(), UserInfoBean.class);
-							SPUtils.getInstance(WXPayEntryActivity.this).put(Constant.USER_IS_VIP, userInfoBean.isIsVip());
-							SPUtils.getInstance(WXPayEntryActivity.this).put(Constant.USER_IS_AGENT, userInfoBean.isIsAgent());
-							Intent agent=new Intent(WXPayEntryActivity.this, AgentCenterActivity.class);
-							startActivity(agent);
-							MyApplication.getInstance().closeActivity();
-
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-
-				@Override
-				public void requestError(String responseMessage, int responseCode) {
-					ModelLoading.getInstance(WXPayEntryActivity.this).closeLoading();
-					checkUserInfo();
-				}
-			});
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

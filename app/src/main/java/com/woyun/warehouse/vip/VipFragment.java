@@ -458,7 +458,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
 //                    ivMenu.setImageResource(R.mipmap.icon_menu_white);
                 } else {
                     toolBar.setVisibility(View.VISIBLE);
-                    ivMenu.setVisibility(View.VISIBLE);
+                    ivMenu.setVisibility(View.INVISIBLE);
                     toolBar.setBackgroundColor(Color.parseColor("#F6CB66"));
 //                    ivBack.setImageResource(R.mipmap.back_black);
 //                    ivMenu.setImageResource(R.mipmap.icon_menu_black);

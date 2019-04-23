@@ -278,15 +278,7 @@
             android:textSize="14sp"
             />
 
-        <TextView
-            android:textColor="#afafaf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:layout_marginLeft="39dp"
-            android:text="@string/tixian_shuom"/>
-    
-    <Button
+        <Button
         android:id="@+id/btn_withdraw"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
@@ -297,6 +289,14 @@
         android:textColor="@color/white"
         android:layout_marginBottom="25dp"
         android:textSize="14sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="39dp"
+            android:text="@string/tixian_shuom"
+            android:textColor="#afafaf"
+            android:textSize="11sp" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

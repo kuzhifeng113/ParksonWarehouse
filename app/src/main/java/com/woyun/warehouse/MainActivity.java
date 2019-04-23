@@ -26,6 +26,7 @@ import com.fm.openinstall.listener.AppWakeUpAdapter;
 import com.fm.openinstall.model.AppData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.barlibrary.ImmersionBar;
 import com.sina.weibo.sdk.WbSdk;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
@@ -89,6 +90,11 @@ public class MainActivity extends BaseActivity {
         //初始化udesk
         UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
                 Constant.UDESK_KEY, Constant.UDESK_APPID);
+
+        boolean grab=getIntent().getBooleanExtra("grab_time",false);
+        if(grab){
+            viewPager.setCurrentItem(2);
+        }
     }
 
     @Override
@@ -229,11 +235,11 @@ public class MainActivity extends BaseActivity {
     };
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+//    @Override
+//    protected void initImmersionBar() {
+//        super.initImmersionBar();
+//        mImmersionBar.statusBarDarkFont(true).init();
+//    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -242,9 +248,13 @@ public class MainActivity extends BaseActivity {
             menuItem = item;
             switch (item.getItemId()) {
                 case R.id.navigation_mall:
+                    ImmersionBar.with(MainActivity.this).
+                            statusBarDarkFont(true, 0.2f).init();
                     viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_vip:
+                    ImmersionBar.with(MainActivity.this).
+                            statusBarDarkFont(true, 0.2f).init();
                     if (!isLogin) {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
@@ -254,9 +264,13 @@ public class MainActivity extends BaseActivity {
                         return true;
                     }
                 case R.id.navigation_grab:
+                    ImmersionBar.with(MainActivity.this).
+                            statusBarDarkFont(true, 0.2f).init();
                     viewPager.setCurrentItem(2);
                     return true;
                 case R.id.navigation_cart:
+                    ImmersionBar.with(MainActivity.this).
+                            statusBarDarkFont(true, 0.2f).init();
                     if (!isLogin) {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
@@ -267,6 +281,8 @@ public class MainActivity extends BaseActivity {
                     }
 
                 case R.id.navigation_my:
+                    ImmersionBar.with(MainActivity.this).keyboardEnable(false).
+                            statusBarDarkFont(true, 0.2f).init();
                     if (!isLogin) {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);

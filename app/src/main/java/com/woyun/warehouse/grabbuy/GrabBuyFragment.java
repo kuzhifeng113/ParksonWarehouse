@@ -1,13 +1,17 @@
 package com.woyun.warehouse.grabbuy;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.barlibrary.ImmersionBar;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
@@ -23,9 +28,9 @@ import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.baseparson.adapter.FragmentPageAdapter;
 import com.woyun.warehouse.bean.RushTimeBean;
 import com.woyun.warehouse.grabbuy.fragment.GrabGoodsFragment;
-import com.woyun.warehouse.utils.DateUtils;
 import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.view.AppBarStateChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -47,6 +52,12 @@ public class GrabBuyFragment extends BaseFragment {
     TabLayout tablayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.appbarLayout)
+    AppBarLayout appbarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 //    @BindView(R.id.swipeRefreshLayout)
 //    SwipeRefreshLayout swipeRefreshLayout;
 
@@ -54,15 +65,50 @@ public class GrabBuyFragment extends BaseFragment {
     private ArrayList<String> titles;
     private FragmentPageAdapter fragmentPageAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_grab, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        appbarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    tvTitle.setVisibility(View.GONE);
+                } else if (state == State.COLLAPSED) {
+                    tvTitle.setVisibility(View.VISIBLE);
+                    //折叠状态
+                } else {
+                    //中间状态
+                    tvTitle.setVisibility(View.GONE);
+                }
+            }
+
+        });
+
+//        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                int scrollRangle = appBarLayout.getTotalScrollRange();
+//                //初始verticalOffset为0，不能参与计算。
+//                if (verticalOffset == 0) {
+//                    tvTitle.setAlpha(0.0f);
+//                } else {
+//                    //保留一位小数
+//                    float alpha = Math.abs(Math.round(1.0f * verticalOffset / scrollRangle) * 10) / 10;
+//                    tvTitle.setAlpha(alpha);
+//                }
+//            }
+//        });
+
 
         return view;
     }
+
 
     @Override
     protected void onFragmentFirstVisible() {
@@ -80,11 +126,12 @@ public class GrabBuyFragment extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+//    @Override
+//    protected void initImmersionBar() {
+//        super.initImmersionBar();
+//        ImmersionBar.with(this)
+//                .statusBarDarkFont(true).init();
+//    }
 
     private void initView(List<RushTimeBean> datas) {
         //tab标题
@@ -142,7 +189,6 @@ public class GrabBuyFragment extends BaseFragment {
         });
 
     }
-
 
     @Override
     public void onDestroyView() {
