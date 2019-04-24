@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.gyf.barlibrary.ImmersionBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
@@ -58,8 +60,7 @@ public class GrabBuyFragment extends BaseFragment {
     AppBarLayout appbarLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-//    @BindView(R.id.swipeRefreshLayout)
-//    SwipeRefreshLayout swipeRefreshLayout;
+
 
     private List<Fragment> fragmentsList;//fragment容器
     private ArrayList<String> titles;
@@ -118,10 +119,30 @@ public class GrabBuyFragment extends BaseFragment {
     }
 
 
+    //获取数据
+    private void initData() {
+        //触发自动刷新
+//        mRefreshLayout.autoRefresh();
+////        mRefreshLayout.setEnableAutoLoadMore(true);//开启自动加载功能（非必须）
+//        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                refreshLayout.getLayout().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getData();
+//                        mRefreshLayout.finishRefresh();
+//                        mRefreshLayout.resetNoMoreData();
+//                    }
+//                }, 800);
+//            }
+//        });
+
+    }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-
+//            getData();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -134,10 +155,14 @@ public class GrabBuyFragment extends BaseFragment {
 //    }
 
     private void initView(List<RushTimeBean> datas) {
+        int positon = 0;
         //tab标题
         titles = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++) {
             titles.add(datas.get(i).getName());
+            if (datas.get(i).getStatus().equals("正在抢购")) {
+                positon = i;
+            }
         }
         //页面
         fragmentsList = new ArrayList<>();
@@ -149,7 +174,7 @@ public class GrabBuyFragment extends BaseFragment {
         fragmentPageAdapter = new FragmentPageAdapter(getChildFragmentManager(), fragmentsList, titles);
         viewPager.setAdapter(fragmentPageAdapter);
         tablayout.setupWithViewPager(viewPager);
-
+        viewPager.setOffscreenPageLimit(titles.size());
         ////动态设置tab
         for (int i = 0; i < fragmentPageAdapter.getCount(); i++) {
             //获取每一个tab对象
@@ -164,10 +189,11 @@ public class GrabBuyFragment extends BaseFragment {
             tvTime.setText(titles.get(i));
             tvStaus.setText(datas.get(i).getStatus());
 
-            if (i == 0) {
+            if (i == positon) {
                 updateTabView(tabAt, true);
             }
         }
+        viewPager.setCurrentItem(positon);
 
         tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

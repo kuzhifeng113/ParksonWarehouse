@@ -12,9 +12,18 @@ public class RushTimeBean {
     private long startTime;
     private long endTime;
     private String status;
+    private boolean isSelect;
 
     public String getName() {
         return name;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public void setName(String name) {

@@ -27,14 +27,20 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
+import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.bean.GrabGoodsBean;
 import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.bean.RushTimeBean;
 import com.woyun.warehouse.grabbuy.activity.GrabDetailActivity;
 import com.woyun.warehouse.grabbuy.adapter.GrabGoodsAdapter;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +83,11 @@ public class GrabGoodsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grab_goods, null, false);
         unbinder = ButterKnife.bind(this, rootView);
+
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         grabGoodsAdapter=new GrabGoodsAdapter(getActivity(),listDatas);
         recyclerView.setAdapter(grabGoodsAdapter);
@@ -125,23 +136,35 @@ public class GrabGoodsFragment extends BaseFragment {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(RefreshGrabEvent event) {
+        if(event.isFlag()&&isFragmentVisible()){
+            LogUtils.e(TAG, "Event:==Grab是否刷新==是否可见= ");
+            listDatas.clear();
+            getData(rushId);
+        }
+
+    }
+
     private void initData() {
-        //触发自动刷新
-        mRefreshLayout.autoRefresh();
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listDatas.clear();
-                        getData(rushId);
-                        mRefreshLayout.finishRefresh();
-                        mRefreshLayout.resetNoMoreData();
-                    }
-                }, 500);
-            }
-        });
+        if(mRefreshLayout!=null){
+            //触发自动刷新
+            mRefreshLayout.autoRefresh();
+            mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+                @Override
+                public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                    refreshLayout.getLayout().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            listDatas.clear();
+                            getData(rushId);
+                            mRefreshLayout.finishRefresh();
+                            mRefreshLayout.resetNoMoreData();
+                        }
+                    }, 500);
+                }
+            });
+        }
 
     }
 
@@ -153,7 +176,7 @@ public class GrabGoodsFragment extends BaseFragment {
         try {
             JSONObject params = new JSONObject();
             params.put("rushBuyId", rushBuyId);
-            RequestInterface.rushPrefix(getActivity(), params, TAG, ReqConstance.I_RUSH_GOODS_GET_LIST, 1, new HSRequestCallBackInterface() {
+            RequestInterface.rushPrefix(getActivity(), params, TAG+rushBuyId, ReqConstance.I_RUSH_GOODS_GET_LIST, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                         if (code == 0) {
@@ -161,7 +184,7 @@ public class GrabGoodsFragment extends BaseFragment {
                             Gson gson = new Gson();
                             List<GrabGoodsBean> grabGoodsBeanList = gson.fromJson(jsonResult, new TypeToken<List<GrabGoodsBean>>() {
                             }.getType());
-                            Log.e(TAG, "requestSuccess: "+grabGoodsBeanList.size() );
+//                            Log.e(TAG, "requestSuccess: "+grabGoodsBeanList.size() );
                             listDatas.addAll(grabGoodsBeanList);
                             grabGoodsAdapter.notifyDataSetChanged();
                         } else {
@@ -188,6 +211,9 @@ public class GrabGoodsFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         grabGoodsAdapter.cancelAllTimers();
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override
@@ -195,4 +221,5 @@ public class GrabGoodsFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }

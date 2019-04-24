@@ -178,7 +178,7 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
     private boolean isLogin;
 
     private int goodsId;//商品id
-
+    private String redPackMoney;//红包余额
 
     private String goodesWebUrl;
     private String compareUrl;//比价url
@@ -237,6 +237,8 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
+        redPackMoney = getIntent().getStringExtra("redpack_money");
+
         if (isVip) {
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 1;
         } else {
@@ -298,6 +300,13 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
 //                    Log.e(TAG, "onAdded: skuName" +sku.getSkuName());
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
+                    //判断红包余额是否满足
+                   double redMoney= Double.parseDouble(redPackMoney);
+                   double skuPrice= Double.parseDouble(sku.getVipPrice());
+                    if(redMoney <skuPrice *  quantity){
+                        ToastUtils.getInstanc(GoodsDetailWelfareActivity.this).showToast("红包余额不足~");
+                        return;
+                    }
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
                     Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     if (type == 1) {

@@ -1,20 +1,16 @@
 package com.woyun.warehouse.welfare;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jkb.vcedittext.VerificationAction;
@@ -24,11 +20,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.my.activity.BindAccountActivity;
-import com.woyun.warehouse.my.activity.WithDrawActivity;
-import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.KeybordS;
-import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.TwoPassWordDialog;
@@ -153,9 +145,9 @@ public class RedWithDrawActivity extends BaseActivity {
                     ToastUtils.getInstanc(RedWithDrawActivity.this).showToast("请填写正确的提现金额");
                     return;
                 }
-                int money = Integer.valueOf(editMoney.getText().toString().trim());
+                double money = Double.valueOf(editMoney.getText().toString().trim());
                 if(money<20){
-                    ToastUtils.getInstanc(RedWithDrawActivity.this).showToast("提现金额必选大于20");
+                    ToastUtils.getInstanc(RedWithDrawActivity.this).showToast("提现金额须大于20");
                     return;
                 }
 //                if(i % 100 == 0)

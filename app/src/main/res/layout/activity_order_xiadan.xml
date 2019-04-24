@@ -148,12 +148,13 @@
                 <!--仓币 余额 是否使用-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:id="@+id/tv_keyong_bcoin"
                         android:layout_marginTop="10dp"
-                        android:text="可用100仓币抵用"
+                        android:text="可用0仓币抵用"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
                         android:layout_marginLeft="20dp"
@@ -162,9 +163,9 @@
 
                     <Switch
                         android:id="@+id/switch_bcoin"
-                        android:layout_marginTop="7dp"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="20dp"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -176,7 +177,8 @@
                         android:layout_width="wrap_content"
                         android:textSize="11sp"
                         android:textColor="@color/text_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
                     <TextView
                         android:layout_below="@id/tv_beizhu"
                         android:layout_marginLeft="20dp"
@@ -185,8 +187,9 @@
                         android:textSize="11sp"
                         android:textColor="@color/text_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible"
-                        android:layout_marginBottom="10dp"/>
+                        android:visibility="gone"
+                        android:layout_marginBottom="10dp"
+                        />
 
                 </RelativeLayout>
 
@@ -199,12 +202,13 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="50dp">
 
                     <TextView
                         android:id="@+id/tv_keyong_bcmoney"
                         android:layout_marginTop="10dp"
-                        android:text="可用余额100"
+                        android:text="可用余额0"
+                        android:layout_centerVertical="true"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
                         android:layout_marginLeft="20dp"
@@ -217,6 +221,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="注：(仅会员代理使用)"
                         android:layout_width="wrap_content"
+                        android:visibility="gone"
                         android:textSize="11sp"
                         android:textColor="@color/text_content"
                         android:layout_height="wrap_content" />
@@ -224,7 +229,7 @@
                     <Switch
                         android:id="@+id/switch_bcmoney"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="7dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

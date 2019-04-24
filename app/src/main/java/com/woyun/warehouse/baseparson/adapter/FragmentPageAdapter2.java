@@ -1,9 +1,9 @@
 package com.woyun.warehouse.baseparson.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 
-public class FragmentPageAdapter2 extends FragmentStatePagerAdapter {
+public class FragmentPageAdapter2 extends FragmentPagerAdapter {
 
     List<Fragment> fragmentList;
     List<String> titleList;
@@ -38,5 +38,8 @@ public class FragmentPageAdapter2 extends FragmentStatePagerAdapter {
         return titleList.get(position);
     }
 
-
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
 }

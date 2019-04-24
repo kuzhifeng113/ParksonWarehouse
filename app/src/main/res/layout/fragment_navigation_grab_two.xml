@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#FF8FB2"
-    >
+    app:srlEnablePreviewInEditMode="false">
+
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF8FB2">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            >
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
             <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginEnd="64dp"
                 app:expandedTitleMarginStart="48dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false"
-                >
+                app:titleEnabled="false">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="@mipmap/bg_grab"
+                    android:fitsSystemWindows="true"
                     app:layout_scrollFlags="scroll|enterAlways" />
 
                 <android.support.v7.widget.Toolbar
@@ -34,8 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    >
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                     <TextView
                         android:id="@+id/tv_title"
@@ -50,30 +60,24 @@
             </android.support.design.widget.CollapsingToolbarLayout>
 
 
-
-            <RelativeLayout
+            <com.woyun.warehouse.view.HorizontalRecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@drawable/tab_background_grab">
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tablayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    app:tabBackground="@drawable/tab_background_grab"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/white"
-                    app:tabTextColor="#FFA8B8" />
-            </RelativeLayout>
+                android:background="#EF0B55">
+            </com.woyun.warehouse.view.HorizontalRecyclerView>
 
         </android.support.design.widget.AppBarLayout>
+
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
-
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -453,26 +453,35 @@
                 android:layout_width="100dp"
                 android:layout_height="46dp"
                 android:layout_toLeftOf="@id/img_goods_buy"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/shape_less_money"
                 android:gravity="center"
                 >
-                <TextView
-                    android:id="@+id/tv_less_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0元"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"/>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分享可减免"
+                    android:text="分享立减"
                     android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/tv_less_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"/>
 
             </LinearLayout>
 

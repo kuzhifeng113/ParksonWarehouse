@@ -10,16 +10,15 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:navigationIcon="@mipmap/comm_left"
-       >
+        app:navigationIcon="@mipmap/comm_left">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="余额"
             android:drawablePadding="10dp"
+            android:text="余额"
             android:textColor="#373A42"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -34,111 +33,91 @@
             android:textColor="#EC4374"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </android.support.v7.widget.Toolbar>
 
     <View
-        android:layout_below="@id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
-        android:background="@color/line"
-       />
+        android:layout_below="@id/toolBar"
+        android:background="@color/line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:orientation="vertical"
-        android:background="@mipmap/bg_yuer">
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/bg_yuer"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_ky"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_above="@id/tv_money"
-            android:textSize="14sp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="14dp"
-            android:textColor="@color/white"
             android:text="可用（元）"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_money"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="0"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            android:text="0"/>
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/tv_wei_ffang"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="12dp"
-            android:layout_below="@id/tv_money"
-            android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_money"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="12dp"
+            android:text="未发放：0"
             android:textColor="@color/white"
-            android:text="未发放：0"/>
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/img_tixian"
-            android:src="@mipmap/yue_tixian_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/yue_tixian_bt" />
     </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#373A42"
+        app:tabTextColor="#AFAFAF" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="余额明细"
         android:layout_height="wrap_content"
-        android:textColor="#373A42"
-        android:textStyle="bold"
-        android:textSize="17sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:text="说明：购物收益是在商品订单确认收货后7天才发放到余额"
+        android:textColor="@color/text_content"
+        android:textSize="10sp" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnablePreviewInEditMode="false">
+        android:overScrollMode="never">
 
-        <com.scwang.smartrefresh.layout.header.ClassicsHeader
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srlAccentColor="@android:color/black" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:overScrollMode="never" />
-            <include
-                android:id="@+id/id_empty_view"
-                android:visibility="gone"
-                layout="@layout/layout_empty_view" />
-        </RelativeLayout>
-
-
-        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

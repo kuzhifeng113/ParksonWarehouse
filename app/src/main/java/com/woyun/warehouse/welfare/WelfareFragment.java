@@ -221,20 +221,22 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
 
 
         welfareAdapter.setOnItemClickListener(position -> {
-            Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
-            intent.putExtra("goods_id", vipListBeanList.get(position).getGoodsId());
-
-            startActivity(intent);
+            goToDeatail(position);
 
         });
         welfareAdapter.setOnButtonClickListener(positon -> {
-            Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
-            intent.putExtra("goods_id", vipListBeanList.get(positon).getGoodsId());
-            startActivity(intent);
+            goToDeatail(positon);
         });
         startAnim(imgClick);
 
         return view;
+    }
+
+    private void goToDeatail(int positon) {
+        Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
+        intent.putExtra("goods_id", vipListBeanList.get(positon).getGoodsId());
+        intent.putExtra("redpack_money",tvRedpackMoney.getText().toString().trim());
+        startActivity(intent);
     }
 
     @Override
@@ -522,6 +524,27 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
 
     }
 
+    /**
+     * 没有拆红包次数
+     * @param
+     */
+    public void showNoNumRed() {
+        if (popupWindow != null && popupWindow.isShowing()) return;
+        View upView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_fuli_no_redpack, null);
+        //测量View的宽高
+        DensityUtils.measureWidthAndHeight(upView);
+        popupWindow = new CommonPopupWindow.Builder(getActivity())
+                .setView(R.layout.popup_fuli_no_redpack)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
+                .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
+                .setOutsideTouchable(true)
+//                .setAnimationStyle(R.style.AnimUp)
+                .setViewOnclickListener(this)
+                .create();
+        popupWindow.showAtLocation(getActivity().findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+
+    }
+
 //    @Override
 //    protected void initImmersionBar() {
 //        super.initImmersionBar();
@@ -576,6 +599,32 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
                        returnBitMap(shareIcon);
                     }
                 });
+                break;
+            case R.layout.popup_fuli_no_redpack:
+                //获得PopupWindow布局里的View
+                ImageView  img_main_share=view.findViewById(R.id.img_main_get);
+                ImageView closed=view.findViewById(R.id.img_close);
+
+                closed.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+
+                //分享
+                img_main_share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        returnBitMap(shareIcon);
+                    }
+                });
+
                 break;
 
             case R.layout.popup_share:
@@ -733,7 +782,8 @@ public class WelfareFragment extends BaseFragment implements CommonPopupWindow.V
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                    }else if(code == -2){
+                       showNoNumRed();
                     }else{
                         ToastUtils.getInstanc(getActivity()).showToast(msg);
                     }

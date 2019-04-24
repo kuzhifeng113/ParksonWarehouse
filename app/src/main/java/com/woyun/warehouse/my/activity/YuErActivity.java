@@ -3,33 +3,31 @@ package com.woyun.warehouse.my.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
-import com.woyun.warehouse.bean.CangCoinBean;
+import com.woyun.warehouse.baseparson.adapter.FragmentPageAdapter;
 import com.woyun.warehouse.bean.CangCoinTwoBean;
 import com.woyun.warehouse.bean.RealNameBean;
-import com.woyun.warehouse.my.adapter.YuErAdapter;
+import com.woyun.warehouse.my.fragment.AllOrderFragment;
+import com.woyun.warehouse.my.fragment.PendingDeliveryFragment;
+import com.woyun.warehouse.my.fragment.PendingPayingFragment;
+import com.woyun.warehouse.my.fragment.PendingReceiveFragment;
+import com.woyun.warehouse.my.fragment.YuErDetailFragment;
+import com.woyun.warehouse.my.fragment.YuErNoDetailFragment;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.AgentRefundDialog;
@@ -49,22 +47,17 @@ import butterknife.OnClick;
 
 
 /**
- * 余额2.0
+ * 余额明细2.0
  */
 public class YuErActivity extends BaseActivity {
     private static final String TAG = "YuErActivity";
     @BindView(R.id.toolBar)
     Toolbar toolBar;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout mRefreshLayout;
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.id_empty_view)
-    RelativeLayout ivEmpty;
+
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.tv_empty_text)
-    TextView tvEmptyText;
+
     @BindView(R.id.tv_ky)
     TextView tvKy;
     @BindView(R.id.tv_money)
@@ -73,9 +66,11 @@ public class YuErActivity extends BaseActivity {
     TextView tvWeiFfang;
     @BindView(R.id.img_tixian)
     ImageView imgTixian;
+    @BindView(R.id.tablayout)
+    TabLayout tablayout;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
-    private List<CangCoinTwoBean.PageBean.ContentBean> listData = new ArrayList<>();
-    private YuErAdapter cangCoinAdapter;
     private int pager = 1;
     private int type = 2;
     private String fee;//手续费
@@ -84,66 +79,57 @@ public class YuErActivity extends BaseActivity {
     private int withdrawType;//提现类型  提现类型：1微信，2支付宝
     private String withdrawMoney;//提现金额
 
+    private List<Fragment> fragmentsList;//fragment容器
+    private ArrayList<String> titles;
+    private String[] title = {"余额明细", "未发放明细"};
+    private FragmentPageAdapter fragmentPageAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yu_er_detail);
         ButterKnife.bind(this);
-        tvEmptyText.setText("暂无余额记录呦！");
+
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+        initData();
 
-        cangCoinAdapter = new YuErAdapter(YuErActivity.this, listData);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(cangCoinAdapter);
         getData(loginUserId, pager, type);
 
-        initData();
     }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume:余额" );
+        Log.e(TAG, "onResume:余额");
     }
 
+    /**
+     * 初始化
+     */
     private void initData() {
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshLayout.getLayout().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        listData.clear();
-                        pager = 1;
-                        getData(loginUserId, pager, type);
-                        mRefreshLayout.finishRefresh();
-                        mRefreshLayout.resetNoMoreData();
-                    }
-                }, 500);
-            }
-        });
+        //tab标题
+        titles = new ArrayList<>();
+        for (int i = 0; i < title.length; i++) {
+            titles.add(title[i]);
+        }
+        //页面
+        fragmentsList = new ArrayList<>();
+        fragmentsList.add(new YuErDetailFragment());
+        fragmentsList.add(new YuErNoDetailFragment());
 
-        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
-            @Override
-            public void onLoadmore(RefreshLayout refreshlayout) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        pager++;
-                        getData(loginUserId, pager, type);
-                        mRefreshLayout.finishLoadmore();
-
-                    }
-                }, 1000);
-            }
-        });
+        fragmentPageAdapter = new FragmentPageAdapter(getSupportFragmentManager(), fragmentsList, titles);
+        viewPager.setOffscreenPageLimit(titles.size());
+        viewPager.setAdapter(fragmentPageAdapter);
+        tablayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
     }
-
     /**
      * 获取全部仓币  1仓币，2余额；只有vip才传type=1
      */
@@ -166,23 +152,15 @@ public class YuErActivity extends BaseActivity {
                             JSONObject object = (JSONObject) jsonArray.get(0);
                             CangCoinTwoBean cangCoinTwoBean = gson.fromJson(object.toString(), CangCoinTwoBean.class);
                             tvMoney.setText(String.valueOf(cangCoinTwoBean.getBcMoney()));
-                            tvWeiFfang.setText("未发放："+String.valueOf(cangCoinTwoBean.getGrantMoney()));
-                            listData.addAll(cangCoinTwoBean.getPage().getContent());
-                            fee=cangCoinTwoBean.getFee();
-                            personal=cangCoinTwoBean.getPersonal();
-                            withdrawStatus=cangCoinTwoBean.isWithdrawStatus();
+                            tvWeiFfang.setText("未发放：" + String.valueOf(cangCoinTwoBean.getGrantMoney()));
+
+                            fee = cangCoinTwoBean.getFee();
+                            personal = cangCoinTwoBean.getPersonal();
+                            withdrawStatus = cangCoinTwoBean.isWithdrawStatus();
                             if (withdrawStatus) {
                                 withdrawMoney = cangCoinTwoBean.getWithdrawMoney();
                                 withdrawType = cangCoinTwoBean.getWithdrawType();
                             }
-                            if (listData.size() == 0) {
-                                ivEmpty.setVisibility(View.VISIBLE);
-
-                            } else {
-                                ivEmpty.setVisibility(View.GONE);
-                            }
-
-                            cangCoinAdapter.notifyDataSetChanged();
                         } else {
                             ToastUtils.getInstanc(YuErActivity.this).showToast(msg);
                         }
@@ -200,11 +178,6 @@ public class YuErActivity extends BaseActivity {
             });
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (mRefreshLayout.isRefreshing()) {
-//                Log.e(TAG, "initData: finish");
-                mRefreshLayout.finishRefresh();
-            }
         }
     }
 
@@ -216,11 +189,7 @@ public class YuErActivity extends BaseActivity {
 
     @OnClick(R.id.img_tixian)
     public void onViewClicked() {
-//        Intent intent=new Intent(YuErActivity.this,WithDrawActivity.class);
-//        intent.putExtra("tixian_money", tvMoney.getText().toString().trim());
-//        intent.putExtra("fee", fee);
-//        intent.putExtra("personal", personal);
-//        startActivity(intent);
+
 
         checkRealNameStatus();
 
@@ -309,6 +278,12 @@ public class YuErActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 }

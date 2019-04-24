@@ -77,8 +77,6 @@ public class MyOrderActivity extends BaseActivity {
             viewPager.setOffscreenPageLimit(4);
             viewPager.setAdapter(fragmentPageAdapter);
             tablayout.setupWithViewPager(viewPager);
-//            tablayout.setTabMode(TabLayout.MODE_FIXED);//模式如果标签多的话用MODE_SCROLLABLE
-//            viewPager.setCurrentItem(0);
             viewPager.setCurrentItem(index);
     }
 

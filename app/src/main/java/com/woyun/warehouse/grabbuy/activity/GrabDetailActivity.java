@@ -445,26 +445,21 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         contentListBeanList = goodsDetailBean.getContentList();
         //距离结束时间
         long currentTimeMillis = System.currentTimeMillis();
-//        long endTime= 0;
-//        try {
-//            endTime = TimeTools.dateToStamp(Constant.end_day);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+
         //当前时间大于开始时间 小于结束时间
         if (currentTimeMillis < startTime) {//未开始
-            imgGoodsBuy.setClickable(false);
+//            imgGoodsBuy.setClickable(false);
             tvEndTime.setText("未开始");
         }
         if (currentTimeMillis >= startTime && currentTimeMillis < endTime) {
-            imgGoodsBuy.setClickable(true);
+//            imgGoodsBuy.setClickable(true);
             chaTime = endTime - currentTimeMillis;
             mHandler.sendEmptyMessage(TIME_DESC);
         } else {
             tvEndTime.setText("已结束");
-            imgGoodsBuy.setClickable(false);
+//            imgGoodsBuy.setClickable(false);
         }
-        tvLessMoney.setText(goodsDetailBean.getShareMoney()+"元");
+        tvLessMoney.setText(goodsDetailBean.getShareMoney());
 
         tvSheng.setText("剩余" + goodsDetailBean.getStock() + "件");
         tvYiqiang.setText("已抢购" + goodsDetailBean.getSellNum() + "件");
@@ -624,6 +619,19 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                     goLogin();
                     return;
                 }
+                //距离结束时间
+                long currentTimeMillis = System.currentTimeMillis();
+
+                //当前时间大于开始时间 小于结束时间
+                if (currentTimeMillis < startTime) {//未开始
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast("活动未开始~");
+                    return;
+                }
+                if(currentTimeMillis> endTime){
+                    ToastUtils.getInstanc(GrabDetailActivity.this).showToast("活动已结束~");
+                    return;
+                }
+
                 showDilog(2);
                 break;
 //            case R.id.img_goods_join_cart://加入购物车

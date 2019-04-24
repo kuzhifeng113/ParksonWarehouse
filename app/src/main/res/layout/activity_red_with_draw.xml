@@ -169,6 +169,25 @@
                     android:background="@color/line" />
             </RelativeLayout>
 
+            <TextView
+                android:text="温馨提示："
+                android:layout_marginLeft="39dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                android:textColor="#FFAFAFAF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:text="红包余额可以提现到个人余额使用或者提取现金，每次提取最小金额为20元；提到余额后的钱不能继续购买红包福利专区商品。"
+                android:layout_marginLeft="39dp"
+                android:textSize="11sp"
+                android:layout_marginRight="24dp"
+                android:textColor="#FFAFAFAF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
         <Button
             android:id="@+id/btn_withdraw"

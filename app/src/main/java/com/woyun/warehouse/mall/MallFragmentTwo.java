@@ -54,6 +54,7 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallGoodGoodsActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.sort.SortSearchActivity;
+import com.woyun.warehouse.my.activity.VipEnterActivity;
 import com.woyun.warehouse.utils.APKVersionCodeUtils;
 import com.woyun.warehouse.utils.AddressPickTask;
 import com.woyun.warehouse.utils.DensityUtils;
@@ -510,8 +511,7 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
                     }
                 } else if (type == 5) {//会员中心--赚钱
                     Intent intent = new Intent();
-                    intent.setClass(getActivity(), MainActivity.class);
-                    intent.putExtra("go_makemoney", true);
+                    intent.setClass(getActivity(), VipEnterActivity.class);
                     startActivity(intent);
                 } else if (type == 6) {//所有分类
 //                    Intent allCate = new Intent(getActivity(), AllCategoriesActivity.class);

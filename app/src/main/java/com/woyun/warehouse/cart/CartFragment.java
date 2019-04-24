@@ -338,7 +338,7 @@ public class CartFragment extends BaseFragment implements CartAdapter.CheckInter
 
                             cartLikeList.addAll(cartBean.getGoodsList());
                             cartLikeAdapter.notifyDataSetChanged();
-
+                            tvAllPrice.setText("00.00");
                             if (cartBean.getCartList().size() > 0) {
                                 llEmpty.setVisibility(View.GONE);
                             } else {
