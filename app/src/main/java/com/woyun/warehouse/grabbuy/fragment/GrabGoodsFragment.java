@@ -27,6 +27,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
 import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.bean.GrabGoodsBean;
@@ -55,7 +56,7 @@ import butterknife.Unbinder;
 /**
  * 抢购商品
  */
-public class GrabGoodsFragment extends BaseFragment {
+public class GrabGoodsFragment extends BaseFragmentTwo {
     private static final String TAG = "GrabGoodsFragment";
     private static final String TIME_ID = "time_id";
     Unbinder unbinder;

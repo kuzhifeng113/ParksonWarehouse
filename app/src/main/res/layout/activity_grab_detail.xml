@@ -169,8 +169,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="40dp"
-                                android:textColor="#591d08"
-                                android:text="已抢购20件"
+                                android:textColor="@color/white"
+                                android:text="已抢购0件"
                                 android:textSize="10sp" />
                         </RelativeLayout>
 

@@ -23,7 +23,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.my.adapter.AllOrderAdapter;
 import com.woyun.warehouse.utils.ModelLoading;
@@ -44,7 +44,7 @@ import butterknife.Unbinder;
 /**
  * 待发货
  */
-public class PendingDeliveryFragment extends BaseFragment {
+public class PendingDeliveryFragment extends BaseFragmentTwo {
     private static final String TAG = "PendingDeliveryFragment";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
@@ -176,11 +176,7 @@ public class PendingDeliveryFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+
 
     @Override
     public void onDestroyView() {

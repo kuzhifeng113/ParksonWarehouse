@@ -34,7 +34,7 @@ import com.woyun.warehouse.alipay.PayResult;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.bean.WxPayBean;
 import com.woyun.warehouse.my.adapter.AllOrderAdapter;
@@ -50,7 +50,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,7 +65,7 @@ import butterknife.Unbinder;
 /**
  * 待付款
  */
-public class PendingPayingFragment extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class PendingPayingFragment extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "PendingPayingFragment";
     private static final int SDK_PAY_FLAG = 2;
     @BindView(R.id.refreshLayout)
@@ -308,11 +307,7 @@ public class PendingPayingFragment extends BaseFragment implements CommonPopupWi
     }
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+
 
     @Override
     public void onDestroyView() {

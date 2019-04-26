@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
@@ -103,13 +104,6 @@ public class YuErActivity extends BaseActivity {
     }
 
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e(TAG, "onResume:余额");
-    }
-
     /**
      * 初始化
      */
@@ -129,6 +123,24 @@ public class YuErActivity extends BaseActivity {
         viewPager.setAdapter(fragmentPageAdapter);
         tablayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.e(TAG, "onPageSelected: " );
+//                ImmersionBar.with(YuErActivity.this).statusBarDarkFont(true, 0.2f).init();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
     /**
      * 获取全部仓币  1仓币，2余额；只有vip才传type=1

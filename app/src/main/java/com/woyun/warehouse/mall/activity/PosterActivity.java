@@ -36,9 +36,14 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
+import com.woyun.warehouse.baseparson.event.ShareEvent;
+import com.woyun.warehouse.baseparson.event.SharePosterEvent;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -113,10 +118,19 @@ public class PosterActivity extends BaseActivity {
         getWindow().setEnterTransition(new Fade().setDuration(260));
         getWindow().setExitTransition(new Fade().setDuration(260));
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         iwxApi = WXAPIFactory.createWXAPI(PosterActivity.this, Constant.WX_APP_ID);
 
         goodsId = getIntent().getIntExtra("share_goods_id", 0);
         initData(goodsId, loginUserId);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getShareValue(SharePosterEvent shareEvent) {
+        Log.e(TAG, "海报: "+shareEvent.isShare() );
+        if(shareEvent.isShare()){
+           finish();
+        }
     }
 
     @Override
@@ -226,6 +240,7 @@ public class PosterActivity extends BaseActivity {
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = buildTransaction("img");
         req.message = msg;
+        req.transaction = "posterPage"+System.currentTimeMillis();//对应该请求的事务ID，通常由Req发起，回复Resp时应填入对应事务ID
         req.scene = isFriends ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         iwxApi.sendReq(req);
 
@@ -309,5 +324,9 @@ public class PosterActivity extends BaseActivity {
         //context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

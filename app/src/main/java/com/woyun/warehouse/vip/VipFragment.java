@@ -40,17 +40,15 @@ import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.LoginActivity;
-import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.bean.MoneyBean;
 import com.woyun.warehouse.bean.ZuanQianBean;
-import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeAgentActivity;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeVipActivity;
 import com.woyun.warehouse.my.activity.ShareActivity;
@@ -84,7 +82,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * 赚钱 会员2.0
  */
-public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class VipFragment extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "VipFragment";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
@@ -262,7 +260,7 @@ public class VipFragment extends BaseFragment implements CommonPopupWindow.ViewI
             }
         });
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

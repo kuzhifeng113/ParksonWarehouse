@@ -32,6 +32,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.adapter.FragmentPageAdapter;
 import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
 import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
@@ -57,7 +58,7 @@ import butterknife.Unbinder;
 /**
  * 抢购
  */
-public class GrabBuyFragmentTwo extends BaseFragment {
+public class GrabBuyFragmentTwo extends BaseFragmentTwo {
     private static final String TAG = "GrabBuyFragment";
     Unbinder unbinder;
 //    @BindView(R.id.tablayout)
@@ -95,7 +96,7 @@ public class GrabBuyFragmentTwo extends BaseFragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(timeAdapter);
-
+        ImmersionBar.setTitleBar(getActivity(), toolbar);
         timeAdapter.setOnItemClickListener(new TimeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view ,int position) {
@@ -162,13 +163,13 @@ public class GrabBuyFragmentTwo extends BaseFragment {
 
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        ImmersionBar.with(this).titleBar(toolbar)
-                 .statusBarDarkFont(true,0.2f)
-                .init();
-    }
+//    @Override
+//    protected void initImmersionBar() {
+//        super.initImmersionBar();
+//        ImmersionBar.with(this).titleBar(toolbar)
+//                 .statusBarDarkFont(true,0.2f)
+//                .init();
+//    }
 
 
     @Override

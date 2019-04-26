@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,11 +57,9 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
-import com.woyun.warehouse.bean.MoneyBean;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.RedPackBean;
 import com.woyun.warehouse.bean.WelfateBean;
-import com.woyun.warehouse.my.activity.ShareActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -94,7 +91,7 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 /**
  * 福利 4.0  商品 categoryId=-4
  */
-public class WelfareFragment extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "WelfareFragment";
     private static final int THUMB_SIZE = 150;
 

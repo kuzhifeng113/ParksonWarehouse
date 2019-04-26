@@ -38,6 +38,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.cart.adapter.CartAdapter;
@@ -70,7 +71,7 @@ import butterknife.Unbinder;
 /**
  * 购物车
  */
-public class CartFragment extends BaseFragment implements CartAdapter.CheckInterface, CartAdapter.ModifyCountInterface {
+public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckInterface, CartAdapter.ModifyCountInterface {
     private static final String TAG = "CartFragment";
 
     @BindView(R.id.refreshLayout)

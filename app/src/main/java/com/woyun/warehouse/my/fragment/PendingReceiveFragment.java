@@ -1,7 +1,6 @@
 package com.woyun.warehouse.my.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +25,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.LogisticsActivity;
 import com.woyun.warehouse.bean.OrderListBean;
 import com.woyun.warehouse.my.adapter.AllOrderAdapter;
@@ -48,7 +47,7 @@ import butterknife.Unbinder;
 /**
  * 待收货
  */
-public class PendingReceiveFragment extends BaseFragment {
+public class PendingReceiveFragment extends BaseFragmentTwo {
     private static final String TAG = "PendingReceiveFragment";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
@@ -234,11 +233,7 @@ public class PendingReceiveFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+
 
     @Override
     public void onDestroyView() {

@@ -113,6 +113,7 @@ public class GrabGoodsAdapter extends RecyclerView.Adapter<GrabGoodsAdapter.MyVi
         holder.tv_goods_price.setText("市场价:" + goodsListBean.getPrice());
         holder.tv_goods_price.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG); //中划线
         holder.tv_goods_title.setText(goodsListBean.getName());
+        holder.tv_title_des.setText(goodsListBean.getTitle());
 
         int kuCun=goodsListBean.getStock();
         int sellNum=goodsListBean.getSellNum();

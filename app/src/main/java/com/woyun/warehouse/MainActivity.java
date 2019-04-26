@@ -27,8 +27,6 @@ import com.fm.openinstall.model.AppData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.barlibrary.ImmersionBar;
-import com.sina.weibo.sdk.WbSdk;
-import com.sina.weibo.sdk.auth.AuthInfo;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
@@ -38,8 +36,6 @@ import com.woyun.warehouse.baseparson.adapter.ViewPagerAdapter;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.cart.CartFragment;
-import com.woyun.warehouse.find.FindFragment;
-import com.woyun.warehouse.grabbuy.GrabBuyFragment;
 import com.woyun.warehouse.grabbuy.GrabBuyFragmentTwo;
 import com.woyun.warehouse.mall.MallFragmentTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
@@ -50,7 +46,6 @@ import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.view.BaseDialogg;
 import com.woyun.warehouse.view.ViewPagerSlide;
-import com.woyun.warehouse.vip.VipFragment;
 import com.woyun.warehouse.welfare.WelfareFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -235,11 +230,11 @@ public class MainActivity extends BaseActivity {
     };
 
 
-//    @Override
-//    protected void initImmersionBar() {
-//        super.initImmersionBar();
-//        mImmersionBar.statusBarDarkFont(true).init();
-//    }
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        mImmersionBar.statusBarDarkFont(true).init();
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

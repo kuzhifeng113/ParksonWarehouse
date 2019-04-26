@@ -851,7 +851,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:text="普通会员和VIP会员推荐朋友注册，系统会自动绑定推荐关系；可获得所推荐朋友购买产品金额10%-30%购物奖励，推荐购买人数越，奖励越多，轻松月入10万。"
+                    android:text="普通会员和VIP会员推荐朋友注册，系统会自动绑定推荐关系；可获得所推荐朋友购买产品金额10%-30%购物奖励，推荐购买人数越多，奖励越多，轻松月入10万。"
                     android:textSize="11sp"
                     android:layout_marginLeft="36dp"
                     android:layout_marginRight="36dp"

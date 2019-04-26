@@ -40,7 +40,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.bean.UserInfoTwoBean;
@@ -82,7 +82,7 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
 /**
  * 我的
  */
-public class MyFragment extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "MyFragment";
     private static final int THUMB_SIZE = 150;
     Unbinder unbinder;

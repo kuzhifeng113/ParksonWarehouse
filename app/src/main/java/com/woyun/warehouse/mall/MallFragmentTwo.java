@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,7 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
@@ -89,7 +88,6 @@ import cc.shinichi.library.bean.ImageInfo;
 import cn.addapp.pickers.entity.City;
 import cn.addapp.pickers.entity.County;
 import cn.addapp.pickers.entity.Province;
-import cn.udesk.model.Tag;
 import me.leolin.shortcutbadger.ShortcutBadger;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -97,7 +95,7 @@ import q.rorbin.badgeview.QBadgeView;
 /**
  * 商城2.0
  */
-public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class MallFragmentTwo extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "MallFragmentTwo";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
@@ -195,11 +193,6 @@ public class MallFragmentTwo extends BaseFragment implements CommonPopupWindow.V
         }
     }
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
 
     private void initView() {
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(toolBar);

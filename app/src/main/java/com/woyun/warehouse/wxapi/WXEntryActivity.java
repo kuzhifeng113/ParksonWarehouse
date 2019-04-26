@@ -31,6 +31,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.event.ShareEvent;
+import com.woyun.warehouse.baseparson.event.SharePosterEvent;
 import com.woyun.warehouse.baseparson.event.WxUserInfoEvent;
 import com.woyun.warehouse.bean.UserInfoBean;
 import com.woyun.warehouse.bean.WxAccessResult;
@@ -115,9 +116,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     if(resp.transaction.contains("timewebpage")){//限时抢购商品分享
                         Log.e(TAG, "onResp:限时抢购商品分享 ");
                         EventBus.getDefault().post(new ShareEvent(true));
+                    }else if(resp.transaction.contains("posterPage")){//
+                        Log.e(TAG, "onResp:分享海报 ");
+                        EventBus.getDefault().post(new SharePosterEvent(true));
                     }
                     finish();
-
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    Log.e(TAG, "onResp: 分享取消");
                     break;
             }
         }

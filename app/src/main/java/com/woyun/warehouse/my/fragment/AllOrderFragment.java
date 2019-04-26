@@ -37,6 +37,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.LogisticsActivity;
 import com.woyun.warehouse.baseparson.event.OrderIndexEvent;
 import com.woyun.warehouse.bean.OrderListBean;
@@ -81,7 +82,7 @@ import udesk.core.UdeskConst;
 /**
  * 所有订单
  */
-public class AllOrderFragment extends BaseFragment implements CommonPopupWindow.ViewInterface {
+public class AllOrderFragment extends BaseFragmentTwo implements CommonPopupWindow.ViewInterface {
     private static final String TAG = "AllOrderFragment";
     private static final int SDK_PAY_FLAG = 2;
     @BindView(R.id.refreshLayout)
@@ -399,11 +400,7 @@ public class AllOrderFragment extends BaseFragment implements CommonPopupWindow.
     }
 
 
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
+
 
     @Override
     public void onDestroyView() {

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.barlibrary.ImmersionBar;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -26,6 +27,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.LogisticsActivity;
 import com.woyun.warehouse.bean.CangCoinTwoBean;
 import com.woyun.warehouse.bean.OrderListBean;
@@ -49,7 +51,7 @@ import butterknife.Unbinder;
 /**
  * 余额明细未发放
  */
-public class YuErNoDetailFragment extends BaseFragment {
+public class YuErNoDetailFragment extends BaseFragmentTwo {
     private static final String TAG = "PendingReceiveFragment";
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
@@ -175,12 +177,6 @@ public class YuErNoDetailFragment extends BaseFragment {
         }
     }
 
-
-    @Override
-    protected void initImmersionBar() {
-        super.initImmersionBar();
-        mImmersionBar.statusBarDarkFont(true).init();
-    }
 
     @Override
     public void onDestroyView() {

@@ -148,15 +148,15 @@
                             android:maxHeight="10dp"
                             android:minHeight="10dp"
                             android:progressDrawable="@drawable/progressbar_preview2" />
-
+<!--android:textColor="#591d08"-->
                         <TextView
                             android:id="@+id/tv_yiqiang"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="40dp"
-                            android:textColor="#591d08"
-                            android:text="已抢购20件"
+                            android:textColor="@color/white"
+                            android:text="已抢购0件"
                             android:textSize="10sp" />
                     </RelativeLayout>
 
