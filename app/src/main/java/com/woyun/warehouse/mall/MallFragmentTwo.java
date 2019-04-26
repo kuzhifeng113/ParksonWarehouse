@@ -502,7 +502,7 @@ public class MallFragmentTwo extends BaseFragmentTwo implements CommonPopupWindo
                         webView.putExtra("web_url", listBanner.get(position).getTagUrl());
                         startActivity(webView);
                     }
-                } else if (type == 5) {//会员中心--赚钱
+                } else if (type == 5) {//会员中心
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), VipEnterActivity.class);
                     startActivity(intent);

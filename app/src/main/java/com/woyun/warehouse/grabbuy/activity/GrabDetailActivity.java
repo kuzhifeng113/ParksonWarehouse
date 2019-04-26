@@ -362,6 +362,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
             JSONObject params = new JSONObject();
             params.put("goodsId", goodsID);
             params.put("userid", loginUserId);
+            params.put("rushId", rushId);
             RequestInterface.goodsPrefix(GrabDetailActivity.this, params, TAG, ReqConstance.I_GOODS_DETAIL, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
@@ -375,18 +376,12 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
                             cartNum = goodsDetailBean.getCartNum();//购物车数量
-//                            cartBadge.bindTarget(imgCart).setBadgeGravity(Gravity.END | Gravity.TOP).setBadgeNumber(cartNum).setExactMode(false);
-//                            cartBadge.setGravityOffset(-2, -2, true);
+
 
                             shareTile = goodsDetailBean.getName();
                             shareContent = goodsDetailBean.getTitle();
                             shareIconUrl = goodsDetailBean.getImage();
 
-//                            if (isFavorite) {//是否收藏
-//                                imgCollection.setImageResource(R.mipmap.ic_goods_sc_red);
-//                            } else {
-//                                imgCollection.setImageResource(R.mipmap.ic_goods_sc);
-//                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -450,15 +445,13 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         if (currentTimeMillis < startTime) {//未开始
 //            imgGoodsBuy.setClickable(false);
             tvEndTime.setText("未开始");
-        }
-        if (currentTimeMillis >= startTime && currentTimeMillis < endTime) {
-//            imgGoodsBuy.setClickable(true);
+        }else if(currentTimeMillis >endTime){
+            tvEndTime.setText("已结束");
+        }else{
             chaTime = endTime - currentTimeMillis;
             mHandler.sendEmptyMessage(TIME_DESC);
-        } else {
-            tvEndTime.setText("已结束");
-//            imgGoodsBuy.setClickable(false);
         }
+
         tvLessMoney.setText(goodsDetailBean.getShareMoney());
 
         tvSheng.setText("剩余" + goodsDetailBean.getStock() + "件");
