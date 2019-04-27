@@ -171,11 +171,11 @@ public class ProductSkuDialog extends Dialog {
                 selectedSku = null;
                 Glide.with(context).load(product.getImage()).placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(iv_sku_logo);
                 boolean isVip= (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP,false);
-                if(isVip){
-                    tv_goods_price.setText("￥"+product.getVipPrice());
-                }else{
-                    tv_goods_price.setText("￥"+product.getPrice());
-                }
+//                if(isVip){
+                tv_goods_price.setText("￥"+product.getVipPrice());
+//                }else{
+//                    tv_goods_price.setText("￥"+product.getPrice());
+//                }
                 tvSkuQuantity.setText("库存"+ product.getStock());
 
                 String firstUnselectedAttributeName = scrollSkuList.getFirstUnelectedAttributeName();
@@ -205,11 +205,11 @@ public class ProductSkuDialog extends Dialog {
                 selectedSku = sku;
                 Glide.with(context).load(selectedSku.getImage()).placeholder(R.mipmap.img_default).into(iv_sku_logo);
                 boolean isVip= (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP,false);
-                if(isVip){
+//                if(isVip){
                     tv_goods_price.setText("￥"+selectedSku.getVipPrice());
-                }else{
-                    tv_goods_price.setText("￥"+selectedSku.getPrice());
-                }
+//                }else{
+//                    tv_goods_price.setText("￥"+selectedSku.getPrice());
+//                }
 
                 List<SkuAttribute> attributeList = selectedSku.getSpecMap();
 
@@ -300,11 +300,11 @@ public class ProductSkuDialog extends Dialog {
             // 选中第一个sku
             scrollSkuList.setSelectedSku(selectedSku);
             Glide.with(context).load(selectedSku.getImage()).placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(iv_sku_logo);
-            if(isVip){
+//            if(isVip){
                 tv_goods_price.setText("￥"+selectedSku.getVipPrice());
-            }else{
-                tv_goods_price.setText("￥"+selectedSku.getPrice());
-            }
+//            }else{
+//                tv_goods_price.setText("￥"+selectedSku.getPrice());
+//            }
             tvSkuQuantity.setText("库存"+selectedSku.getNum());
             btnSubmit.setEnabled(selectedSku.getNum() > 0);
             btnSubmit.setImageResource(R.mipmap.ic_goods_confrim);

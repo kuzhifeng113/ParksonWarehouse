@@ -134,7 +134,7 @@ public class MallHomeTwoBean implements Serializable{
             }
         }
     }
-
+    // 1.图片，2.视频,3.跳转商品，4.跳转网页，5跳转Vip，6跳限时购物商品，7跳红包福利商品
     public static class AdvBannerListBean {
         /**
          * sec : 3
@@ -144,6 +144,7 @@ public class MallHomeTwoBean implements Serializable{
          * tagUrl : https://comm.bscvip.com/about.html
          * type : 1
          * url : http://image.bscvip.com/banner/3.png
+         * rushId
          */
 
         private int sec;
@@ -153,6 +154,15 @@ public class MallHomeTwoBean implements Serializable{
         private String tagUrl;
         private int type;
         private String url;
+        private int rushId;//限时抢购id
+
+        public int getRushId() {
+            return rushId;
+        }
+
+        public void setRushId(int rushId) {
+            this.rushId = rushId;
+        }
 
         public int getSec() {
             return sec;

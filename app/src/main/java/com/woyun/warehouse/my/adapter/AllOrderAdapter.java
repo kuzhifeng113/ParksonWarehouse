@@ -189,6 +189,28 @@ public class AllOrderAdapter extends RecyclerView.Adapter<AllOrderAdapter.MyView
                         }
                     });
                 }
+
+                //查看物流
+                if(onButtonClickListener!=null){
+                    holder.tv_check_logistics.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onButtonClickListener.onButtonClick(holder.tv_check_logistics,position);
+                        }
+                    });
+                }
+                //删除订单
+                if(onButtonClickListener!=null){
+                    holder.tv_delete_ywcorder.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onButtonClickListener.onButtonClick(holder.tv_delete_ywcorder,position);
+                        }
+                    });
+                }
+
+
+
             }else if(orderStatus==5){
                 holder.tv_order_status.setText("已退款");
                 holder.ll_dai_fukuan.setVisibility(View.GONE);

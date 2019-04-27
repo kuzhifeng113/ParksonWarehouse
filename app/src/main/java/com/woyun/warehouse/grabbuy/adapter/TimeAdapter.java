@@ -62,18 +62,18 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.MyViewHolder> 
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         RushTimeBean goodsListBean = listData.get(position);
 
-        holder.tv_time.setText(String.valueOf(goodsListBean.getName()));
+        holder.tv_time.setText(TimeTools.descriptiveData(goodsListBean.getStartTime())+goodsListBean.getName());
         holder.tv_status.setText( goodsListBean.getStatus());
         if(goodsListBean.isSelect()){
             //选中后字体变大
-            holder.tv_time.setTextSize(19);
+            holder.tv_time.setTextSize(16);
             holder.tv_time.setTextColor(Color.parseColor("#ffffff"));
 
             holder.tv_status.setTextSize(12);
             holder.tv_status.setTextColor(Color.parseColor("#ffffff"));
         }else{
             //选中后字体变大
-            holder.tv_time.setTextSize(17);
+            holder.tv_time.setTextSize(14);
             holder.tv_time.setTextColor(Color.parseColor("#FFA8B8"));
 
             holder.tv_status.setTextSize(12);
@@ -81,7 +81,8 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.MyViewHolder> 
         }
         //5等份
         LinearLayout.LayoutParams params = new
-                LinearLayout.LayoutParams((int) ((context.getResources().getDisplayMetrics().widthPixels) / 5f),
+                LinearLayout.LayoutParams((int) ((context.getResources().getDisplayMetrics().widthPixels) / 3.5f),
+//                LinearLayout.LayoutParams(holder.itemView.getWidth(),
 //显示4个半
 //                LinearLayout.LayoutParams((int) ((context.getResources().getDisplayMetrics().widthPixels - DensityUtils.dp2px(context, 5)) / 4.5f),
                 ViewGroup.LayoutParams.MATCH_PARENT);

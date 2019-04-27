@@ -392,9 +392,9 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 switchBcmoney.setClickable(true);
             }
 
-            if (isLimitedTime) {
-                switchBcoin.setClickable(false);
-            }
+//            if (isLimitedTime) {
+//                switchBcoin.setClickable(false);
+//            }
 
             //仓币不抵押邮费
             if (switchBcoin.isChecked()) {

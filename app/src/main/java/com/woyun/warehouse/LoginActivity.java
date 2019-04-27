@@ -152,34 +152,6 @@ public class LoginActivity extends BaseActivity {
         mImmersionBar.statusBarDarkFont(true).init();
     }
 
-//    /**
-//     * 获取分享的值
-//     */
-//    private void getShareValue() {
-//        OpenInstall.getInstall(new AppInstallAdapter() {
-//            @Override
-//            public void onInstall(AppData appData) {
-//                //获取渠道数据
-//                String channelCode = appData.getChannel();
-//                //获取自定义数据
-//                String bindData = appData.getData();
-//                try {
-//                    if (!TextUtils.isEmpty(bindData)) {
-//                        Log.e("OpenInstall获取数据", "getInstall : installData = " + appData.toString());
-//                        JSONObject object = new JSONObject(bindData);
-//                        String shareValue = object.getString("sharekey");
-//                        SPUtils.getInstance(LoginActivity.this).put(Constant.SHARE_KEY, shareValue);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-////                ToastUtils.getInstanc(SplashActivity.this).showToast(TAG+"========"+bindData);
-//            }
-//        });
-//        //用户注册成功后调用
-////        OpenInstall.reportRegister();
-//    }
 
     @OnClick({R.id.btn_break, R.id.img_wechat, R.id.img_qq, R.id.btn_login})
     public void onViewClicked(View view) {

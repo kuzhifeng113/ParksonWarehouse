@@ -57,6 +57,10 @@ public class GoodsDetailBean implements Serializable {
     private String freeShopping;//满多少包邮
     private List<ResListBean> resList;
     private List<ContentListBean> contentList;
+    ////--只限限购商品--////
+    private long startTime;//开始时间
+    private long currTime;//当前时间
+    private long endTime;//结束时间
 
     public String getBkCoin() {
         return bkCoin;
@@ -250,4 +254,27 @@ public class GoodsDetailBean implements Serializable {
         this.skuList = skuList;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getCurrTime() {
+        return currTime;
+    }
+
+    public void setCurrTime(long currTime) {
+        this.currTime = currTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
 }

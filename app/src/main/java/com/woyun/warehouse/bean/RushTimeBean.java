@@ -13,6 +13,7 @@ public class RushTimeBean {
     private long endTime;
     private String status;
     private boolean isSelect;
+    private long currTime;
 
     public String getName() {
         return name;
@@ -60,5 +61,13 @@ public class RushTimeBean {
 
     public void setEndTime(long endTime) {
         this.endTime = endTime;
+    }
+
+    public long getCurrTime() {
+        return currTime;
+    }
+
+    public void setCurrTime(long currTime) {
+        this.currTime = currTime;
     }
 }

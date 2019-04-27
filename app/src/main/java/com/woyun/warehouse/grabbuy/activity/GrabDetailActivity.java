@@ -243,7 +243,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 
     private int rushId;//限时抢购 id
     private long chaTime;
-    private long startTime, endTime;//结束时间
+    private long startTime, endTime,currentTime;//结束时间
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -270,8 +270,8 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
         rushId = getIntent().getIntExtra("rush_id", 0);
-        startTime = getIntent().getLongExtra("start_time", 0);
-        endTime = getIntent().getLongExtra("end_time", 0);
+//        startTime = getIntent().getLongExtra("start_time", 0);
+//        endTime = getIntent().getLongExtra("end_time", 0);
         Log.e(TAG, "onCreateendTime==: " + startTime);
         Log.e(TAG, "onCreatestartTime==: " + endTime);
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
@@ -373,6 +373,10 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                             Gson gson = new Gson();
                             goodsDetailBean = gson.fromJson(jsonArray.get(0).toString(), GoodsDetailBean.class);
                             compareUrl = goodsDetailBean.getCompareUrl();
+                            startTime=goodsDetailBean.getStartTime();
+                            currentTime=goodsDetailBean.getCurrTime();
+                            endTime=goodsDetailBean.getEndTime();
+
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
                             cartNum = goodsDetailBean.getCartNum();//购物车数量

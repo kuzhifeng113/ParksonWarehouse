@@ -49,6 +49,7 @@ import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.MallHomeTwoBean;
 import com.woyun.warehouse.bean.ShipAddressBean;
+import com.woyun.warehouse.grabbuy.activity.GrabDetailActivity;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.activity.MallGoodGoodsActivity;
 import com.woyun.warehouse.mall.activity.MessageActivity;
@@ -64,6 +65,7 @@ import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.CornerTransform;
 import com.woyun.warehouse.vote.fragment.HostFragmentTwo;
+import com.woyun.warehouse.welfare.GoodsDetailWelfareActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -506,9 +508,15 @@ public class MallFragmentTwo extends BaseFragmentTwo implements CommonPopupWindo
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), VipEnterActivity.class);
                     startActivity(intent);
-                } else if (type == 6) {//所有分类
-//                    Intent allCate = new Intent(getActivity(), AllCategoriesActivity.class);
-//                    startActivity(allCate);
+                } else if (type == 6) {//限时抢购商品
+                    Intent intent=new Intent(getActivity(), GrabDetailActivity.class);
+                    intent.putExtra("goods_id",listBanner.get(position).getGoodsId());
+                    intent.putExtra("rush_id",listBanner.get(position).getRushId());
+                    startActivity(intent);
+                }else if(type==7){//红包福利商品
+                    Intent intent=new Intent(getActivity(), GoodsDetailWelfareActivity.class);
+                    intent.putExtra("goods_id",listBanner.get(position).getGoodsId());
+                    startActivity(intent);
                 }
 
             }
