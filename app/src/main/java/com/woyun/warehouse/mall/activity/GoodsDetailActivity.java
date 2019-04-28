@@ -312,7 +312,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
-                    Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
+                    LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     if (type == 1) {
                         addCart(sku, quantity, resultMemo);
                     } else {
@@ -445,7 +445,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
+            LogUtils.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GoodsDetailActivity.this).closeLoading();
         }
     };
@@ -453,7 +453,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
     private WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            Log.e(TAG, "onProgressChanged: ");
+            LogUtils.e(TAG, "onProgressChanged: ");
             if (newProgress == 100) {
 
             }
@@ -532,7 +532,7 @@ public class GoodsDetailActivity extends BaseActivity implements CommonPopupWind
                     goLogin();
                     return;
                 }
-                Log.e(TAG, "onViewClicked:投票--我想要 ");
+                LogUtils.e(TAG, "onViewClicked:投票--我想要 ");
                 doVote(loginUserId, voteId, goodsId);
                 break;
             case R.id.btn_vote_buy://投票--购买

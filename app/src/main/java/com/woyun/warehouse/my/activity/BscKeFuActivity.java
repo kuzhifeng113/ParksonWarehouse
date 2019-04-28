@@ -24,6 +24,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.CustomerBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.vote.adapter.CustomerAdapter;
@@ -153,10 +154,10 @@ public class BscKeFuActivity extends BaseActivity {
     private void saveImage(String url, String name) {
         if (!TextUtils.isEmpty(url)) {
             String path = Environment.getExternalStorageDirectory() + "/BSC/" + name;
-            Log.e(TAG, "onViewClicked:sd卡== " + path);
+            LogUtils.e(TAG, "onViewClicked:sd卡== " + path);
             File file = new File(path);
             if (!file.exists()) {
-                Log.e(TAG, "onViewClicked: 文件不存在");
+                LogUtils.e(TAG, "onViewClicked: 文件不存在");
                 ModelLoading.getInstance(BscKeFuActivity.this).showLoading("", true);
                 new Thread(new Runnable() {
                     @Override

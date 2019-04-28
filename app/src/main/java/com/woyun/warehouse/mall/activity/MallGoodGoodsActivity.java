@@ -41,6 +41,7 @@ import com.woyun.warehouse.bean.GoodCategoryBean;
 import com.woyun.warehouse.bean.ResListBean;
 import com.woyun.warehouse.mall.adapter.MallGoodGoodsAdapter;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -192,12 +193,12 @@ public class MallGoodGoodsActivity extends BaseActivity {
         editSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.e(TAG, "beforeTextChanged: ");
+                LogUtils.e(TAG, "beforeTextChanged: ");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e(TAG, "onTextChanged: ");
+                LogUtils.e(TAG, "onTextChanged: ");
             }
 
             @Override

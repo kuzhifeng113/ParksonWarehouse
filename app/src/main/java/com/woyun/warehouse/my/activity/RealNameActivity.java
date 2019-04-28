@@ -21,6 +21,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.RealNameBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -107,7 +108,7 @@ public class RealNameActivity extends BaseActivity {
             RequestInterface.sysPrefix(RealNameActivity.this, params, TAG, ReqConstance.I_REAL_NAME_CHECK, 2, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String responseMessage, int responseCode, JSONArray responseData) {
-                    Log.e(TAG, "requestSuccess: " + responseData.length());
+                    LogUtils.e(TAG, "requestSuccess: " + responseData.length());
                     ModelLoading.getInstance(RealNameActivity.this).closeLoading();
                     if (responseCode == 0) {
                         //有状态返回证明 提交过审核

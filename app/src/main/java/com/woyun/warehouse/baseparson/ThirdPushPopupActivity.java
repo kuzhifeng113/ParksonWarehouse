@@ -15,6 +15,7 @@ import com.alibaba.sdk.android.push.AndroidPopupActivity;
 import com.gyf.barlibrary.ImmersionBar;
 import com.woyun.warehouse.MainActivity;
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.utils.LogUtils;
 
 import java.util.Map;
 
@@ -94,7 +95,7 @@ public class ThirdPushPopupActivity extends AndroidPopupActivity {
      */
     @Override
     protected void onSysNoticeOpened(String title, String content, Map<String, String> extraMap) {
-        Log.e(TAG, "Receive ThirdPush notification, title: " + title + ", content: " + content + ", extraMap: " + extraMap);
+        LogUtils.e(TAG, "Receive ThirdPush notification, title: " + title + ", content: " + content + ", extraMap: " + extraMap);
 //        mHandler.sendMessage(mHandler.obtainMessage(0, "小米辅助弹窗通道打开"));
         mHandler.sendMessage(mHandler.obtainMessage(0, ""));
     }

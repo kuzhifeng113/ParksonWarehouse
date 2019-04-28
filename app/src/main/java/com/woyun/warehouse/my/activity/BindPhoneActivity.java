@@ -27,6 +27,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.UserInfoBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.PushUtils;
 import com.woyun.warehouse.utils.SPUtils;
@@ -270,7 +271,7 @@ public class BindPhoneActivity extends BaseActivity {
                 goMain();
                 break;
             case R.id.tv_text:
-                Log.e(TAG, "onViewClicked: ====" );
+                LogUtils.e(TAG, "onViewClicked: ====" );
                 ModelLoading.getInstance(BindPhoneActivity.this).showLoading("",true);
                 new Handler().postDelayed(new Runnable() {
                     @Override

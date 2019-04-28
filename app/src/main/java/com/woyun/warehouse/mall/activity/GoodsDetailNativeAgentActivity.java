@@ -367,7 +367,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
-                    Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
+                    LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     skuListBean = sku;
                     skunum = quantity;
                     skumemo = resultMemo;
@@ -534,7 +534,7 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
                     }
                 }
 
-                Log.e(TAG, "onItemClick: a===" + a);
+                LogUtils.e(TAG, "onItemClick: a===" + a);
 
                 Intent toLook = new Intent(GoodsDetailNativeAgentActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
@@ -867,7 +867,6 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GoodsDetailNativeAgentActivity.this).closeLoading();
@@ -1236,19 +1235,16 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
             Toast.makeText(GoodsDetailNativeAgentActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }
@@ -1269,7 +1265,6 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
         Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
@@ -1469,13 +1464,12 @@ public class GoodsDetailNativeAgentActivity extends BaseActivity implements Comm
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
             ModelLoading.getInstance(GoodsDetailNativeAgentActivity.this).showLoading("", true);
-            Log.e("Info", "BaseWebActivity onPageStarted");
+            LogUtils.e("Info", "BaseWebActivity onPageStarted");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GoodsDetailNativeAgentActivity.this).closeLoading();
             //webview加载完成之后重新测量webview的高度
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();

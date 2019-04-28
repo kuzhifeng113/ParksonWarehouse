@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 
 import butterknife.BindView;
@@ -52,7 +53,7 @@ public class GuanZhuFragment extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
         tv.setText("关注" + findTypeId);
-        Log.e(TAG, "onCreateView: "+findTypeId );
+        LogUtils.e(TAG, "onCreateView: "+findTypeId );
         return view;
     }
 

@@ -54,6 +54,7 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeVipActivity;
 import com.woyun.warehouse.my.activity.ShareActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -184,7 +185,7 @@ public class VipFragment extends BaseFragmentTwo implements CommonPopupWindow.Vi
         EventBus.getDefault().register(this);
         initView();
         initViewState();
-        Log.e(TAG, "onCreateView:@@@@@@@ ");
+        LogUtils.e(TAG, "onCreateView:@@@@@@@ ");
         toolBar.setVisibility(View.GONE);
         ImmersionBar.setTitleBar(getActivity(), toolBar);
         vipGiftAdapter = new VipGiftAdapter(getActivity(), vipListBeanList);
@@ -292,7 +293,7 @@ public class VipFragment extends BaseFragmentTwo implements CommonPopupWindow.Vi
     //支付成功后回调
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(SaveUserEvent event) {
-        Log.e(TAG, "Event: 支付成功后回调" + event.isSave());
+        LogUtils.e(TAG, "Event: 支付成功后回调" + event.isSave());
         if (event.isSave()) {
             getData();
         }
@@ -333,7 +334,7 @@ public class VipFragment extends BaseFragmentTwo implements CommonPopupWindow.Vi
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            Log.e(TAG, "setUserVisibleHint:###########");
+            LogUtils.e(TAG, "setUserVisibleHint:###########");
 //            isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
 //            isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
 //            boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
@@ -366,7 +367,7 @@ public class VipFragment extends BaseFragmentTwo implements CommonPopupWindow.Vi
     }
 
     private void initViewState(){
-        Log.e(TAG, "setUserVisibleHint:###########");
+        LogUtils.e(TAG, "setUserVisibleHint:###########");
         isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
         isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
         boolean isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);

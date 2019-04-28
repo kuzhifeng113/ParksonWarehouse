@@ -52,6 +52,7 @@ import com.woyun.warehouse.my.activity.TwoPassWordActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -220,7 +221,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
     }
@@ -232,13 +233,13 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
         selectList.addAll(datas);
         orderDeatailAdapter.notifyDataSetChanged();
 
-        Log.e(TAG, "initData: " + selectList.size());
+        LogUtils.e(TAG, "initData: " + selectList.size());
 //        if (isVip || isAgent) {
 //            tvTransport.setText("0");
 //            return;
 //        }
         //满多少包邮---不需要了
-        Log.e(TAG, "initData:满=== " + manTransport);
+        LogUtils.e(TAG, "initData:满=== " + manTransport);
         if (totalPrice > Double.parseDouble(manTransport)) {
             tvTransport.setText("0");
             return;
@@ -341,7 +342,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
      * 计算合计价格
      */
     private void calculationPrice() {
-        Log.e(TAG, "计算价格calculationPrice: ");
+        LogUtils.e(TAG, "计算价格calculationPrice: ");
 //        描述：
         //红包福利商品 只能红包支付
         double zongjia = 0.0;
@@ -422,9 +423,9 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                     } else {
                         showTwoPassWord();
                     }
-                    Log.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
+                LogUtils.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
 
-                Log.e(TAG, "onViewClicked:tv_to_pay ");
+                LogUtils.e(TAG, "onViewClicked:tv_to_pay ");
                 break;
 
         }
@@ -507,12 +508,12 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
 
             @Override
             public void onInputCompleted(CharSequence s) {
-                Log.e(TAG, "onInputCompleted: 输入完成");
+                LogUtils.e(TAG, "onInputCompleted: 输入完成");
                 //输入完成请求接口
                 String code = s.toString();
                 int type = 5;
 
-                Log.e(TAG, "onInputCompleted:PayType " + type);
+                LogUtils.e(TAG, "onInputCompleted:PayType " + type);
 //                payOperation(loginUserId, type, MD5Util.getMD5(code));
 
                 if (KeybordS.isSoftShowing(OrderXiaDanFuliActivity.this)) {
@@ -543,7 +544,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
      * @param
      */
     private void payOperation(String userId, final int payType, String pwd) {
-        Log.e(TAG, "payOperation:################################## " + payType);
+        LogUtils.e(TAG, "payOperation:################################## " + payType);
         ModelLoading.getInstance(OrderXiaDanFuliActivity.this).showLoading("", true);
         //获取数据
         try {
@@ -703,7 +704,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                     switch (group.getCheckedRadioButtonId()) {
                         case R.id.checkbox_personal:
-                            Log.e(TAG, "getChildView:----个人---------- ");
+                            LogUtils.e(TAG, "getChildView:----个人---------- ");
                             isEditInvoice = false;
                             editName.setText("");
                             editCode.setText("");
@@ -726,7 +727,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                             });
                             break;
                         case R.id.checkbox_unit:
-                            Log.e(TAG, "getChildView:=====单位======== ");
+                            LogUtils.e(TAG, "getChildView:=====单位======== ");
                             isEditInvoice = false;
                             editName.setText("");
                             editCode.setText("");
@@ -776,7 +777,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e(TAG, "onClick:是否修改" + isEditInvoice);
+                        LogUtils.e(TAG, "onClick:是否修改" + isEditInvoice);
                         if (ckboxPersonal.isChecked()) {//个人
                             if (TextUtils.isEmpty(editName.getText().toString())) {
                                 ToastUtils.getInstanc(OrderXiaDanFuliActivity.this).showToast("名字不能为空！");
@@ -856,8 +857,8 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                             ShipAddressBean.InvoiceListBean updateBean = gson.fromJson(jsonResult, ShipAddressBean.InvoiceListBean.class);
                             allInvoiceDatas.add(updateBean);
                             invoiceId = updateBean.getInvoiceId();
-                            Log.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
-                            Log.e(TAG, "requestSuccess:发票id" + invoiceId);
+                            LogUtils.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
+                            LogUtils.e(TAG, "requestSuccess:发票id" + invoiceId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

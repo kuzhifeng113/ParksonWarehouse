@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.baseparson.BaseActivity;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.vip.BannerAdapter;
 import com.woyun.warehouse.vip.ZoomOutPageTransformer;
 
@@ -71,8 +72,8 @@ public class QuanYiTwoActivity extends BaseActivity {
         tvTitle.setText(title);
         imageBanners = getIntent().getStringArrayListExtra("imagesarray");
         index = getIntent().getIntExtra("index", 0);
-        Log.e(TAG, "initData: " + imageBanners.size());
-        Log.e(TAG, "index==: " + index);
+        LogUtils.e(TAG, "initData: " + imageBanners.size());
+        LogUtils.e(TAG, "index==: " + index);
         initBannner();
         viewPager.setCurrentItem(index);
     }

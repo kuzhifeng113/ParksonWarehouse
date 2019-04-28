@@ -28,6 +28,7 @@ import com.woyun.warehouse.mall.adapter.MessageAdapter;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.SwipeItemLayout;
@@ -80,7 +81,7 @@ public class MessageListActivity extends BaseActivity {
             }
         });
         messType = getIntent().getIntExtra("mess_type", 0);
-        Log.e(TAG, "onCreate: "+messType );
+        LogUtils.e(TAG, "onCreate: "+messType );
         if (messType == 1) {
             tvTitle.setText("订单通知");
         } else {
@@ -235,7 +236,7 @@ public class MessageListActivity extends BaseActivity {
             e.printStackTrace();
         } finally {
             if (mRefreshLayout.isRefreshing()) {
-                Log.e(TAG, "initData: finish");
+                LogUtils.e(TAG, "initData: finish");
                 mRefreshLayout.finishRefresh();
             }
         }

@@ -47,6 +47,7 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GridSpacingItemDecoration;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
@@ -203,7 +204,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
             cartShopBeanList.clear();
             cartLikeList.clear();
             getData();
-            Log.e(TAG, "setUserVisibleHint:------ ");
+            LogUtils.e(TAG, "setUserVisibleHint:------ ");
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -352,7 +353,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
                                 tvLikeTitle.setVisibility(View.GONE);
                             }
 
-                            Log.e(TAG, "requestSuccess: " + cartBean.getCartList().size());
+                            LogUtils.e(TAG, "requestSuccess: " + cartBean.getCartList().size());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -445,7 +446,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
                 double price = Double.parseDouble(shoppingCartBean.getUnitPrice());
                 double itemPrice = BigDecimalUtil.getMultiply(price, Double.valueOf(shoppingCartBean.getSkuNum()));
                 totalPrice = BigDecimalUtil.getAdd(totalPrice, itemPrice);
-                Log.e(TAG, "statistics: " + totalPrice);
+                LogUtils.e(TAG, "statistics: " + totalPrice);
 //                totalPrice=getAdd(totalPrice,getMultiply(price,Double.valueOf(shoppingCartBean.getSkuNum())));
 //                totalPrice += price * shoppingCartBean.getSkuNum();
             }
@@ -649,9 +650,9 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
 
         if (cartIdList != null && cartIdList.size() > 0) {
             StringBuffer stringBuffer = new StringBuffer();
-            Log.e(TAG, "onViewClicked:选中 ==" + cartIdList.size());
+            LogUtils.e(TAG, "onViewClicked:选中 ==" + cartIdList.size());
             for (int position = 0; position < cartIdList.size(); position++) {
-                Log.e(TAG, "for position" + cartIdList.get(position));
+                LogUtils.e(TAG, "for position" + cartIdList.get(position));
                 cartAdapter.notifyDataSetChanged();
                 if (position == cartIdList.size() - 1) {
                     stringBuffer.append(cartIdList.get(position));
@@ -660,10 +661,10 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
                 }
             }
             ids = stringBuffer.toString();
-            Log.e(TAG, "stringBuffer: " + stringBuffer.toString());
+            LogUtils.e(TAG, "stringBuffer: " + stringBuffer.toString());
             stringBuffer = new StringBuffer("");
-            Log.e(TAG, "stringBuffer: " + stringBuffer.toString());
-            Log.e(TAG, "onViewClicked: " + cartShopBeanList.size());
+            LogUtils.e(TAG, "stringBuffer: " + stringBuffer.toString());
+            LogUtils.e(TAG, "onViewClicked: " + cartShopBeanList.size());
             showDeleteDialog();
         }
     }
@@ -672,7 +673,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
      * 删除购物车
      */
     private void deleteCart(String deleteids) {
-        Log.e(TAG, "deleteCart: " + deleteids);
+        LogUtils.e(TAG, "deleteCart: " + deleteids);
         ModelLoading.getInstance(getActivity()).showLoading("", true);
         //获取数据
         try {
@@ -703,7 +704,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
                             llEmpty.setVisibility(View.VISIBLE);
                         }
                         statistics();
-//                            Log.e(TAG, "requestSuccess: " + jsonResult);
+//                            LogUtils.e(TAG, "requestSuccess: " + jsonResult);
                     } else {
                         ToastUtils.getInstanc(getActivity()).showToast(msg);
                     }
@@ -737,7 +738,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
      */
     private void updateCartNumber(CartShopBean.CartListBean entity, final View view) {
         ModelLoading.getInstance(getActivity()).showLoading("", true);
-        Log.e(TAG, "updateCartNumber:数量" + entity.getSkuNum());
+        LogUtils.e(TAG, "updateCartNumber:数量" + entity.getSkuNum());
         //获取数据
         try {
             JSONObject params = new JSONObject();
@@ -762,7 +763,7 @@ public class CartFragment extends BaseFragmentTwo implements CartAdapter.CheckIn
                         ((TextView) view).setText(currentCount + "");
                         cartAdapter.notifyDataSetChanged();
                         statistics();
-//                            Log.e(TAG, "requestSuccess: " + jsonResult);
+//                            LogUtils.e(TAG, "requestSuccess: " + jsonResult);
                     } else {
                         ToastUtils.getInstanc(getActivity()).showToast(msg);
                     }

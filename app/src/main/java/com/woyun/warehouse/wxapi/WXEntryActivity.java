@@ -39,6 +39,7 @@ import com.woyun.warehouse.bean.WxUserInfoResult;
 import com.woyun.warehouse.grabbuy.activity.GrabDetailActivity;
 import com.woyun.warehouse.my.activity.BindAccountActivity;
 import com.woyun.warehouse.my.activity.BindPhoneActivity;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.PushUtils;
 import com.woyun.warehouse.utils.SPUtils;
@@ -104,26 +105,26 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onReq(BaseReq baseReq) {
-        Log.e(TAG, "onReq: "+baseReq.toString() );
+        LogUtils.e(TAG, "onReq: "+baseReq.toString() );
     }
 
     @Override
     public void onResp(BaseResp resp) {
-        Log.e(TAG, "onResp微信:=========== " +resp.errCode);
+        LogUtils.e(TAG, "onResp微信:=========== " +resp.errCode);
         if (resp.getType() == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {//分享
             switch (resp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     if(resp.transaction.contains("timewebpage")){//限时抢购商品分享
-                        Log.e(TAG, "onResp:限时抢购商品分享 ");
+                        LogUtils.e(TAG, "onResp:限时抢购商品分享 ");
                         EventBus.getDefault().post(new ShareEvent(true));
                     }else if(resp.transaction.contains("posterPage")){//
-                        Log.e(TAG, "onResp:分享海报 ");
+                        LogUtils.e(TAG, "onResp:分享海报 ");
                         EventBus.getDefault().post(new SharePosterEvent(true));
                     }
                     finish();
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    Log.e(TAG, "onResp: 分享取消");
+                    LogUtils.e(TAG, "onResp: 分享取消");
                     break;
             }
         }
@@ -131,7 +132,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             case BaseResp.ErrCode.ERR_OK:
                 response = (SendAuth.Resp) resp;
                 String code = response.code;
-                Log.e(TAG,"微信==CODE==="+code);
+                LogUtils.e(TAG,"微信==CODE==="+code);
                 requestByAccessToken(code);
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -171,7 +172,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "okhttp onFailure: token " + e.getMessage());
+                LogUtils.e(TAG, "okhttp onFailure: token " + e.getMessage());
                 finish();
             }
 
@@ -241,7 +242,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "okhttp onFailure:getUserInfo" + e.getMessage());
+                LogUtils.e(TAG, "okhttp onFailure:getUserInfo" + e.getMessage());
                 finish();
             }
 
@@ -262,7 +263,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     @Override
                     public void run() {
                         int wxType= (int) SPUtils.getInstance(WXEntryActivity.this).get(Constant.USER_WX_TYPE,0);
-                        Log.e(TAG, "run: wxType==="+wxType );
+                        LogUtils.e(TAG, "run: wxType==="+wxType );
                         if(wxType==0){
                             loginReq(user.getNickname(),user.getHeadimgurl(),openid);
                         }else{

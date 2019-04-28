@@ -61,6 +61,7 @@ import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.RedPackBean;
 import com.woyun.warehouse.bean.WelfateBean;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
@@ -202,7 +203,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
 
         initView();
-        Log.e(TAG, "onCreateView:@@@@@@@ ");
+        LogUtils.e(TAG, "onCreateView:@@@@@@@ ");
         toolBar.setVisibility(View.GONE);
         ImmersionBar.setTitleBar(getActivity(), toolBar);
         welfareAdapter = new WelfareAdapter(getActivity(), vipListBeanList);
@@ -239,7 +240,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG, "onActivityResult: "+resultCode );
+        LogUtils.e(TAG, "onActivityResult: "+resultCode );
         if(resultCode==RESULT_CODE){
             getData();
         }
@@ -270,7 +271,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-//            Log.e(TAG, "setUserVisibleHint:###########");
+//            LogUtils.e(TAG, "setUserVisibleHint:###########");
             isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
             loginUserId= (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,"");
             shareTile = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_TITLE, "");
@@ -648,7 +649,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
-                        Log.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
+                        LogUtils.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
                         iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + loginUserId,
                                     shareTile, shareContent, 1, shareIcon));
                     }
@@ -677,8 +678,8 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
-                        Log.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + loginUserId);
-                        Log.e(TAG, "onClick:url =====" + shareIcon);
+                        LogUtils.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + loginUserId);
+                        LogUtils.e(TAG, "onClick:url =====" + shareIcon);
                         final Bundle params = new Bundle();
 //                        if(shareType==0){//纯图片分享
 //                            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL,Environment.getExternalStorageDirectory()+"/BSC/sharerweima.jpg");//本地图片
@@ -695,7 +696,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                             params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + loginUserId);
                             params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
                             params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
-                            Log.e(TAG, "onClick:### "+shareIcon );
+                            LogUtils.e(TAG, "onClick:### "+shareIcon );
                             //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
 //                        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其他附加功能");
                             // 分享操作要在主线程中完成
@@ -804,19 +805,19 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(getActivity(), "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }

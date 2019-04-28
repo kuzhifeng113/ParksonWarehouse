@@ -156,7 +156,6 @@ public class MyAddressActivity extends BaseActivity {
             e.printStackTrace();
         } finally {
             if (refreshLayout.isRefreshing()) {
-                Log.e(TAG, "initData: finish");
                 refreshLayout.finishRefresh();
             }
         }

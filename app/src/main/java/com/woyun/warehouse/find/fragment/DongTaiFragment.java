@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 
 import butterknife.BindView;
@@ -53,7 +54,7 @@ public class DongTaiFragment extends BaseFragment {
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
         unbinder = ButterKnife.bind(this, view);
         tv.setText("动态"+findTypeId);
-        Log.e(TAG, "onCreateView: "+findTypeId );
+        LogUtils.e(TAG, "onCreateView: "+findTypeId );
         return view;
     }
 

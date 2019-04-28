@@ -35,6 +35,7 @@ import com.woyun.warehouse.baseparson.event.WxUserInfoEvent;
 import com.woyun.warehouse.cart.activity.OrderXiaDanActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -113,7 +114,7 @@ public class BindAccountActivity extends BaseActivity  implements CommonPopupWin
 
     private void initData() {
 //        fromType=getIntent().getIntExtra("from_type",0);
-        Log.e(TAG, "initData: fromType=="+fromType );
+        LogUtils.e(TAG, "initData: fromType=="+fromType );
         weChat= (String) SPUtils.getInstance(BindAccountActivity.this).get(Constant.USER_WX,"");
         weChatName= (String) SPUtils.getInstance(BindAccountActivity.this).get(Constant.USER_WX_NAME,"");
         aliPay=(String) SPUtils.getInstance(BindAccountActivity.this).get(Constant.USER_ZFB,"");
@@ -262,7 +263,7 @@ public class BindAccountActivity extends BaseActivity  implements CommonPopupWin
                 params.put("name", name);
             }
             params.put("pwd",MD5Util.getMD5(pwd));
-            Log.e(TAG, "doBind: 密码"+pwd );
+            LogUtils.e(TAG, "doBind: 密码"+pwd );
             RequestInterface.userPrefixVersiontTwo(BindAccountActivity.this, params, TAG, ReqConstance.I_USER_BINDING, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
@@ -320,7 +321,7 @@ public class BindAccountActivity extends BaseActivity  implements CommonPopupWin
         // 但会使得用户已授权作用域（scope）仅为snsapi_base，从而导致无法获取到需要用户授权才允许获得的数据和基础功能
         req.scope = "snsapi_userinfo";
         req.state = uuid;
-        Log.e(TAG, "wxLogin: " + uuid);
+        LogUtils.e(TAG, "wxLogin: " + uuid);
         iwxapi.sendReq(req);
     }
 

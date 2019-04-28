@@ -31,7 +31,6 @@ public class MallTypeChildOneAdapter extends RecyclerView.Adapter<MallTypeChildO
 
 
     public MallTypeChildOneAdapter(Context context, List<CategoryGoodsBeanTwo.PageBean.ContentBean> dataList) {
-        Log.e(TAG, "MallTypeOneAdapter:@@@@@@@@@@ " + dataList.size());
         this.dataList = dataList;
         this.context = context;
 

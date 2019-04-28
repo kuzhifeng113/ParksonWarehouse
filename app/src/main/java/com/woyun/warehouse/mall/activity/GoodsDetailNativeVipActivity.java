@@ -378,7 +378,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
-                    Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
+                    LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     if (type == 1) {
                         addCart(sku, quantity, resultMemo);
                     } else {
@@ -543,7 +543,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                     }
                 }
 
-                Log.e(TAG, "onItemClick: a===" + a);
+                LogUtils.e(TAG, "onItemClick: a===" + a);
 
                 Intent toLook = new Intent(GoodsDetailNativeVipActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
@@ -879,7 +879,6 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GoodsDetailNativeVipActivity.this).closeLoading();
@@ -1148,19 +1147,19 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(GoodsDetailNativeVipActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }
@@ -1180,7 +1179,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
         Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
@@ -1372,11 +1371,11 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             if (type == 2) {
                 params.put("fuserid", SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.SHARE_KEY, ""));
             }
-            Log.e(TAG, "payOperation: fuserid" + SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.SHARE_KEY, ""));
+            LogUtils.e(TAG, "payOperation: fuserid" + SPUtils.getInstance(GoodsDetailNativeVipActivity.this).get(Constant.SHARE_KEY, ""));
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
-            Log.e(TAG, "payOperation:是否使用==== " + isUseInvoice);
-            Log.e(TAG, "payOperation:发票==== " + invoiceId);
+            LogUtils.e(TAG, "payOperation:是否使用==== " + isUseInvoice);
+            LogUtils.e(TAG, "payOperation:发票==== " + invoiceId);
             params.put("userid", userId);
 //            params.put("vipTypeId", vipTypeId);
             params.put("province", province);
@@ -1715,8 +1714,8 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
                             ShipAddressBean.InvoiceListBean updateBean = gson.fromJson(jsonResult, ShipAddressBean.InvoiceListBean.class);
                             allInvoiceDatas.add(updateBean);
                             invoiceId = updateBean.getInvoiceId();
-                            Log.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
-                            Log.e(TAG, "requestSuccess:发票id" + invoiceId);
+                            LogUtils.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
+                            LogUtils.e(TAG, "requestSuccess:发票id" + invoiceId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -1788,13 +1787,13 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
             ModelLoading.getInstance(GoodsDetailNativeVipActivity.this).showLoading("", true);
-            Log.e("Info", "BaseWebActivity onPageStarted");
+            LogUtils.e("Info", "BaseWebActivity onPageStarted");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
+            LogUtils.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GoodsDetailNativeVipActivity.this).closeLoading();
             //webview加载完成之后重新测量webview的高度
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();
@@ -1802,7 +1801,7 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
             //获取网页的高度
             WebView mainWebView = mAgentWeb.getWebCreator().getWebView();
             int htmlHeight = mainWebView.getContentHeight();//获取html高度
-            Log.e(TAG, "onPageFinished: 高度" + htmlHeight);
+            LogUtils.e(TAG, "onPageFinished: 高度" + htmlHeight);
             float scale = mainWebView.getScale();//手机上网页缩放比例
             int webViewHeight = mainWebView.getHeight();//WebView控件的高度
             float v = mainWebView.getContentHeight() * mainWebView.getScale();//得到的是网页在手机上真实的高度

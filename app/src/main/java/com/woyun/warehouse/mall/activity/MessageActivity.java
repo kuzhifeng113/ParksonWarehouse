@@ -23,6 +23,7 @@ import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.ShipAddressBean;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.my.activity.MyAddressActivity;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -108,7 +109,7 @@ public class MessageActivity extends BaseActivity {
             sysBadge.setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
                 @Override
                 public void onDragStateChanged(int dragState, Badge badge, View targetView) {
-                    Log.e(TAG, "onDragStateChanged: " + dragState);
+                    LogUtils.e(TAG, "onDragStateChanged: " + dragState);
                     if (dragState == STATE_SUCCEED) {
                         setReadRequest(loginUserId, 0);
                     }
@@ -129,7 +130,7 @@ public class MessageActivity extends BaseActivity {
         //获取udesk 未读消息
         int unreadMsg = UdeskSDKManager.getInstance().getCurrentConnectUnReadMsgCount(getApplicationContext(),
                 loginUserId);
-        Log.e(TAG, "onResume:未读客服消息" + unreadMsg);
+        LogUtils.e(TAG, "onResume:未读客服消息" + unreadMsg);
         if (unreadMsg > 0) {
             kefuBadge.bindTarget(tvKefu).setBadgeGravity(Gravity.CENTER).setBadgeNumber(unreadMsg).setExactMode(false);
             kefuBadge.setBadgePadding(6, true);

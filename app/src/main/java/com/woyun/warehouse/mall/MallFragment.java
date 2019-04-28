@@ -157,7 +157,7 @@ public class MallFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(UnReadMessEvent event) {
-        Log.e(TAG, "Event:==未读消息=== "+event.getNum());
+        LogUtils.e(TAG, "Event:==未读消息=== "+event.getNum());
             setUnreadNum(event.getNum());
     }
 
@@ -304,7 +304,7 @@ public class MallFragment extends BaseFragment {
                 @Override
                 public void requestError(String s, int i) {
                     ModelLoading.getInstance(getActivity()).closeLoading();
-                    Log.e(TAG, "requestError: getData");
+                    LogUtils.e(TAG, "requestError: getData");
                     error++;
                     if (error < 3) {
                         getData(true);

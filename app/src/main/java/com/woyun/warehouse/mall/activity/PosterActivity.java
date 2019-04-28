@@ -38,6 +38,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.baseparson.event.ShareEvent;
 import com.woyun.warehouse.baseparson.event.SharePosterEvent;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -127,7 +128,7 @@ public class PosterActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getShareValue(SharePosterEvent shareEvent) {
-        Log.e(TAG, "海报: "+shareEvent.isShare() );
+        LogUtils.e(TAG, "海报: "+shareEvent.isShare() );
         if(shareEvent.isShare()){
            finish();
         }
@@ -268,7 +269,7 @@ public class PosterActivity extends BaseActivity {
                         mHandler.sendEmptyMessage(REFRESH_COMPLETE_SAVE);
                         return;
                     }
-                    Log.e(TAG, "run:====== ");
+                    LogUtils.e(TAG, "run:====== ");
                     if (isFriend) {
                         mHandler.sendEmptyMessage(REFRESH_COMPLETE);
                     } else {

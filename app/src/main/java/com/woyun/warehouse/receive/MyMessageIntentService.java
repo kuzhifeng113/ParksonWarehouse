@@ -12,6 +12,7 @@ import com.woyun.warehouse.mall.activity.MessageListActivity;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
 import com.woyun.warehouse.my.activity.YuErActivity;
+import com.woyun.warehouse.utils.LogUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
      */
     @Override
     protected void onMessage(Context context, CPushMessage cPushMessage) {
-        Log.e(TAG,"收到一条推送消息 ： " + cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
+        LogUtils.e(TAG,"收到一条推送消息 ： " + cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
 //        MainApplication.setConsoleText(cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
     }
 
@@ -65,7 +66,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotificationOpened(Context context, String title, String summary, String extraMap) {
 //        ToastUtils.getInstanc(context).showToast("open"+extraMap.toString());
-        Log.e(TAG,"onNotificationOpened ： " + " : " + title + " : " + summary + " : " + extraMap);
+        LogUtils.e(TAG,"onNotificationOpened ： " + " : " + title + " : " + summary + " : " + extraMap);
 //        MainApplication.setConsoleText("onNotificationOpened ： " + " : " + title + " : " + summary + " : " + extraMap);
         String redirect="";
         try {
@@ -74,7 +75,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
                 redirect=object.getString("redirect");
             }
             String type=object.getString("type");
-            Log.e(TAG, "onNotificationOpened:type "+type );
+            LogUtils.e(TAG, "onNotificationOpened:type "+type );
             if(type.equals("1")){//订单发货---跳订单详情
                 Intent order=new Intent(context, OrderDetailActivity.class);
                 order.putExtra("tradeNo",redirect);
@@ -128,7 +129,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
      */
     @Override
     protected void onNotificationClickedWithNoAction(Context context, String title, String summary, String extraMap) {
-        Log.e(TAG,"onNotificationClickedWithNoAction ： " + " : " + title + " : " + summary + " : " + extraMap);
+        LogUtils.e(TAG,"onNotificationClickedWithNoAction ： " + " : " + title + " : " + summary + " : " + extraMap);
 //        MainApplication.setConsoleText("onNotificationClickedWithNoAction ： " + " : " + title + " : " + summary + " : " + extraMap);
     }
 
@@ -139,7 +140,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
      */
     @Override
     protected void onNotificationRemoved(Context context, String messageId) {
-        Log.e(TAG,"onNotificationRemoved ： " + messageId);
+        LogUtils.e(TAG,"onNotificationRemoved ： " + messageId);
 //        MainApplication.setConsoleText("onNotificationRemoved ： " + messageId);
     }
 
@@ -155,7 +156,7 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
      */
     @Override
     protected void onNotificationReceivedInApp(Context context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
-        Log.e(TAG,"onNotificationReceivedInApp ： " + " : " + title + " : " + summary + "  " + extraMap + " : " + openType + " : " + openActivity + " : " + openUrl);
+        LogUtils.e(TAG,"onNotificationReceivedInApp ： " + " : " + title + " : " + summary + "  " + extraMap + " : " + openType + " : " + openActivity + " : " + openUrl);
 //        MainApplication.setConsoleText("onNotificationReceivedInApp ： " + " : " + title + " : " + summary);
     }
 }

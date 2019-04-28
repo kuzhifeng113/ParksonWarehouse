@@ -32,6 +32,7 @@
     <string name="web_view" >网页</string>
     <string name="insert_address">添加编辑地址</string>
     <string name="my_collection">我的收藏</string>
+    <string name="my_fans">我的粉丝</string>
     <string name="order_detail">订单详情</string>
     <string name="poster">海报</string>
     <string name="my_order">我的订单</string>

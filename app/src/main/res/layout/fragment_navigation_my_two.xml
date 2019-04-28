@@ -124,7 +124,8 @@
                             android:layout_centerVertical="true"
                             android:layout_alignParentRight="true"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/im_myvip_center"/>
+                            android:src="@mipmap/im_myvip_center"
+                            android:visibility="gone"/>
 
                     </RelativeLayout>
 
@@ -139,6 +140,57 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_vip_center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/my_vip_center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="会员中心"
+                            android:textColor="#373A42"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_my_fan"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/my_fan" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:text="我的粉丝"
+                            android:textColor="#373A42"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:id="@+id/ll_my_collection"
@@ -189,56 +241,6 @@
                             android:textColor="#373A42"
                             android:textSize="12sp" />
 
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/ll_real_name"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@mipmap/my_real_name" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="实名认证"
-                            android:textColor="#373A42"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/ll_about_me"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@mipmap/my_about_me" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="10dp"
-                            android:text="关于我们"
-                            android:textColor="#373A42"
-                            android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -899,7 +901,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginBottom="30dp"
                 android:src="@mipmap/my_shangjia"
                 android:visibility="invisible"/>

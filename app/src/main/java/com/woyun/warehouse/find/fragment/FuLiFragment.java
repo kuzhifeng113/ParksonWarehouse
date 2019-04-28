@@ -21,6 +21,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.baseparson.BaseFragment;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 
 import butterknife.BindView;
@@ -65,11 +66,10 @@ public class FuLiFragment extends BaseFragment {
     }
 
 
-//    private void intView()
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-        Log.e(TAG, "onFragmentFirstVisible:");
+        LogUtils.e(TAG, "onFragmentFirstVisible:");
 //        initData();
     }
 

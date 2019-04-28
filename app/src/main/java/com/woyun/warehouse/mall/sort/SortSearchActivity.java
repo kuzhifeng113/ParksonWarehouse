@@ -27,6 +27,7 @@ import com.woyun.warehouse.mall.activity.GoodsDetailNativeVipActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
 import com.woyun.warehouse.mall.activity.SearchResultActivity;
 import com.woyun.warehouse.mall.adapter.HistorySearchAdapter;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -116,7 +117,7 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
                         Gson gson = new Gson();
                         List<SortBean> data = gson.fromJson(jsonArray.toString(), new TypeToken<List<SortBean>>() {
                         }.getType());
-                        Log.e(TAG, "requestSuccess: "+data.size() );
+                        LogUtils.e(TAG, "requestSuccess: "+data.size() );
                         parserData(data);
                     } else {
 

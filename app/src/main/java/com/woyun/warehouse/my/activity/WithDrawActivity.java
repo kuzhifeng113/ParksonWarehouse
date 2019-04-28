@@ -26,6 +26,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -99,7 +100,7 @@ public class WithDrawActivity extends BaseActivity {
         if (!TextUtils.isEmpty(fee)&&!TextUtils.isEmpty(personal)) {
             double converFee = Double.valueOf(fee.substring(0, fee.length() - 1)) / 100;
             double personFee = Double.valueOf(personal.substring(0, personal.length() - 1)) / 100;
-            Log.e(TAG, "onCreate: ==" + converFee);
+            LogUtils.e(TAG, "onCreate: ==" + converFee);
             editMoney.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {

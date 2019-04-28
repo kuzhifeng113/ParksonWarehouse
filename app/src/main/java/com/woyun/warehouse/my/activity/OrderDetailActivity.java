@@ -41,6 +41,7 @@ import com.woyun.warehouse.bean.WxPayBean;
 import com.woyun.warehouse.my.adapter.OrderDetailAdapter;
 import com.woyun.warehouse.utils.DateUtils;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -271,7 +272,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     private void initData() {
         tradeNo = getIntent().getStringExtra("tradeNo");
         orderIndex = getIntent().getIntExtra("order_index", 0);
-        Log.e(TAG, "initData: 最外层" + orderIndex);
+        LogUtils.e(TAG, "initData: 最外层" + orderIndex);
         getData(loginUserId, tradeNo);
     }
 
@@ -481,7 +482,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
         //判断订单失效 30分钟
         Date date = new Date(System.currentTimeMillis());
         long diff = date.getTime() - orderTime;
-        Log.e(TAG, "timeCha: " + 30 * 60 * 1000);
+        LogUtils.e(TAG, "timeCha: " + 30 * 60 * 1000);
 
         if (diff > 60 * 30 * 1000) {
             tv_pay_text.setVisibility(View.GONE);
@@ -502,8 +503,8 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
 //            System.out.println(day + "天" + hour + "小时" + min + "分" + s + "秒");
             minute = Integer.valueOf(String.valueOf(min));
             second = Integer.valueOf(String.valueOf(s));
-            Log.e(TAG, "getChildView: 能支付!!! 显示倒计时" + minute);
-            Log.e(TAG, "getChildView: 能支付!!! 显示倒计时" + second);
+            LogUtils.e(TAG, "getChildView: 能支付!!! 显示倒计时" + minute);
+            LogUtils.e(TAG, "getChildView: 能支付!!! 显示倒计时" + second);
             tvPayTime.setText(minute + ":" + second);
             timerTask = new TimerTask() {
                 @Override
@@ -733,7 +734,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
 //                break;
             case R.id.tv_to_pay:
                 showPayPop(tvToPay);
-                Log.e(TAG, "onViewClicked:tv_to_pay ");
+                LogUtils.e(TAG, "onViewClicked:tv_to_pay ");
                 break;
         }
     }

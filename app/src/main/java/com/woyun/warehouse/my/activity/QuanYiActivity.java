@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.ZuanQianBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.vip.VipFragment;
 
 import java.util.ArrayList;
@@ -60,8 +61,8 @@ public class QuanYiActivity extends BaseActivity {
         tvTitle.setText(title);
         imageBanners=getIntent().getStringArrayListExtra("imagesarray");
        index= getIntent().getIntExtra("index",0);
-        Log.e(TAG, "initData: "+imageBanners.size() );
-        Log.e(TAG, "index==: "+index );
+        LogUtils.e(TAG, "initData: "+imageBanners.size() );
+        LogUtils.e(TAG, "index==: "+index );
         initBannner();
         viewPager.setCurrentItem(index);
     }
@@ -94,7 +95,7 @@ public class QuanYiActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.e(TAG, "onPageSelected: " + position);
+                LogUtils.e(TAG, "onPageSelected: " + position);
             }
 
             @Override

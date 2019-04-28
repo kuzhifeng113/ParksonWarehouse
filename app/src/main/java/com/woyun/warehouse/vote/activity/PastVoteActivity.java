@@ -154,7 +154,7 @@ public class PastVoteActivity extends BaseActivity {
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
                     if (code == 0) {
                         String jsonResult = jsonArray.toString();
-                        Log.e(TAG, "requestSuccess: " + jsonResult);
+                        LogUtils.e(TAG, "requestSuccess: " + jsonResult);
                         Gson gson = new Gson();
                         List<VoteHomeBean> data = gson.fromJson(jsonResult, new TypeToken<List<VoteHomeBean>>() {
                         }.getType());
@@ -245,7 +245,7 @@ public class PastVoteActivity extends BaseActivity {
            public void onItemPicked(int index, String s) {
                tvTitle.setText(oldBeanList.get(index).getTitle());
                 voteId= oldBeanList.get(index).getVoteId();
-               Log.e(TAG, "onItemPicked: "+voteId );
+               LogUtils.e(TAG, "onItemPicked: "+voteId );
                listNewVotes.clear();
                getData(loginUserId,voteId);
                switchTitle(false);

@@ -27,6 +27,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.bean.GoodsDetailBean;
 import com.woyun.warehouse.bean.SkuAttribute;
 import com.woyun.warehouse.bean.SkuListBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.view.sku.OnSkuListener;
 import com.woyun.warehouse.view.sku.SkuSelectScrollView;
@@ -167,7 +168,7 @@ public class ProductSkuDialog extends Dialog {
         scrollSkuList.setListener(new OnSkuListener() {
             @Override
             public void onUnselected(SkuAttribute unselectedAttribute) {
-                Log.e(TAG, "onUnselected: " );
+                LogUtils.e(TAG, "onUnselected: " );
                 selectedSku = null;
                 Glide.with(context).load(product.getImage()).placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(iv_sku_logo);
                 boolean isVip= (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP,false);
@@ -193,7 +194,6 @@ public class ProductSkuDialog extends Dialog {
 
             @Override
             public void onSelect(SkuAttribute selectAttribute) {
-                Log.e(TAG, "onSelect: " );
                 String firstUnselectedAttributeName = scrollSkuList.getFirstUnelectedAttributeName();
 
                 tv_allready_check.setText("请选择：" + firstUnselectedAttributeName);
@@ -201,7 +201,7 @@ public class ProductSkuDialog extends Dialog {
 
             @Override
             public void onSkuSelected(SkuListBean sku) {
-                Log.e(TAG, "onSkuSelected: ");
+                LogUtils.e(TAG, "onSkuSelected: ");
                 selectedSku = sku;
                 Glide.with(context).load(selectedSku.getImage()).placeholder(R.mipmap.img_default).into(iv_sku_logo);
                 boolean isVip= (boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP,false);

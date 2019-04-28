@@ -86,7 +86,7 @@ public class DensityUtils {
         } catch (Exception e) {
             imei = "";
         }
-        Log.e(TAG, "getIMEIid "+imei);
+        LogUtils.e(TAG, "getIMEIid "+imei);
         return imei;
     }
 

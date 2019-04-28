@@ -98,11 +98,11 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         isLogin = (boolean) SPUtils.getInstance(MainActivity.this).get(Constant.IS_LOGIN, false);
         if (viewPager.getCurrentItem() == 0) {//通知MallFragment 更新消息状态
-            Log.e(TAG, "onResume:Mall============== ");
+            LogUtils.e(TAG, "onResume:Mall============== ");
             getNoReadNum(loginUserId);
         }
         shareGoodsId = (String) SPUtils.getInstance(MainActivity.this).get(Constant.SHARE_GOODS_ID, "");
-        Log.e(TAG, "onCreate: " + shareGoodsId);
+        LogUtils.e(TAG, "onCreate: " + shareGoodsId);
         if (!TextUtils.isEmpty(shareGoodsId)) {
 //            Intent intent=new Intent(MainActivity.this, GoodsDetailActivity.class);
             Intent intent = new Intent(MainActivity.this, GoodsDetailNativeActivity.class);
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity {
                                     loginUserId);
                         }
 
-                        Log.e(TAG, "requestSuccess:消息 " + billUnread + sysUnread + kefuUnRead);
+                        LogUtils.e(TAG, "requestSuccess:消息 " + billUnread + sysUnread + kefuUnRead);
                         EventBus.getDefault().post(new UnReadMessEvent(billUnread + sysUnread+kefuUnRead));
                     }
                 }
@@ -204,7 +204,7 @@ public class MainActivity extends BaseActivity {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
         OpenInstall.getWakeUp(intent, wakeUpAdapter);
-        Log.e(TAG, "onNewIntent: ");
+        LogUtils.e(TAG, "onNewIntent: ");
         if (intent != null) {
             boolean toCart = intent.getBooleanExtra("go_cart", false);
             boolean toMoney = intent.getBooleanExtra("go_makemoney", false);
@@ -339,10 +339,10 @@ public class MainActivity extends BaseActivity {
                 showVersionDialog();
                 return;
             }
-            Log.e(TAG, "endDate: " + endDate);
-            Log.e(TAG, "startDate: " + startDate);
+            LogUtils.e(TAG, "endDate: " + endDate);
+            LogUtils.e(TAG, "startDate: " + startDate);
             String diffValueHour = DateUtils.getTimeDifference(startDate, endDate, 2);
-            Log.e(TAG, "requestSuccess: diffValueHour" + diffValueHour);
+            LogUtils.e(TAG, "requestSuccess: diffValueHour" + diffValueHour);
             if (Integer.valueOf(diffValueHour) > 24) {//24小时弹窗一次
                 showVersionDialog();
             }

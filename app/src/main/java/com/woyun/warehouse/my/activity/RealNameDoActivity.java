@@ -46,6 +46,7 @@ import com.woyun.warehouse.bean.OOSBean;
 import com.woyun.warehouse.bean.RealNameBean;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.GlideImageLoader;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -249,7 +250,7 @@ public class RealNameDoActivity extends BaseActivity implements CommonPopupWindo
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Log.e("PutObject", "UploadSuccess");
+                LogUtils.e("PutObject", "UploadSuccess");
 //                resultUrl="http://image.dymeet.com/avatar/"+imgName;
                 runOnUiThread(new Runnable() {
                     @Override
@@ -278,10 +279,10 @@ public class RealNameDoActivity extends BaseActivity implements CommonPopupWindo
                 }
                 if (serviceException != null) {
                     // 服务异常
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
+                    LogUtils.e("ErrorCode", serviceException.getErrorCode());
+                    LogUtils.e("RequestId", serviceException.getRequestId());
+                    LogUtils.e("HostId", serviceException.getHostId());
+                    LogUtils.e("RawMessage", serviceException.getRawMessage());
                 }
             }
         });
@@ -400,7 +401,7 @@ public class RealNameDoActivity extends BaseActivity implements CommonPopupWindo
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == 101) {
                 images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                Log.e(TAG, "==============" + images.get(0).path);
+                LogUtils.e(TAG, "==============" + images.get(0).path);
                 int random = (int) ((Math.random() * 9 + 1) * 100000);
                 imgName = System.currentTimeMillis() + String.valueOf(random) + ".jpg";
                 uploadToOss(oss, oosBean.getBucket(), oosBean.getFolder(), imgName, images.get(0).path);

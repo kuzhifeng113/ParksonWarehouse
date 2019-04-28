@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.woyun.warehouse.utils.LogUtils;
+
 /**
  * 那是因为viewpager的切换与
  * photoview的缩放有时候会有手势冲突，当缩放的时候会报出异常，根据官方文档提示，需要自己写一个自定义viewpager，
@@ -32,7 +34,7 @@ public class MyViewPager extends ViewPager  {
         } catch (IllegalArgumentException e) {
             //这里就是我们想要处理的问题
             e.printStackTrace();
-            Log.e("TAG", "onInterceptTouchEvent: " );
+            LogUtils.e("TAG", "onInterceptTouchEvent: " );
 
             return false;
         }

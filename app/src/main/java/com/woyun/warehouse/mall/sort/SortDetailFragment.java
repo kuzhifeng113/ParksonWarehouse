@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +97,7 @@ public class SortDetailFragment extends BaseFragment<SortDetailPresenter, String
 
     private void initData() {
         ArrayList<SortBean> rightList = (ArrayList<SortBean>) getArguments().get("right");
-        Log.e(TAG, "initData: " + rightList.size());
+        LogUtils.e(TAG, "initData: " + rightList.size());
 
         for (int i = 0; i < rightList.size(); i++) {
             RightBean head = new RightBean(rightList.get(i).getName());

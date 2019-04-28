@@ -153,9 +153,8 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e(TAG, "afterTextChanged: ");
                 String editName = s.toString();
-                Log.e(TAG, "afterTextChanged: " + editName);
+                LogUtils.e(TAG, "afterTextChanged: " + editName);
             }
         });
         if (TextUtils.isEmpty(userBean.getBirthDate())) {
@@ -184,7 +183,7 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
                 String ranNum = String.valueOf(random);
                 imgName = System.currentTimeMillis() + ranNum + ".jpg";
 //                "?x-oss-process=image/circle,r_100"
-                Log.e(TAG, "onActivityResult: ========" + imgName);
+                LogUtils.e(TAG, "onActivityResult: ========" + imgName);
                 uploadOss(oss, oosBean.getBucket(), oosBean.getFolder(), imgName, images.get(0).path);
             } else {
                 Toast.makeText(this, "没有数据", Toast.LENGTH_SHORT).show();
@@ -319,7 +318,7 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                 resultUrl = oosBean.getDomain() + oosBean.getFolder() + imgName;
                 userBean.setAvatar(resultUrl);
-                Log.e("PutObject", "UploadSuccess" + resultUrl);
+                LogUtils.e("PutObject", "UploadSuccess" + resultUrl);
 //                 ?x-oss-process=image/circle,r_100
                 runOnUiThread(new Runnable() {
                     @Override
@@ -340,10 +339,10 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
                 }
                 if (serviceException != null) {
                     // 服务异常
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
+                    LogUtils.e("ErrorCode", serviceException.getErrorCode());
+                    LogUtils.e("RequestId", serviceException.getRequestId());
+                    LogUtils.e("HostId", serviceException.getHostId());
+                    LogUtils.e("RawMessage", serviceException.getRawMessage());
                 }
             }
         });
@@ -519,7 +518,7 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
                         } else {
                             userBean.setSex(2);
                         }
-                        Log.e(TAG, "onItemPicked: " + userBean.getSex());
+                        LogUtils.e(TAG, "onItemPicked: " + userBean.getSex());
                     }
                 });
                 sexpicker.show();
@@ -552,7 +551,7 @@ public class UserInfoActivity extends BaseActivity implements CommonPopupWindow.
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
-                Log.e(TAG, "onDatePicked: " + year + "-" + month + "-" + day);
+                LogUtils.e(TAG, "onDatePicked: " + year + "-" + month + "-" + day);
                 tvBirthday.setText(year + "-" + month + "-" + day);
                 userBean.setBirthDate(year + "-" + month + "-" + day);
             }

@@ -35,6 +35,7 @@ import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.SearchBean;
 import com.woyun.warehouse.mall.adapter.HistorySearchAdapter;
 import com.woyun.warehouse.mall.adapter.HotSearchAdapter;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -214,7 +215,7 @@ public class SearchActivity extends BaseActivity {
                         }.getType());
                         hotList.addAll(data);
                         hotSearchAdapter.notifyDataSetChanged();
-                        Log.e(TAG, "requestSuccess: " + hotList.size());
+                        LogUtils.e(TAG, "requestSuccess: " + hotList.size());
                     } else {
 
                         ToastUtils.getInstanc(SearchActivity.this).showToast(msg);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    >
+
+   <com.makeramen.roundedimageview.RoundedImageView
+       android:id="@+id/img_head"
+       android:layout_width="40dp"
+       android:layout_height="40dp"
+       android:layout_centerVertical="true"
+       android:layout_marginLeft="20dp"
+       android:src="@mipmap/ic_head_default"/>
+
+
+    <LinearLayout
+        android:layout_toRightOf="@id/img_head"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="超值"
+            android:textColor="#ff373a42"
+            android:textSize="14sp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="09-11 11:33"
+            android:textColor="#FFAFAFAF"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_call"
+        android:layout_width="50dp"
+        android:layout_height="22dp"
+        android:textSize="14sp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_callphone_btn"
+        android:textColor="@color/mainColor"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="拨号"/>
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:textSize="16sp"
+        android:layout_marginRight="11dp"
+        android:layout_toLeftOf="@id/btn_call"
+        android:layout_centerVertical="true"
+        android:textColor="#FFAFAFAF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00000"/>
+
+</RelativeLayout>

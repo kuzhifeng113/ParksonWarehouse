@@ -43,6 +43,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlUserInfo;
     @BindView(R.id.rl_account_bind)
     RelativeLayout rlAccountBind;
+    @BindView(R.id.rl_real_name)
+    RelativeLayout rlRealName;
     @BindView(R.id.rl_account_safe)
     RelativeLayout rlAccountSafe;
     @BindView(R.id.img_update)
@@ -64,18 +66,18 @@ public class SettingActivity extends BaseActivity {
     private DownloadBuilder builder;//升级下载
     private boolean isUpdate;//是否更新
     private int updateStatus;
-    private String downUrl,content;
+    private String downUrl, content;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        isUpdate= (boolean) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_FLAG,false);
-         updateStatus= (int) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_FLAG_STATUS,0);
-        downUrl= (String) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_DOWN_URL,"");
-        content= (String) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_CONTENT,"");
-        tvVersionName.setText("V"+APKVersionCodeUtils.getVerName(SettingActivity.this));
+        isUpdate = (boolean) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_FLAG, false);
+        updateStatus = (int) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_FLAG_STATUS, 0);
+        downUrl = (String) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_DOWN_URL, "");
+        content = (String) SPUtils.getInstance(SettingActivity.this).get(Constant.UPDATE_CONTENT, "");
+        tvVersionName.setText("V" + APKVersionCodeUtils.getVerName(SettingActivity.this));
         MyApplication.getInstance().addActivity(SettingActivity.this);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +85,9 @@ public class SettingActivity extends BaseActivity {
                 finish();
             }
         });
-        if(isUpdate && updateStatus==1){
+        if (isUpdate && updateStatus == 1) {
             viewRedUpate.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewRedUpate.setVisibility(View.GONE);
         }
     }
@@ -98,7 +100,7 @@ public class SettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_user_info, R.id.rl_account_bind, R.id.rl_account_safe, R.id.rl_check_update, R.id.rl_pro_advice, R.id.rl_about_bsc, R.id.btn_login_out})
+    @OnClick({R.id.rl_user_info, R.id.rl_account_bind, R.id.rl_account_safe, R.id.rl_check_update, R.id.rl_pro_advice, R.id.rl_about_bsc, R.id.btn_login_out,R.id.rl_real_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_user_info://个人资料
@@ -123,9 +125,16 @@ public class SettingActivity extends BaseActivity {
                 pro.putExtra("web_url", Constant.WEB_PROBLEM);
                 startActivity(pro);
                 break;
-            case R.id.rl_about_bsc://关于百盛仓
-                Intent about = new Intent(SettingActivity.this, AboutMeActivity.class);
+            case R.id.rl_about_bsc://关于我们
+                Intent about = new Intent(SettingActivity.this, MyWebViewActivity.class);
+                about.putExtra("web_url", Constant.WEB_ABOUT_ME);
                 startActivity(about);
+//                Intent about = new Intent(SettingActivity.this, AboutMeActivity.class);
+//                startActivity(about);
+                break;
+            case R.id.rl_real_name://实名认证
+                Intent realName = new Intent(SettingActivity.this, RealNameActivity.class);
+                startActivity(realName);
                 break;
             case R.id.btn_login_out://退出登录
                 MyApplication.getInstance().closeActivity();
@@ -157,21 +166,21 @@ public class SettingActivity extends BaseActivity {
      * 检查更新
      */
     private void checkUpdate() {
-        if(isUpdate&&updateStatus==1){
+        if (isUpdate && updateStatus == 1) {
             showVersionDialog();
-        }else{
+        } else {
             ToastUtils.getInstanc(SettingActivity.this).showToast("当前已是最新版本");
         }
     }
 
-    private void showVersionDialog(){
+    private void showVersionDialog() {
         builder = AllenVersionChecker
                 .getInstance()
                 .downloadOnly(crateUIData());
         builder.setCustomVersionDialogListener(createCustomDialogOne());
         builder.setForceRedownload(true);//强制重新下载apk 无论本地是否缓存
         builder.setNotificationBuilder(createCustomNotification());//自定义通知栏
-        String address= Environment.getExternalStorageDirectory() + "/DY/VersionPath/";
+        String address = Environment.getExternalStorageDirectory() + "/DY/VersionPath/";
         builder.setDownloadAPKPath(address);//设置下载地址
         builder.setShowDownloadingDialog(false);//下载框
 
@@ -185,7 +194,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     /**
-     *  1.8 jdk
+     * 1.8 jdk
      * 自定义的dialog UI参数展示，使用versionBundle
      *
      * @return

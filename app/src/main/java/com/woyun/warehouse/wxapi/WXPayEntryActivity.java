@@ -17,6 +17,7 @@ import com.woyun.warehouse.MyApplication;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.my.activity.OrderDetailActivity;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -51,7 +52,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.e(TAG, "onPayFinish, errCode = " + resp.errCode);
+		LogUtils.e(TAG, "onPayFinish, errCode = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if(resp.errCode==0){
 				ToastUtils.getInstanc(WXPayEntryActivity.this).showToast("支付成功");
@@ -67,7 +68,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				}
 
 				String payType= (String) SPUtils.getInstance(WXPayEntryActivity.this).get(Constant.PAY_TYPE,"");
-				Log.e(TAG, "onResp:payType==== "+payType );
+				LogUtils.e(TAG, "onResp:payType==== "+payType );
 				if(!TextUtils.isEmpty(payType)){
 					if(payType.equals("1")){//会员购买
 						EventBus.getDefault().post(new SaveUserEvent(true));

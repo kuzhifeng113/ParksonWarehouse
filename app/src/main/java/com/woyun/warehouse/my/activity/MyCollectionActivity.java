@@ -26,6 +26,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.CollectionBean;
 import com.woyun.warehouse.my.adapter.CollectionAdapter;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.DeleteDialog;
@@ -322,7 +323,7 @@ public class MyCollectionActivity extends BaseActivity {
                 }
             }
             ids = stringBuffer.toString();
-            Log.e(TAG, "stringBuffer: " + stringBuffer.toString());
+            LogUtils.e(TAG, "stringBuffer: " + stringBuffer.toString());
             stringBuffer = new StringBuffer("");
 
             showDeleteDialog();

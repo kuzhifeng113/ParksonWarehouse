@@ -28,6 +28,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.bean.VersionBean;
 import com.woyun.warehouse.my.activity.GuideActivity;
 import com.woyun.warehouse.utils.APKVersionCodeUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -80,7 +81,7 @@ public class SplashActivity extends AppCompatActivity {
         isLogin = (Boolean) SPUtils.getInstance(SplashActivity.this).get(Constant.IS_LOGIN, false);
         isFirstStart = (boolean) SPUtils.getInstance(SplashActivity.this).get(Constant.IS_FIRST_START, false);
         isFirstOpenInstall = (boolean) SPUtils.getInstance(SplashActivity.this).get(Constant.IS_FIRST_OPENINSTALL, true);
-        Log.e(TAG, "isLogin==: " + isLogin);
+        LogUtils.e(TAG, "isLogin==: " + isLogin);
         //获取OpenInstall安装数据
         getShareValue();
         getPersmission();
@@ -171,16 +172,16 @@ public class SplashActivity extends AppCompatActivity {
                     String bindData = appData.getData();
                     try {
                         if (!TextUtils.isEmpty(bindData)) {
-                            Log.e("分享链接数据", "" + appData.toString());
+                            LogUtils.e("分享链接数据", "" + appData.toString());
                             JSONObject object = new JSONObject(bindData);
                             if(!object.isNull("share")){
                                 String shareValue = object.getString("share");
-                                Log.e(TAG, "onInstall:分享 "+shareValue );
+                                LogUtils.e(TAG, "onInstall:分享 "+shareValue );
                                 SPUtils.getInstance(SplashActivity.this).put(Constant.SHARE_KEY, shareValue);
                             }
                             if(!object.isNull("goodsId")){
                                 String goodsId=object.getString("goodsId");
-                                Log.e(TAG, "onInstall:分享 "+goodsId );
+                                LogUtils.e(TAG, "onInstall:分享 "+goodsId );
                                 SPUtils.getInstance(SplashActivity.this).put(Constant.SHARE_GOODS_ID, goodsId);
                             }
                             //使用数据后，不想再调用，将isFirst设置为false
@@ -208,7 +209,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
-        Log.e(TAG, "onNewIntent: ");
+        LogUtils.e(TAG, "onNewIntent: ");
         OpenInstall.getWakeUp(intent, wakeUpAdapter);
     }
 
@@ -219,19 +220,19 @@ public class SplashActivity extends AppCompatActivity {
             String channelCode = appData.getChannel();
             //获取绑定数据
             String bindData = appData.getData();
-            Log.e("OpenInstall 唤醒数据", "getWakeUp : wakeupData = " + appData.toString());
+            LogUtils.e("OpenInstall 唤醒数据", "getWakeUp : wakeupData = " + appData.toString());
             try {
                 if (!TextUtils.isEmpty(bindData)) {
-                    Log.e("OpenInstall唤醒数据", "getInstall : installData = " + appData.toString());
+                    LogUtils.e("OpenInstall唤醒数据", "getInstall : installData = " + appData.toString());
                     JSONObject object = new JSONObject(bindData);
                     if(!object.isNull("share")){
                         String shareValue = object.getString("share");
-                        Log.e(TAG, "onInstall:唤醒 "+shareValue );
+                        LogUtils.e(TAG, "onInstall:唤醒 "+shareValue );
                         SPUtils.getInstance(SplashActivity.this).put(Constant.SHARE_KEY, shareValue);
                     }
                     if(!object.isNull("goodsId")){
                         String goodsId=object.getString("goodsId");
-                        Log.e(TAG, "onInstall:唤醒 "+goodsId );
+                        LogUtils.e(TAG, "onInstall:唤醒 "+goodsId );
                         SPUtils.getInstance(SplashActivity.this).put(Constant.SHARE_GOODS_ID, goodsId);
                     }
 //                    String shareValue = object.getString("share");
@@ -259,7 +260,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String responseMessage, int responseCode, JSONArray responseData) {
                     if (responseCode == 0 && responseData.length() > 0) {
-                        Log.e(TAG, "requestSuccess: checkUpdate");
+                        LogUtils.e(TAG, "requestSuccess: checkUpdate");
                         try {
                             Gson gson = new Gson();
                             JSONObject jsonObject = (JSONObject) responseData.get(0);

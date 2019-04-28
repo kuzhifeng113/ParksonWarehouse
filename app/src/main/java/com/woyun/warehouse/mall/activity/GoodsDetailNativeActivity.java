@@ -367,7 +367,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
-                    Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
+                    LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     if (type == 1) {
                         addCart(sku, quantity, resultMemo);
                     } else {
@@ -532,7 +532,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                     }
                 }
 
-                Log.e(TAG, "onItemClick: a===" + a);
+                LogUtils.e(TAG, "onItemClick: a===" + a);
 
                 Intent toLook = new Intent(GoodsDetailNativeActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
@@ -564,7 +564,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
                     goLogin();
                     return;
                 }
-                Log.e(TAG, "onViewClicked: kf");
+                LogUtils.e(TAG, "onViewClicked: kf");
 //                UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
 //                        Constant.UDESK_KEY, Constant.UDESK_APPID);
                 String sdkToken = loginUserId;
@@ -825,7 +825,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
+        LogUtils.e(TAG, "onDestroy: ");
 //        webView.destroy();
         mAgentWeb.getWebLifeCycle().onDestroy();
         ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
@@ -1089,19 +1089,19 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(GoodsDetailNativeActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }
@@ -1177,13 +1177,12 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
             ModelLoading.getInstance(GoodsDetailNativeActivity.this).showLoading("", true);
-            Log.e("Info", "BaseWebActivity onPageStarted");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
+            LogUtils.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GoodsDetailNativeActivity.this).closeLoading();
             //webview加载完成之后重新测量webview的高度
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();

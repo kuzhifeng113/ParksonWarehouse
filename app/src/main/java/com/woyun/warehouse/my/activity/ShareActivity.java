@@ -45,6 +45,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.ShapeFriendBean;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.view.CommonPopupWindow;
@@ -231,7 +232,7 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                Log.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
+                LogUtils.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
                 if (shareType == 0) {
 //                    shareImage("https://timgsa.baidu.com/timg?image.jpg",false);
                     shareImageSdWx(Environment.getExternalStorageDirectory()+"/BSC/sharerweima.jpg",false);
@@ -265,8 +266,8 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
                 if (popupWindow != null) {
                     popupWindow.dismiss();
                 }
-                Log.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + loginUserId);
-                Log.e(TAG, "onClick:url =====" + shareIcon);
+                LogUtils.e(TAG, "onClick:url =====" + shareDownUrl + "?sharekey=" + loginUserId);
+                LogUtils.e(TAG, "onClick:url =====" + shareIcon);
                 final Bundle params = new Bundle();
                 if(shareType==0){//纯图片分享
                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL,Environment.getExternalStorageDirectory()+"/BSC/sharerweima.jpg");//本地图片
@@ -283,7 +284,7 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
                     params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + loginUserId);
                     params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
                     params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
-                    Log.e(TAG, "onClick:### "+shareIcon );
+                    LogUtils.e(TAG, "onClick:### "+shareIcon );
                     //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
 //                        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其他附加功能");
                     // 分享操作要在主线程中完成
@@ -362,7 +363,7 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
      * @param isShareFriend
      */
     private void shareImageSdWx(String path,boolean isShareFriend) {
-        Log.e(TAG, "shareImageSdWx: ==="+path );
+        LogUtils.e(TAG, "shareImageSdWx: ==="+path );
         //1. 判断文件是否存在
         File file=new File(path);
         if(!file.exists()){
@@ -425,10 +426,10 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
         switch (view.getId()) {
             case R.id.btn_share://二维码分享
                 String path=Environment.getExternalStorageDirectory()+"/BSC/sharerweima.jpg";
-                Log.e(TAG, "onViewClicked:sd卡== "+path );
+                LogUtils.e(TAG, "onViewClicked:sd卡== "+path );
                 File file=new File(path);
                 if(file.exists()&&file.isFile()){
-                    Log.e(TAG, "onViewClicked: 存在");
+                    LogUtils.e(TAG, "onViewClicked: 存在");
                     file.delete();
                 }
                 ModelLoading.getInstance(ShareActivity.this).showLoading("",true);
@@ -544,19 +545,19 @@ public class ShareActivity extends BaseActivity implements CommonPopupWindow.Vie
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(mContext, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }

@@ -26,6 +26,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.CangCoinBean;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -145,10 +146,10 @@ public class ShangJiaJoinActivity extends BaseActivity {
             case R.id.btn_save:
                 if (!TextUtils.isEmpty(downUrl)) {
                     String path = Environment.getExternalStorageDirectory() + "/BSC/erCode.jpg";
-                    Log.e(TAG, "onViewClicked:sd卡== " + path);
+                    LogUtils.e(TAG, "onViewClicked:sd卡== " + path);
                     File file = new File(path);
                     if (!file.exists()) {
-                        Log.e(TAG, "onViewClicked: 文件不存在");
+                        LogUtils.e(TAG, "onViewClicked: 文件不存在");
                         ModelLoading.getInstance(ShangJiaJoinActivity.this).showLoading("", true);
                         new Thread(new Runnable() {
                             @Override

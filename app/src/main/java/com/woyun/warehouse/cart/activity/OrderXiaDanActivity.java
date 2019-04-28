@@ -52,6 +52,7 @@ import com.woyun.warehouse.my.activity.TwoPassWordActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -238,7 +239,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
     }
@@ -250,13 +251,13 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
         selectList.addAll(datas);
         orderDeatailAdapter.notifyDataSetChanged();
 
-        Log.e(TAG, "initData: " + selectList.size());
+        LogUtils.e(TAG, "initData: " + selectList.size());
 //        if (isVip || isAgent) {
 //            tvTransport.setText("0");
 //            return;
 //        }
         //满多少包邮
-        Log.e(TAG, "initData:满=== " + manTransport);
+        LogUtils.e(TAG, "initData:满=== " + manTransport);
         if (totalPrice > Double.parseDouble(manTransport)) {
             tvTransport.setText("0");
             return;
@@ -366,7 +367,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      * 计算合计价格
      */
     private void calculationPrice() {
-        Log.e(TAG, "计算价格calculationPrice: ");
+        LogUtils.e(TAG, "计算价格calculationPrice: ");
 //        描述：
 //        1，非VIP只能微信支付宝支付，并且计算邮费
 //        2，VIP 和代理 都可以使用仓币+余额
@@ -425,7 +426,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                     tvBcMoney.setText("-￥" + bcMoneyPrice);
                     zongjia = BigDecimalUtil.geSub(zongjia, bcMoneyPrice);
                     if (isaddYfei) {
-                        Log.e(TAG, "不用加");
+                        LogUtils.e(TAG, "不用加");
                     } else {
                         zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
                     }
@@ -536,11 +537,11 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                     } else {
                         showTwoPassWord();
                     }
-                    Log.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
+                    LogUtils.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
                 } else {//支付宝微信支付
                     showPayPop(tvToPay);
                 }
-                Log.e(TAG, "onViewClicked:tv_to_pay ");
+                LogUtils.e(TAG, "onViewClicked:tv_to_pay ");
                 break;
             case R.id.iv_invoice://发票
                 showInvoicePop(ivInvoice);
@@ -625,7 +626,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 
             @Override
             public void onInputCompleted(CharSequence s) {
-                Log.e(TAG, "onInputCompleted: 输入完成");
+                LogUtils.e(TAG, "onInputCompleted: 输入完成");
                 //输入完成请求接口
                 String code = s.toString();
                 int type = 0;
@@ -638,7 +639,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 if (switchBcoin.isChecked() && switchBcmoney.isChecked()) {
                     type = 4;
                 }
-                Log.e(TAG, "onInputCompleted:PayType " + type);
+                LogUtils.e(TAG, "onInputCompleted:PayType " + type);
 //                payOperation(loginUserId, type, MD5Util.getMD5(code));
 
                 if (KeybordS.isSoftShowing(OrderXiaDanActivity.this)) {
@@ -669,7 +670,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
      * @param
      */
     private void payOperation(String userId, final int payType, String pwd) {
-        Log.e(TAG, "payOperation:################################## " + payType);
+        LogUtils.e(TAG, "payOperation:################################## " + payType);
         ModelLoading.getInstance(OrderXiaDanActivity.this).showLoading("", true);
         //获取数据
         try {
@@ -850,7 +851,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                     switch (group.getCheckedRadioButtonId()) {
                         case R.id.checkbox_personal:
-                            Log.e(TAG, "getChildView:----个人---------- ");
+                            LogUtils.e(TAG, "getChildView:----个人---------- ");
                             isEditInvoice = false;
                             editName.setText("");
                             editCode.setText("");
@@ -873,7 +874,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                             });
                             break;
                         case R.id.checkbox_unit:
-                            Log.e(TAG, "getChildView:=====单位======== ");
+                            LogUtils.e(TAG, "getChildView:=====单位======== ");
                             isEditInvoice = false;
                             editName.setText("");
                             editCode.setText("");
@@ -923,7 +924,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e(TAG, "onClick:是否修改" + isEditInvoice);
+                        LogUtils.e(TAG, "onClick:是否修改" + isEditInvoice);
                         if (ckboxPersonal.isChecked()) {//个人
                             if (TextUtils.isEmpty(editName.getText().toString())) {
                                 ToastUtils.getInstanc(OrderXiaDanActivity.this).showToast("名字不能为空！");
@@ -1003,8 +1004,8 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                             ShipAddressBean.InvoiceListBean updateBean = gson.fromJson(jsonResult, ShipAddressBean.InvoiceListBean.class);
                             allInvoiceDatas.add(updateBean);
                             invoiceId = updateBean.getInvoiceId();
-                            Log.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
-                            Log.e(TAG, "requestSuccess:发票id" + invoiceId);
+                            LogUtils.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
+                            LogUtils.e(TAG, "requestSuccess:发票id" + invoiceId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

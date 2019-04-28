@@ -52,6 +52,7 @@ import com.woyun.warehouse.my.activity.TwoPassWordActivity;
 import com.woyun.warehouse.utils.BigDecimalUtil;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -222,7 +223,7 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                 province=addressEntity.getProvince();
                 city=addressEntity.getCity();
                 county=addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
     }
@@ -234,13 +235,13 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
         selectList.addAll(datas);
         orderDeatailAdapter.notifyDataSetChanged();
 
-        Log.e(TAG, "initData: " + selectList.size());
+        LogUtils.e(TAG, "initData: " + selectList.size());
 //        if (isVip || isAgent) {
 //            tvTransport.setText("0");
 //            return;
 //        }
         //满多少包邮
-        Log.e(TAG, "initData:满=== "+manTransport );
+        LogUtils.e(TAG, "initData:满=== "+manTransport );
         if(totalPrice> Double.parseDouble(manTransport)){
             tvTransport.setText("0");
             return;
@@ -499,11 +500,11 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                     } else {
                         showTwoPassWord();
                     }
-                    Log.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
+                    LogUtils.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
                 } else {//支付宝微信支付
                     showPayPop(tvToPay);
                 }
-                Log.e(TAG, "onViewClicked:tv_to_pay ");
+                LogUtils.e(TAG, "onViewClicked:tv_to_pay ");
                 break;
             case R.id.iv_invoice://发票
                 showInvoicePop(ivInvoice);
@@ -600,17 +601,17 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                 if (switchBcoin.isChecked() && switchBcmoney.isChecked()) {
                     type = 4;
                 }
-                Log.e(TAG, "onInputCompleted:PayType " + type);
+                LogUtils.e(TAG, "onInputCompleted:PayType " + type);
                 payOperation(loginUserId, type, MD5Util.getMD5(code));
-                Log.e(TAG, "onInputCompleted: " + code);
+                LogUtils.e(TAG, "onInputCompleted: " + code);
 //                loginByPhone(code,phone);
-                Log.e(TAG, "onInputCompleted: " + s);
+                LogUtils.e(TAG, "onInputCompleted: " + s);
 
                 if (KeybordS.isSoftShowing(OrderXiaDanTwoActivity.this)) {
-                    Log.e(TAG, "onInputCompleted:=========22222=========");
+                    LogUtils.e(TAG, "onInputCompleted:=========22222=========");
                     KeybordS.closeKeybord(editPwd, OrderXiaDanTwoActivity.this);
                 } else {
-                    Log.e(TAG, "onInputCompleted:=======else===========");
+                    LogUtils.e(TAG, "onInputCompleted:=======else===========");
                 }
                 twoPassWordDialog.dismiss();
             }
@@ -810,7 +811,7 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                     switch (group.getCheckedRadioButtonId()) {
                         case R.id.checkbox_personal:
-                            Log.e(TAG, "getChildView:----个人---------- ");
+                            LogUtils.e(TAG, "getChildView:----个人---------- ");
                             isEditInvoice=false;
                             editName.setText("");
                             editCode.setText("");
@@ -833,7 +834,7 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                             });
                             break;
                         case R.id.checkbox_unit:
-                            Log.e(TAG, "getChildView:=====单位======== ");
+                            LogUtils.e(TAG, "getChildView:=====单位======== ");
                             isEditInvoice=false;
                             editName.setText("");
                             editCode.setText("");
@@ -883,7 +884,7 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                 btnConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e(TAG, "onClick:是否修改" + isEditInvoice);
+                        LogUtils.e(TAG, "onClick:是否修改" + isEditInvoice);
                         if (ckboxPersonal.isChecked()) {//个人
                             if (TextUtils.isEmpty(editName.getText().toString())) {
                                 ToastUtils.getInstanc(OrderXiaDanTwoActivity.this).showToast("名字不能为空！");
@@ -963,8 +964,8 @@ public class OrderXiaDanTwoActivity extends BaseActivity implements CommonPopupW
                             ShipAddressBean.InvoiceListBean updateBean = gson.fromJson(jsonResult, ShipAddressBean.InvoiceListBean.class);
                             allInvoiceDatas.add(updateBean);
                             invoiceId=updateBean.getInvoiceId();
-                            Log.e(TAG, "requestSuccess:是否使用"+isUseInvoice );
-                            Log.e(TAG, "requestSuccess:发票id"+invoiceId );
+                            LogUtils.e(TAG, "requestSuccess:是否使用"+isUseInvoice );
+                            LogUtils.e(TAG, "requestSuccess:发票id"+invoiceId );
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

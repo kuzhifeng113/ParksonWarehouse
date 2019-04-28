@@ -29,6 +29,7 @@ import com.woyun.warehouse.my.fragment.PendingPayingFragment;
 import com.woyun.warehouse.my.fragment.PendingReceiveFragment;
 import com.woyun.warehouse.my.fragment.YuErDetailFragment;
 import com.woyun.warehouse.my.fragment.YuErNoDetailFragment;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.view.AgentRefundDialog;
@@ -132,7 +133,7 @@ public class YuErActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.e(TAG, "onPageSelected: " );
+                LogUtils.e(TAG, "onPageSelected: " );
 //                ImmersionBar.with(YuErActivity.this).statusBarDarkFont(true, 0.2f).init();
             }
 
@@ -220,7 +221,7 @@ public class YuErActivity extends BaseActivity {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String responseMessage, int responseCode, JSONArray responseData) {
                     ModelLoading.getInstance(YuErActivity.this).closeLoading();
-                    Log.e(TAG, "requestSuccess: " + responseData.length());
+                    LogUtils.e(TAG, "requestSuccess: " + responseData.length());
                     if (responseCode == 0) {
                         //有状态返回证明 提交过审核
                         if (responseData.length() > 0) {

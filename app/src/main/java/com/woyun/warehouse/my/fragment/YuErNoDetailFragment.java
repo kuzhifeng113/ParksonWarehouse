@@ -171,7 +171,6 @@ public class YuErNoDetailFragment extends BaseFragmentTwo {
             e.printStackTrace();
         } finally {
             if (mRefreshLayout.isRefreshing()) {
-                Log.e(TAG, "initData: finish");
                 mRefreshLayout.finishRefresh();
             }
         }

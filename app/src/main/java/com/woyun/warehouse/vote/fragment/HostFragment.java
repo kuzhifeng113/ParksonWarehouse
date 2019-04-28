@@ -28,6 +28,7 @@ import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.bean.CategoryGoodsBean;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.mall.adapter.CategoryGoodsAdapter;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
@@ -64,7 +65,7 @@ public class HostFragment extends BaseFragment {
 
     //回调用来接收参数
     public static HostFragment getInitUrl(int gc_id) {
-        Log.e(TAG, "getInitUrl: ==");
+        LogUtils.e(TAG, "getInitUrl: ==");
         HostFragment hostFragment = new HostFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("gc_id", gc_id);
@@ -81,7 +82,7 @@ public class HostFragment extends BaseFragment {
         isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
         //获取参数
         categoryId = getArguments().getInt("gc_id");
-        Log.e(TAG, "onCreateView: 分类ID" + categoryId);
+        LogUtils.e(TAG, "onCreateView: 分类ID" + categoryId);
 
         goodsAdapter = new CategoryGoodsAdapter(getActivity(), listData, isVip);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

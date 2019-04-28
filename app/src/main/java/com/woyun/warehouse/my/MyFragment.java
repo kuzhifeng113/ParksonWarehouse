@@ -47,6 +47,7 @@ import com.woyun.warehouse.bean.UserInfoTwoBean;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
 import com.woyun.warehouse.my.activity.MyAddressActivity;
 import com.woyun.warehouse.my.activity.MyCollectionActivity;
+import com.woyun.warehouse.my.activity.MyFanActivity;
 import com.woyun.warehouse.my.activity.MyOrderActivity;
 import com.woyun.warehouse.my.activity.RealNameActivity;
 import com.woyun.warehouse.my.activity.SettingActivity;
@@ -108,14 +109,14 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
     @BindView(R.id.ll_my_address)
     LinearLayout rlMyAddress;
 
-    @BindView(R.id.ll_real_name)
+    @BindView(R.id.ll_vip_center)
     LinearLayout rlRealName;
     @BindView(R.id.img_setting)
     ImageView imgSetting;
     @BindView(R.id.ic_share)
     ImageView icShare;
 
-    @BindView(R.id.ll_about_me)
+    @BindView(R.id.ll_my_fan)
     LinearLayout rlMyOrder;
 
     @BindView(R.id.rl_head)
@@ -280,7 +281,7 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
     }
 
 
-    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_about_me, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_real_name, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.tv_agent_wen, R.id.tv_gouwu_wen,R.id.img_vip_enter})
+    @OnClick({R.id.img_head, R.id.img_setting, R.id.ll_all_order, R.id.ll_dfk_order, R.id.ll_dfh_order, R.id.ll_order_dsh, R.id.ic_share, R.id.img_shangjia_join, R.id.ll_my_fan, R.id.ll_my_collection, R.id.ll_my_address, R.id.ll_vip_center, R.id.tv_copy, R.id.ll_cang_bi, R.id.ll_yu_er, R.id.tv_xinren_wen, R.id.tv_agent_wen, R.id.tv_gouwu_wen,R.id.img_vip_enter})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_head:
@@ -313,39 +314,6 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
                 Intent dsh = new Intent(getActivity(), MyOrderActivity.class);
                 dsh.putExtra("index", 3);
                 startActivity(dsh);
-//                isAgent = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_AGENT, false);
-//                isVip = (boolean) SPUtils.getInstance(getActivity()).get(Constant.USER_IS_VIP, false);
-//                if (isVip) {
-//                    if (isAgent) {
-//                        Intent agent = new Intent(getActivity(), AgentCenterActivity.class);
-//                        startActivity(agent);
-//                    } else {
-//                        new AgentOpenDialog(getActivity(), R.style.dialogphone, new AgentOpenDialog.OnCloseListener() {
-//                            @Override
-//                            public void onClick(Dialog dialog, boolean confirm) {
-//                                if (confirm) {
-//                                    dialog.dismiss();
-//                                    Intent open = new Intent(getActivity(), AgentOpenActivity.class);
-//                                    startActivity(open);
-//                                }
-//                            }
-//                        }).show();
-//
-//                    }
-//                } else {
-//                    new DeleteDialog(getActivity(), R.style.dialogphone, "您还不是会员，是否去开通？", new DeleteDialog.OnCloseListener() {
-//                        @Override
-//                        public void onClick(Dialog dialog, boolean confirm) {
-//                            if (confirm) {
-//                                dialog.dismiss();
-//                                Intent open = new Intent(getActivity(), VipCenterActivity.class);
-//                                startActivity(open);
-////                               Intent daili=new Intent(getActivity(),)
-//                            }
-//                        }
-//                    }).show();
-//                }
-
 
                 break;
             case R.id.ic_share://分享
@@ -362,9 +330,8 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
                 }
 
                 break;
-            case R.id.ll_about_me://关于我们
-                Intent about = new Intent(getActivity(), MyWebViewActivity.class);
-                about.putExtra("web_url", Constant.WEB_ABOUT_ME);
+            case R.id.ll_my_fan://----我的粉丝
+                Intent about = new Intent(getActivity(), MyFanActivity.class);
                 startActivity(about);
                 break;
             case R.id.ll_my_collection://我的收藏
@@ -376,9 +343,9 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
                 address.putExtra("from_my", true);
                 startActivity(address);
                 break;
-            case R.id.ll_real_name://实名认证
-                Intent realName = new Intent(getActivity(), RealNameActivity.class);
-                startActivity(realName);
+            case R.id.ll_vip_center:// 会员中心
+                toVip();
+
                 break;
             case R.id.tv_copy:
                 ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);

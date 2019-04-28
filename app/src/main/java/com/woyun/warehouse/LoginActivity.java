@@ -31,6 +31,7 @@ import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.bean.UserInfoBean;
 import com.woyun.warehouse.my.activity.BindPhoneActivity;
 import com.woyun.warehouse.utils.GlideBannerImageLoader;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.PushUtils;
 import com.woyun.warehouse.utils.SPUtils;
@@ -190,7 +191,7 @@ public class LoginActivity extends BaseActivity {
         // 但会使得用户已授权作用域（scope）仅为snsapi_base，从而导致无法获取到需要用户授权才允许获得的数据和基础功能
         req.scope = "snsapi_userinfo";
         req.state = uuid;
-        Log.e(TAG, "wxLogin: " + uuid);
+        LogUtils.e(TAG, "wxLogin: " + uuid);
         iwxapi.sendReq(req);
     }
 
@@ -203,11 +204,11 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onComplete(Object response) {
             Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "response:" + response.toString());
+            LogUtils.e(TAG, "response:" + response.toString());
             JSONObject obj = (JSONObject) response;
             try {
                 openID = obj.getString("openid");
-                Log.e(TAG, "onComplete: ===="+openID );
+                LogUtils.e(TAG, "onComplete: ===="+openID );
                 String accessToken = obj.getString("access_token");
                 String expires = obj.getString("expires_in");
                 mTencent.setOpenId(openID);
@@ -217,7 +218,7 @@ public class LoginActivity extends BaseActivity {
                 userInfo.getUserInfo(new IUiListener() {
                     @Override
                     public void onComplete(Object response) {
-                        Log.e(TAG,"QQ登录成功"+response.toString());
+                        LogUtils.e(TAG,"QQ登录成功"+response.toString());
                         parseQQInfo(response.toString());
                         loginReq(nickName,imgUrl,openID);
 
@@ -225,12 +226,12 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onError(UiError uiError) {
-                        Log.e(TAG,"登录失败"+uiError.toString());
+                        LogUtils.e(TAG,"登录失败"+uiError.toString());
                     }
 
                     @Override
                     public void onCancel() {
-                        Log.e(TAG,"登录取消");
+                        LogUtils.e(TAG,"登录取消");
 
                     }
                 });
@@ -241,7 +242,7 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onError(UiError uiError) {
-            Log.e(TAG, "onError: "+uiError.errorMessage );
+            LogUtils.e(TAG, "onError: "+uiError.errorMessage );
             Toast.makeText(LoginActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
 
         }
@@ -262,7 +263,7 @@ public class LoginActivity extends BaseActivity {
             imgUrl=object.getString("figureurl_qq_2");
             gender=object.getString("gender");
 
-            Log.e(TAG, "parseQQInfo: "+nickName +"\n"+imgUrl +"\n"+gender);
+            LogUtils.e(TAG, "parseQQInfo: "+nickName +"\n"+imgUrl +"\n"+gender);
 //
             SPUtils.getInstance(LoginActivity.this).put(Constant.USER_NICK_NAME,nickName);
             SPUtils.getInstance(LoginActivity.this).put(Constant.USER_AVATAR,imgUrl);
@@ -290,7 +291,7 @@ public class LoginActivity extends BaseActivity {
             params.put("fuserid", SPUtils.getInstance(LoginActivity.this).get(Constant.SHARE_KEY, ""));
             params.put("avatar",avatar);//头像地址
             params.put("userid",openIDD.toLowerCase());
-            Log.e(TAG, "loginReq: ==="+openIDD.toLowerCase());
+            LogUtils.e(TAG, "loginReq: ==="+openIDD.toLowerCase());
             params.put("deviceId", SPUtils.getInstance(LoginActivity.this).get(Constant.USER_DEVICE_ID,""));
             params.put("deviceAlias",SPUtils.getInstance(LoginActivity.this).get(Constant.USER_DEVICE_ID,""));
             params.put("osVersion", SystemUtil.getSystemVersion());

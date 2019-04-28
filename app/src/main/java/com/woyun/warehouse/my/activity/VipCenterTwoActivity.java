@@ -55,6 +55,7 @@ import com.woyun.warehouse.cart.adapter.PopDownAdapter;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.adapter.CartVipAdapterTwo;
 import com.woyun.warehouse.utils.DensityUtils;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
@@ -217,7 +218,7 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
     //支付成功后回调
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(SaveUserEvent event) {
-        Log.e(TAG, "Event: " + event.isSave());
+        LogUtils.e(TAG, "Event: " + event.isSave());
         if (event.isSave()) {
             initData(loginUserId);
         }
@@ -250,7 +251,7 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
             if (requestCode == 101) {
                 ShipAddressBean addressEntity = (ShipAddressBean) data.getSerializableExtra("address_entity");
@@ -262,7 +263,7 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
                 province = addressEntity.getProvince();
                 city = addressEntity.getCity();
                 county = addressEntity.getCounty();
-                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
+                LogUtils.e(TAG, "onActivityResult: " + addressEntity.getProvince());
             }
         }
     }
@@ -885,11 +886,11 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
             if (type == 2) {
                 params.put("fuserid", SPUtils.getInstance(VipCenterTwoActivity.this).get(Constant.SHARE_KEY, ""));
             }
-            Log.e(TAG, "payOperation: fuserid" + SPUtils.getInstance(VipCenterTwoActivity.this).get(Constant.SHARE_KEY, ""));
+            LogUtils.e(TAG, "payOperation: fuserid" + SPUtils.getInstance(VipCenterTwoActivity.this).get(Constant.SHARE_KEY, ""));
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
-            Log.e(TAG, "payOperation:==== " + isUseInvoice);
-            Log.e(TAG, "payOperation:==== " + invoiceId);
+            LogUtils.e(TAG, "payOperation:==== " + isUseInvoice);
+            LogUtils.e(TAG, "payOperation:==== " + invoiceId);
             params.put("userid", userId);
             params.put("vipTypeId", vipTypeId);
             params.put("province", province);
@@ -1158,8 +1159,8 @@ public class VipCenterTwoActivity extends BaseActivity implements CommonPopupWin
                             ShipAddressBean.InvoiceListBean updateBean = gson.fromJson(jsonResult, ShipAddressBean.InvoiceListBean.class);
                             allInvoiceDatas.add(updateBean);
                             invoiceId = updateBean.getInvoiceId();
-                            Log.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
-                            Log.e(TAG, "requestSuccess:发票id" + invoiceId);
+                            LogUtils.e(TAG, "requestSuccess:是否使用" + isUseInvoice);
+                            LogUtils.e(TAG, "requestSuccess:发票id" + invoiceId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

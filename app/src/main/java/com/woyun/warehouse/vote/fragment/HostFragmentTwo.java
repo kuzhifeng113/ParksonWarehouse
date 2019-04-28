@@ -80,7 +80,7 @@ public class HostFragmentTwo extends BaseFragment {
 
     //回调用来接收参数
     public static HostFragmentTwo getInitUrl(int gc_id) {
-        Log.e(TAG, "getInitUrl: ==");
+        LogUtils.e(TAG, "getInitUrl: ==");
         HostFragmentTwo hostFragment = new HostFragmentTwo();
         Bundle bundle = new Bundle();
         bundle.putInt("gc_id", gc_id);
@@ -95,7 +95,7 @@ public class HostFragmentTwo extends BaseFragment {
         unbinder = ButterKnife.bind(this, view);
         //获取参数
         categoryId = getArguments().getInt("gc_id");
-        Log.e(TAG, "onCreateView: 分类ID" + categoryId);
+        LogUtils.e(TAG, "onCreateView: 分类ID" + categoryId);
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
         }
@@ -233,7 +233,6 @@ public class HostFragmentTwo extends BaseFragment {
             e.printStackTrace();
         } finally {
             if (mRefreshLayout.isRefreshing()) {
-//                Log.e(TAG, "initData: finish");
                 mRefreshLayout.finishRefresh();
             }
         }
@@ -271,10 +270,6 @@ public class HostFragmentTwo extends BaseFragment {
                 return contentBean.getViewType();
             }
         });
-//        goodsAdapterOne.setPage(pager);
-//        goodsAdapterOne.notifyDataSetChanged();
-//        goodsAdapterOne.setData(mapData);
-
     }
     @Override
     protected void initImmersionBar() {

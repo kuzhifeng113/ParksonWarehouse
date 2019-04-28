@@ -22,6 +22,7 @@ import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.utils.KeybordS;
+import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.MD5Util;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SPUtils;
@@ -139,9 +140,9 @@ public class TwoPassWordActivity extends BaseActivity {
             public void onInputCompleted(CharSequence s) {
                 //输入完成请求接口
              String   code=s.toString();
-                Log.e(TAG, "onInputCompleted: "+code );
+                LogUtils.e(TAG, "onInputCompleted: "+code );
 //                loginByPhone(code,phone);
-                Log.e(TAG, "onInputCompleted: " +s);
+                LogUtils.e(TAG, "onInputCompleted: " +s);
 
                 if(type==1){
                     setPwd=s.toString();
@@ -153,9 +154,9 @@ public class TwoPassWordActivity extends BaseActivity {
                         ToastUtils.getInstanc(TwoPassWordActivity.this).showToast("两次密码不一致");
                     }else{
                         closeAll(editPwd,twoPassWordDialog);
-                        Log.e(TAG, "onInputCompleted: "+MD5Util.getMD5(confrimPwd) );
+                        LogUtils.e(TAG, "onInputCompleted: "+MD5Util.getMD5(confrimPwd) );
                         setPwd("", MD5Util.getMD5(confrimPwd));
-                        Log.e(TAG, "onInputCompleted: 设置2级密码" );
+                        LogUtils.e(TAG, "onInputCompleted: 设置2级密码" );
                     }
 
 //                    twoPassWordDialog.dismiss();
@@ -176,7 +177,7 @@ public class TwoPassWordActivity extends BaseActivity {
                         setPwd(MD5Util.getMD5(oldPwd), MD5Util.getMD5(confimUpDatePwd));
                     }
 //                    twoPassWordDialog.dismiss();
-                    Log.e(TAG, "onInputCompleted: 修改2级密码" );
+                    LogUtils.e(TAG, "onInputCompleted: 修改2级密码" );
                 }
 
             }

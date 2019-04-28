@@ -411,7 +411,7 @@ public class DateUtils {
             e.printStackTrace();
         }
         Boolean flag = belongCalendar(now, beginTime, endTime);
-        Log.e(TAG, "isBelong:是否在时间内"+flag);
+        LogUtils.e(TAG, "isBelong:是否在时间内"+flag);
         return flag;
     }
 

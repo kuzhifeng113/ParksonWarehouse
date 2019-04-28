@@ -92,7 +92,7 @@ public class MyApplication extends HSNetToolsApplication {
             @Override
             public void onSuccess(String response) {
                 LogUtils.e(TAG, "init cloudchannel success");
-                Log.e(TAG, "onSuccess:Tuisong "+pushService.getDeviceId());
+                LogUtils.e(TAG, "onSuccess:Tuisong "+pushService.getDeviceId());
                 SPUtils.getInstance(applicationContext).put(Constant.USER_DEVICE_ID,pushService.getDeviceId());
             }
             @Override

@@ -362,7 +362,7 @@ public class VoteFragment extends BaseFragment implements CommonPopupWindow.View
                     mainActivity.tokenTimeLimit(getActivity(),code);
                     if (code == 0) {
                         String jsonResult = jsonArray.toString();
-                        Log.e(TAG, "requestSuccess: " + jsonResult);
+                        LogUtils.e(TAG, "requestSuccess: " + jsonResult);
                         Gson gson = new Gson();
                         List<VoteHomeBean> data = gson.fromJson(jsonResult, new TypeToken<List<VoteHomeBean>>() {
                         }.getType());

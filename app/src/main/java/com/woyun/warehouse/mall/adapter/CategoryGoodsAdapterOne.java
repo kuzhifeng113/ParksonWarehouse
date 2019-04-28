@@ -199,7 +199,6 @@ public class CategoryGoodsAdapterOne extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        Log.e(TAG, "getItemViewType: 位置" + position);
 //        return position % 10 == 0 ? 1 : 0;
         return dataList.get(position).getViewType();
     }

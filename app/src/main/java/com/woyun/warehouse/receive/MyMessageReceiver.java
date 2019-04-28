@@ -71,7 +71,7 @@ public class MyMessageReceiver extends MessageReceiver {
                 redirect=object.getString("redirect");
             }
             String type=object.getString("type");
-            Log.e(TAG, "onNotificationOpened:type "+type );
+            LogUtils.e(TAG, "onNotificationOpened:type "+type );
             if(type.equals("1")){//订单发货---跳订单详情
                 Intent order=new Intent(context, OrderDetailActivity.class);
                 order.putExtra("tradeNo",redirect);
