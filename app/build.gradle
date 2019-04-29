@@ -8,8 +8,8 @@ android {
         applicationId "com.woyun.warehouse"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 22
-        versionName "3.2.1"
+        versionCode 23
+        versionName "3.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {

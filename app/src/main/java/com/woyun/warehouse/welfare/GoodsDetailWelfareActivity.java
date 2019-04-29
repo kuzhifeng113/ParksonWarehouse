@@ -302,12 +302,16 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     //判断红包余额是否满足
                     if(!TextUtils.isEmpty(redPackMoney)){
-                        double redMoney= Double.parseDouble(redPackMoney);
-                        double skuPrice= Double.parseDouble(sku.getVipPrice());
-                        if(redMoney <skuPrice *  quantity){
-                            ToastUtils.getInstanc(GoodsDetailWelfareActivity.this).showToast("红包余额不足~");
+                        if(redPackMoney.equals("0")){
+                            showSharePopChai();
                             return;
                         }
+//                        double redMoney= Double.parseDouble(redPackMoney);
+//                        double skuPrice= Double.parseDouble(sku.getVipPrice());
+//                        if(redMoney <skuPrice *  quantity){
+//                            ToastUtils.getInstanc(GoodsDetailWelfareActivity.this).showToast("红包余额不足~");
+//                            return;
+//                        }
                     }
 
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
@@ -655,7 +659,6 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
      * 弹窗 商品详情链接分享
      */
     private void showSharePop() {
-
         if (popupWindow != null && popupWindow.isShowing()) return;
         View upView = LayoutInflater.from(GoodsDetailWelfareActivity.this).inflate(R.layout.popup_share_haibao, null);
         //测量View的宽高
@@ -670,84 +673,134 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.BOTTOM, 0, 0);
     }
 
+    /**
+     * 分享拆红包
+     */
+    private void showSharePopChai() {
+        if (popupWindow != null && popupWindow.isShowing()) return;
+        View upView = LayoutInflater.from(GoodsDetailWelfareActivity.this).inflate(R.layout.popup_fuli_no_red, null);
+        //测量View的宽高
+        DensityUtils.measureWidthAndHeight(upView);
+        popupWindow = new CommonPopupWindow.Builder(GoodsDetailWelfareActivity.this)
+                .setView(R.layout.popup_fuli_no_red)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, upView.getMeasuredHeight())
+                .setBackGroundLevel(0.3f)//取值范围0.0f-1.0f 值越小越暗
+                .setAnimationStyle(R.style.AnimUp)
+                .setViewOnclickListener(this)
+                .create();
+        popupWindow.showAtLocation(findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
+    }
+
     @Override
     public void getChildView(View view, int layoutResId) {
-        ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
-        ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
-        ImageView shareHB = (ImageView) view.findViewById(R.id.img_share_haibao);
-        ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
-        TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
+        switch (layoutResId){
+            case  R.layout.popup_share_haibao:
+                ImageView shareWeiXin = (ImageView) view.findViewById(R.id.img_share_weixin);
+                ImageView shareCircle = (ImageView) view.findViewById(R.id.img_share_circle);
+                ImageView shareHB = (ImageView) view.findViewById(R.id.img_share_haibao);
+                ImageView shareQQ = (ImageView) view.findViewById(R.id.img_share_qq);
+                TextView btnCancel = (TextView) view.findViewById(R.id.btn_cancel);
 
-        shareWeiXin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                iwxApi.sendReq(shareWxUrl(shareUrl, shareTile, shareContent, 0, shareIconUrl));
-            }
-        });
+                shareWeiXin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        iwxApi.sendReq(shareWxUrl(shareUrl, shareTile, shareContent, 0, shareIconUrl));
+                    }
+                });
 
-        shareCircle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                iwxApi.sendReq(shareWxUrl(shareUrl,
-                        shareTile, shareContent, 1, shareIconUrl));
-            }
-        });
+                shareCircle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        iwxApi.sendReq(shareWxUrl(shareUrl,
+                                shareTile, shareContent, 1, shareIconUrl));
+                    }
+                });
 
-        //生成海报
-        shareHB.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public void onClick(View v) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                Intent intent=new Intent(GoodsDetailWelfareActivity.this,PosterActivity.class);
-                intent.putExtra("share_goods_id",goodsId);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailWelfareActivity.this).toBundle());
+                //生成海报
+                shareHB.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        Intent intent=new Intent(GoodsDetailWelfareActivity.this,PosterActivity.class);
+                        intent.putExtra("share_goods_id",goodsId);
+                        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GoodsDetailWelfareActivity.this).toBundle());
 
 //                /**
 //                 * 第三方应用发送请求消息到微博，唤起微博分享界面。
 //                 */
 //                sendMessage(true, false);
-            }
-        });
+                    }
+                });
 
-        shareQQ.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-                final Bundle params = new Bundle();
-                params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
-                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareUrl);
-                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);// 摘要
-                params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
-                params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIconUrl);// 网络图片地址　
-                //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
+                shareQQ.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        final Bundle params = new Bundle();
+                        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+                        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
+                        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareUrl);
+                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);// 摘要
+                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
+                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIconUrl);// 网络图片地址　
+                        //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
 //                        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其他附加功能");
-                // 分享操作要在主线程中完成
-                mTencent.shareToQQ(mContext, params, mIUiListener);
+                        // 分享操作要在主线程中完成
+                        mTencent.shareToQQ(mContext, params, mIUiListener);
 //                ToastUtils.getInstanc(MyCenterActivity.this).showToast("qq");
 
-            }
-        });
+                    }
+                });
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (popupWindow != null) {
-                    popupWindow.dismiss();
-                }
-            }
-        });
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+                break;
+
+            case  R.layout.popup_fuli_no_red:
+                //获得PopupWindow布局里的View
+                ImageView  img_main_share=view.findViewById(R.id.img_main_get);
+                ImageView closed=view.findViewById(R.id.img_close);
+
+                closed.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+
+                //分享
+                img_main_share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null) {
+                            popupWindow.dismiss();
+                        }
+                        setResult(WelfareFragment.FINISH_RESULT);
+                        finish();
+                    }
+                });
+                break;
+        }
+
     }
 
     /**

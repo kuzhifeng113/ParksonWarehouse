@@ -70,6 +70,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
 
     private GrabGoodsAdapter grabGoodsAdapter;
     private List<GrabGoodsBean> listDatas=new ArrayList<>();
+    private int k=1;
     //回调用来接收参数
     public static GrabGoodsFragment getInstance(int timeId) {
         GrabGoodsFragment myFragment = new GrabGoodsFragment();
@@ -173,6 +174,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
      * 获取全部订单
      */
     private void getData(int rushBuyId) {
+
         //获取数据
         try {
             JSONObject params = new JSONObject();
@@ -195,7 +197,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
 
                 @Override
                 public void requestError(String s, int i) {
-                    ToastUtils.getInstanc(getActivity()).showToast(s);
+
                 }
             });
         } catch (Exception e) {

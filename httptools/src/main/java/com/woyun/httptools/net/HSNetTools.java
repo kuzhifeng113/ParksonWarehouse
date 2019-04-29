@@ -122,7 +122,7 @@ public class HSNetTools {
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "request: "+e.toString() );
+            HSLog.print(TAG, "request: "+e.toString() );
         }
     }
 
@@ -138,7 +138,7 @@ public class HSNetTools {
     private static StringRequest stringRequest;
 
     public static void stringRequestPost(String tag, String url, final Map<String, String> params, HSBackRequestInterface resutlInteface) {
-        Log.e(TAG, "request===Url======= "+url);
+        HSLog.print(TAG, "request===Url======= "+url);
         HSNetToolsApplication.getHttpRequestQueue().cancelAll(tag);
         stringRequest = new StringRequest(Request.Method.POST, url, resutlInteface.loadingListener(), resutlInteface.backErrorListener()) {
             @Override

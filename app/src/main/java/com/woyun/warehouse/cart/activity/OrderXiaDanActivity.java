@@ -130,6 +130,14 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
     RelativeLayout rlShare;
     @BindView(R.id.view_share)
     View viewShare;
+    @BindView(R.id.tv_keyong_hbmoney)
+    TextView tvKeyongHbmoney;
+    @BindView(R.id.switch_hb)
+    Switch switchHbMoeny;
+    @BindView(R.id.tv_hb_money)
+    TextView tvHbMoney;
+    @BindView(R.id.tv_1)
+    TextView tv1;
 
     private OrderXiaDanAdapter orderDeatailAdapter;
     private double totalPrice;
@@ -198,13 +206,12 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
         switchBcmoney.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (Double.valueOf(bcCoin) > totalPrice && Double.valueOf(bcMoney) > totalPrice) {
-//                    if (switchBcmoney.isChecked()) {
-//                        switchBcoin.setChecked(false);
-//                    }
-//                }
                 calculationPrice();
             }
+        });
+
+        switchHbMoeny.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            calculationPrice();
         });
     }
 
@@ -301,11 +308,11 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                             manTransport = orderAddres.getTransport();
                             //判断是否显示分享减免
                             shareMoney = orderAddres.getShareMoney();
-                            tvShareMoney.setText("-￥"+shareMoney);
-                            if(!shareMoney.equals("0")){
+                            tvShareMoney.setText("-￥" + shareMoney);
+                            if (!shareMoney.equals("0")) {
                                 rlShare.setVisibility(View.VISIBLE);
                                 viewShare.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 rlShare.setVisibility(View.GONE);
                                 viewShare.setVisibility(View.GONE);
                             }
@@ -331,12 +338,16 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
 
                             tvKeyongBcoin.setText("可用" + orderAddres.getBcCoin() + "仓币抵用");
                             tvKeyongBcmoney.setText("可用余额" + orderAddres.getBcMoney());
+                            tvKeyongHbmoney.setText("可用红包余额"+orderAddres.getBcHb());
 
                             if (orderAddres.getBcCoin().equals("0")) {
                                 switchBcoin.setClickable(false);
                             }
                             if (orderAddres.getBcMoney().equals("0")) {
                                 switchBcmoney.setClickable(false);
+                            }
+                            if(orderAddres.getBcHb().equals("0")){
+                              switchHbMoeny.setClickable(false);
                             }
 
                             allInvoiceDatas = orderAddres.getInvoiceList();
@@ -376,93 +387,172 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
         boolean isaddYfei = false;//是否加过邮费
         double transPortPrice = Double.valueOf(tvTransport.getText().toString());//邮费
         double bcCoinPrice = Double.valueOf(orderAddres.getBcCoin());//仓币
-//        double bcCoinPrice = 5;//仓币
         double bcMoneyPrice = Double.valueOf(orderAddres.getBcMoney());//余额
         double bcSharePrice = Double.valueOf(orderAddres.getShareMoney());//分享减额
+        double bcHbPrice=Double.valueOf(orderAddres.getBcHb());
 
 //        if (isVip || isAgent) {// VIP 跟代理
-            if (bcCoin.equals("0")) {
-                switchBcoin.setClickable(false);
-            } else {
-                switchBcoin.setClickable(true);
-            }
-            //
-            if (bcMoney.equals("0")) {
-                switchBcmoney.setClickable(false);
-            } else {
-                switchBcmoney.setClickable(true);
-            }
+        if (bcCoin.equals("0")) {
+            switchBcoin.setClickable(false);
+        } else {
+            switchBcoin.setClickable(true);
+        }
+        //
+        if (bcMoney.equals("0")) {
+            switchBcmoney.setClickable(false);
+        } else {
+            switchBcmoney.setClickable(true);
+        }
+
+        if(orderAddres.getBcHb().equals("0")){
+            switchHbMoeny.setClickable(false);
+        }else{
+            switchHbMoeny.setClickable(true);
+        }
 
 //            if (isLimitedTime) {
 //                switchBcoin.setClickable(false);
 //            }
 
-            //仓币不抵押邮费
-            if (switchBcoin.isChecked()) {
-                //判断仓币是否大于商品价格
-                if (bcCoinPrice > totalPrice) {
-                    tvBcCoin.setText("-￥" + totalPrice);
-                    //只需要付邮费了
-                    zongjia = BigDecimalUtil.getAdd(0, transPortPrice);
-                } else {
-                    tvBcCoin.setText("-￥" + bcCoinPrice);
-                    zongjia = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
-                    zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
-                    isaddYfei = true;
-                }
+        //仓币不抵押邮费
+        if (switchBcoin.isChecked()) {
+            //判断仓币是否大于商品价格
+            if (bcCoinPrice > totalPrice) {
+                tvBcCoin.setText("-￥" + totalPrice);
+                //只需要付邮费了
+                zongjia = BigDecimalUtil.getAdd(0, transPortPrice);
             } else {
-                tvBcCoin.setText("-￥0");
-                zongjia = BigDecimalUtil.geSub(totalPrice, 0);
-//                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
+                tvBcCoin.setText("-￥" + bcCoinPrice);
+                zongjia = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
+                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
+                isaddYfei = true;
             }
+        } else {
+            tvBcCoin.setText("-￥0");
+            zongjia = BigDecimalUtil.geSub(totalPrice, 0);
+//                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
+        }
 
-            //余额开关选中
-            if (switchBcmoney.isChecked()) {
-                if (bcMoneyPrice > totalPrice) {//余额大于商品价格
-                    double current= BigDecimalUtil.getAdd(totalPrice, transPortPrice);//加上邮费
-                    tvBcMoney.setText("-￥" + BigDecimalUtil.geSub(current, bcSharePrice));//减去分享减免的
-                    zongjia = BigDecimalUtil.getAdd(0, 0);
-                } else {
-                    tvBcMoney.setText("-￥" + bcMoneyPrice);
-                    zongjia = BigDecimalUtil.geSub(zongjia, bcMoneyPrice);
-                    if (isaddYfei) {
-                        LogUtils.e(TAG, "不用加");
-                    } else {
-                        zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
-                    }
-                }
+        //余额开关选中--余额低邮费
+        if (switchBcmoney.isChecked()) {
+            if (bcMoneyPrice > totalPrice) {//余额大于商品价格
+                double current = BigDecimalUtil.getAdd(totalPrice, transPortPrice);//加上邮费
+                tvBcMoney.setText("-￥" + current);
+                zongjia = BigDecimalUtil.getAdd(0, 0);
             } else {
-                tvBcMoney.setText("-￥0");
-                zongjia = BigDecimalUtil.geSub(zongjia, 0);
+                tvBcMoney.setText("-￥" + bcMoneyPrice);
+                zongjia = BigDecimalUtil.geSub(zongjia, bcMoneyPrice);
+                if (isaddYfei) {
+                    LogUtils.e(TAG, "不用加");
+                } else {
+                    zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
+                }
+            }
+        } else {
+            tvBcMoney.setText("-￥0");
+            zongjia = BigDecimalUtil.geSub(zongjia, 0);
 //                //加上邮费
 //                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
-            }
+        }
 
-            //2个都选中了--优先使用仓币
-            if (switchBcoin.isChecked() && switchBcmoney.isChecked()) {
-                if (bcCoinPrice > totalPrice) {//仓币大于商品价格
-                    tvBcCoin.setText("-￥" + totalPrice);
-                    tvBcMoney.setText("-￥" + transPortPrice);
+
+        //红包余额开关选中
+        if (switchHbMoeny.isChecked()) {
+            if (bcHbPrice > totalPrice) {//红包余额大于商品价格
+                tvHbMoney.setText("-￥" +totalPrice );//
+                zongjia = BigDecimalUtil.getAdd(0, 0);
+            } else {
+                tvHbMoney.setText("-￥" + bcHbPrice);
+                zongjia = BigDecimalUtil.geSub(zongjia, bcHbPrice);
+                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);//加上邮费
+            }
+        } else {
+            tvHbMoney.setText("-￥0");
+            zongjia = BigDecimalUtil.geSub(zongjia, 0);
+//                //加上邮费
+//                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
+        }
+
+        //2个都选中了--优先使用仓币
+        if (switchBcoin.isChecked() && switchBcmoney.isChecked()) {
+            if (bcCoinPrice > totalPrice) {//仓币大于商品价格
+                tvBcCoin.setText("-￥" + totalPrice);
+                tvBcMoney.setText("-￥" + transPortPrice);
+            } else {
+                tvBcCoin.setText("-￥" + bcCoinPrice);
+                double chaValue = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
+                if (bcMoneyPrice > chaValue) {//余额大于商品价格
+                    tvBcMoney.setText("-￥" + chaValue);
+                } else {
+                    tvBcMoney.setText("-￥" + bcMoneyPrice);
+                }
+            }
+        } else if (!switchBcoin.isChecked() && !switchBcmoney.isChecked()) {
+            //加上邮费
+            zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
+        }
+
+        //仓币跟红包选中--优先红包
+        if(switchHbMoeny.isChecked() && switchBcoin.isChecked()){
+            if (bcHbPrice > totalPrice) {//红包大于商品价格
+                tvHbMoney.setText("-￥" + totalPrice);
+                tvBcCoin.setText("-￥0" );
+            } else {//优先红包
+                tvHbMoney.setText("-￥" + bcHbPrice);
+                double chaValue = BigDecimalUtil.geSub(totalPrice, bcHbPrice);
+                if (bcCoinPrice > chaValue) {//余额大于商品价格
+                    tvBcCoin.setText("-￥" + chaValue);
                 } else {
                     tvBcCoin.setText("-￥" + bcCoinPrice);
-                    double chaValue = BigDecimalUtil.geSub(totalPrice, bcCoinPrice);
-                    if (bcMoneyPrice > chaValue) {//余额大于商品价格
-                        tvBcMoney.setText("-￥" + chaValue);
-                    } else {
+                }
+            }
+        }
+
+        //余额跟红包选中--优先红包
+        if(switchHbMoeny.isChecked() && switchBcmoney.isChecked()){
+            if (bcHbPrice > totalPrice) {//红包大于商品价格
+                tvHbMoney.setText("-￥" + totalPrice);
+                tvBcMoney.setText("-￥0" );
+            } else {//优先红包
+                tvHbMoney.setText("-￥" + bcHbPrice);
+                double chaValue = BigDecimalUtil.geSub(totalPrice, bcHbPrice);
+                if (bcMoneyPrice > chaValue) {//余额大于商品价格
+                    tvBcMoney.setText("-￥" + chaValue);
+                } else {
+                    tvBcMoney.setText("-￥" + bcMoneyPrice);
+                }
+            }
+        }
+
+        //3个都选中 优先红包 ---然后仓币 ---余额
+        if(switchHbMoeny.isChecked() && switchBcoin.isChecked()&&switchBcmoney.isChecked()){
+            if (bcHbPrice > totalPrice) {//红包大于商品价格
+                tvHbMoney.setText("-￥" + totalPrice);
+                tvBcCoin.setText("-￥0");
+                tvBcMoney.setText("-￥0" );
+            } else {//优先红包
+                tvHbMoney.setText("-￥" + bcHbPrice);
+                double chaValue = BigDecimalUtil.geSub(totalPrice, bcHbPrice);
+                if (bcCoinPrice > chaValue) {//仓币大于商品价格
+                    tvBcCoin.setText("-￥" + chaValue);
+                    tvBcMoney.setText("-￥0" );
+                } else {
+                    tvBcCoin.setText("-￥" + bcCoinPrice);
+                    double tCha=BigDecimalUtil.geSub(chaValue, bcCoinPrice);
+                    if(bcMoneyPrice > tCha){
+                        tvBcMoney.setText("-￥" + tCha);
+                    }else{
                         tvBcMoney.setText("-￥" + bcMoneyPrice);
                     }
+
                 }
-            } else if (!switchBcoin.isChecked() && !switchBcmoney.isChecked()) {
-                //加上邮费
-                zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
             }
-//        } else {//普通用户是不能用仓币
-//            switchBcoin.setClickable(false);
-//            switchBcmoney.setClickable(false);
-//            zongjia = BigDecimalUtil.getAdd(totalPrice, transPortPrice);
-//        }
+        }
+
+
         //减去分享减额的
-        zongjia=BigDecimalUtil.geSub(zongjia,bcSharePrice);
+        zongjia = BigDecimalUtil.geSub(zongjia, bcSharePrice);
+
         if (zongjia > 0) {
             tvHejiPrice.setText("￥" + zongjia);
         } else {
@@ -696,7 +786,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
             params.put("userid", userId);
-            params.put("rushId",rushId);
+            params.put("rushId", rushId);
             params.put("province", province);
             params.put("city", city);
             params.put("county", county);
@@ -713,6 +803,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             params.put("payType", payType);
             params.put("usecb", switchBcoin.isChecked());
             params.put("useba", switchBcmoney.isChecked());
+            params.put("usehb", switchHbMoeny.isChecked());
             params.put("billDetailList", jsonArray);
 
             RequestInterface.payPrefix(OrderXiaDanActivity.this, params, TAG, ReqConstance.I_PAY_SHOPPING, 1, new HSRequestCallBackInterface() {

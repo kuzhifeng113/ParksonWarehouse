@@ -98,6 +98,10 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     TextView tvBcCoin;
     @BindView(R.id.tv_bc_money)
     TextView tvBcMoney;
+
+    @BindView(R.id.tv_hb_money)
+    TextView tvHbMoney;
+
     @BindView(R.id.tv_transport)
     TextView tvTransport;
     @BindView(R.id.edit_memo)
@@ -143,8 +147,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
     TextView tvInvoiceName;
     @BindView(R.id.ll_invoice)
     LinearLayout llInvoice;
-    @BindView(R.id.tv_yuer_des)
-    TextView tvYuerDes;
+
     @BindView(R.id.tv_share_money)
     TextView tvShareMoney;
     @BindView(R.id.rl_share)
@@ -254,20 +257,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
         }
     };
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (data != null) {
-//            if (requestCode == MyAddressActivity.REQUEST_CODE) {
-//                ShipAddressBean addressEntity = (ShipAddressBean) data.getSerializableExtra("address_entity");
-//
-//                tvName.setText(addressEntity.getName());
-//                tvPhone.setText(addressEntity.getPhone());
-//                tvDetialAddress.setText(addressEntity.getProvince() + addressEntity.getCity() + addressEntity.getCounty() + addressEntity.getAddress());
-//                Log.e(TAG, "onActivityResult: " + addressEntity.getProvince());
-//            }
-//        }
-//    }
+
 
     private void initData() {
         tradeNo = getIntent().getStringExtra("tradeNo");
@@ -305,13 +295,15 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                             tvTransport.setText("￥" + String.valueOf(orderDetailBean.getTransport()));
                             tvBcCoin.setText("-￥" + String.valueOf(orderDetailBean.getBcCoin()));
                             tvBcMoney.setText("-￥" + String.valueOf(orderDetailBean.getBcMoney()));
+                            tvHbMoney.setText("-￥"+orderDetailBean.getBcHb());
                             tvShijiPay.setText("￥" + String.valueOf(orderDetailBean.getTotalFee()));
+
                             //红包商品支付的  余额---》红包余额
-                            if (orderDetailBean.getPayType() == Constant.PAY_TYPE_RED_PACK) {
-                                tvYuerDes.setText("红包余额");
-                            } else {
-                                tvYuerDes.setText("余额");
-                            }
+//                            if (orderDetailBean.getPayType() == Constant.PAY_TYPE_RED_PACK) {
+//                                tvYuerDes.setText("红包余额");
+//                            } else {
+//                                tvYuerDes.setText("余额");
+//                            }
                             //分享减免是否显示
                             tvShareMoney.setText("-￥" + String.valueOf(orderDetailBean.getShareMoney()));
 

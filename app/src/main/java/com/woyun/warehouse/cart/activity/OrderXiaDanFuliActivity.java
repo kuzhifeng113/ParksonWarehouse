@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -112,8 +111,11 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
     TextView tvToPay;
 
     List<CartShopBean.CartListBean> selectList = new ArrayList<>();//购买的商品
-    @BindView(R.id.tv_keyong_bcoin)
-    TextView tvRedPack;
+    @BindView(R.id.tv_keyong_hbmoney)
+    TextView tvkyHbMoney;
+
+    @BindView(R.id.tv_hb_money)
+    TextView tvHbMoney;
 
     @BindView(R.id.tv_share_money)
     TextView tvShareMoney;
@@ -121,6 +123,8 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
     RelativeLayout rlShare;
     @BindView(R.id.view_share)
     View viewShare;
+    @BindView(R.id.switch_hb)
+    Switch switchHbMoeny;
 
     private OrderXiaDanAdapter orderDeatailAdapter;
     private double totalPrice;
@@ -131,7 +135,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
     private CommonPopupWindow downWindow;
     private IWXAPI api;
     private String tradeNo;//生成订单的订单号
-    private String bcCoin, bcMoney, shareMoney,bcHd;//仓币 余额  分享减免钱 红包余额
+    private String shareMoney, bcHd;//仓币 余额  分享减免钱 红包余额
 
     private List<ShipAddressBean.InvoiceListBean> peopleDatas = new ArrayList<>();//个人发票集合
     private List<ShipAddressBean.InvoiceListBean> unitDatas = new ArrayList<>();//单位发票集合
@@ -283,12 +287,12 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                             manTransport = orderAddres.getTransport();
                             //判断是否显示分享减免
                             shareMoney = orderAddres.getShareMoney();
-                            tvShareMoney.setText("-￥"+shareMoney);
-                            bcHd=orderAddres.getBcHb();
-                            if(!shareMoney.equals("0")){
+                            tvShareMoney.setText("-￥" + shareMoney);
+                            bcHd = orderAddres.getBcHb();
+                            if (!shareMoney.equals("0")) {
                                 rlShare.setVisibility(View.VISIBLE);
                                 viewShare.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 rlShare.setVisibility(View.GONE);
                                 viewShare.setVisibility(View.GONE);
                             }
@@ -307,12 +311,8 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                                 city = orderAddres.getCity();
                                 county = orderAddres.getCounty();
                             }
-//                            tvBcCoin.setText("-￥" + orderAddres.getBcCoin());
-//                            tvBcMoney.setText("-￥" + orderAddres.getBcMoney());
-                            bcCoin = orderAddres.getBcCoin();
-                            bcMoney = orderAddres.getBcMoney();
 
-                            tvRedPack.setText("当前红包余额：" + orderAddres.getBcHb());
+                            tvkyHbMoney.setText("可用红包余额：" + orderAddres.getBcHb());
 
                             allInvoiceDatas = orderAddres.getInvoiceList();
                             calculationPrice();
@@ -347,9 +347,24 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
         //红包福利商品 只能红包支付
         double zongjia = 0.0;
         double transPortPrice = Double.valueOf(tvTransport.getText().toString());//邮费
-        double redPackPrice=Double.valueOf(bcHd);//可用红包余额
-        zongjia=BigDecimalUtil.getAdd(totalPrice,transPortPrice);
+        double bcHbPrice = Double.valueOf(bcHd);//可用红包余额
 
+        //红包余额开关选中
+        if (switchHbMoeny.isChecked()) {
+            if (bcHbPrice > totalPrice) {//红包余额大于商品价格
+                tvHbMoney.setText("-￥" + totalPrice);//
+                zongjia = BigDecimalUtil.getAdd(0, 0);
+            } else {
+                tvHbMoney.setText("-￥" + bcHbPrice);
+                zongjia = BigDecimalUtil.geSub(totalPrice, bcHbPrice);
+            }
+        } else {
+            tvHbMoney.setText("-￥0");
+            zongjia = BigDecimalUtil.geSub(zongjia, 0);
+        }
+
+        //加上邮费
+        zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);
         if (zongjia > 0) {
             tvHejiPrice.setText("￥" + zongjia);
         } else {
@@ -406,6 +421,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
 
                 break;
             case R.id.tv_to_pay://付款
+                if (tvHejiPrice.getText().toString().equals("￥0.0")) {
                     String isSetTwoPwd = (String) SPUtils.getInstance(OrderXiaDanFuliActivity.this).get(Constant.USER_TWO_PWD, "");
                     if (TextUtils.isEmpty(isSetTwoPwd)) {//未设置2级密码
                         new DeleteDialog(OrderXiaDanFuliActivity.this, R.style.dialogphone, "确定去设置二级密码？", new DeleteDialog.OnCloseListener() {
@@ -423,9 +439,10 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                     } else {
                         showTwoPassWord();
                     }
-                LogUtils.e(TAG, "onViewClicked:二级密码是tv_to_pay ");
+                }else{
+                    showPayPop(tvToPay);
+                }
 
-                LogUtils.e(TAG, "onViewClicked:tv_to_pay ");
                 break;
 
         }
@@ -570,7 +587,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
             params.put("invoice", isUseInvoice);
             params.put("invoiceId", invoiceId);
             params.put("userid", userId);
-            params.put("rushId",rushId);
+            params.put("rushId", rushId);
             params.put("province", province);
             params.put("city", city);
             params.put("county", county);
@@ -594,13 +611,31 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                         try {
                             Gson gson = new Gson();
                             JSONObject jsonObject = (JSONObject) jsonArray.get(0);
-                           //其它支付方式
+                            if (payType == 1) {//wechat
+                                WxPayBean bean = gson.fromJson(jsonObject.toString(), WxPayBean.class);
+                                SPUtils.getInstance(OrderXiaDanFuliActivity.this).put("order_key", bean.getTradeNo());//订单号
+                                PayReq request = new PayReq();
+                                request.appId = bean.getAppid();
+                                request.partnerId = bean.getPartnerid();
+                                request.prepayId = bean.getPrepayid();
+                                request.packageValue = bean.getPackageX();
+                                request.nonceStr = bean.getNoncestr();
+                                request.timeStamp = bean.getTimestamp();
+                                request.sign = bean.getSign();
+                                api.sendReq(request);
+
+                            } else if (payType == 2) {//alipay
+                                String para = jsonObject.getString("trade");
+                                tradeNo = jsonObject.getString("tradeNo");
+                                aliPay(para);
+                            } else {//其它支付方式
                                 String orderNum = jsonObject.getString("tradeNo");
                                 ToastUtils.getInstanc(OrderXiaDanFuliActivity.this).showToast(msg);
                                 Intent goDetail = new Intent(OrderXiaDanFuliActivity.this, OrderDetailActivity.class);
                                 goDetail.putExtra("tradeNo", orderNum);
                                 startActivity(goDetail);
                                 finish();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

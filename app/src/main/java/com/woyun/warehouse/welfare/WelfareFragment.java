@@ -99,6 +99,8 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     public static final  int REQUEST_CODE=200;
     public static final  int RESULT_CODE=201;
     private static final int REFRESH_COMPLETE_WAEL =1000 ;
+    public static final int STRAT_REQUEST =2000 ;
+    public static final int FINISH_RESULT =3000 ;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     Unbinder unbinder;
@@ -234,7 +236,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
         intent.putExtra("goods_id", vipListBeanList.get(positon).getGoodsId());
         intent.putExtra("redpack_money",tvRedpackMoney.getText().toString().trim());
-        startActivity(intent);
+        startActivityForResult(intent,1000);
     }
 
     @Override
@@ -243,6 +245,8 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         LogUtils.e(TAG, "onActivityResult: "+resultCode );
         if(resultCode==RESULT_CODE){
             getData();
+        }else if(resultCode==FINISH_RESULT){
+            showSharePop();
         }
     }
 

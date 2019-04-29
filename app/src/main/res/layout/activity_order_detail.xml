@@ -202,7 +202,6 @@
                         android:layout_height="40dp">
 
                         <TextView
-                            android:id="@+id/tv_yuer_des"
                             style="@style/smallGrayTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -210,6 +209,24 @@
 
                         <TextView
                             android:id="@+id/tv_bc_money"
+                            style="@style/moneyGrayText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-￥0" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+
+                        <TextView
+                            style="@style/smallGrayTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="红包余额:" />
+
+                        <TextView
+                            android:id="@+id/tv_hb_money"
                             style="@style/moneyGrayText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

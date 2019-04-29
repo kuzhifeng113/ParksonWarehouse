@@ -93,7 +93,6 @@ public class FansFragment extends BaseFragmentTwo {
         fansAdapter.setOnButtonClickListener(new FansAdapter.OnButtonClickListener() {
             @Override
             public void onButtonClick(View view, int positon) {
-                LogUtils.e(TAG,"============");
                 checkPermission(listDatas.get(positon).getMobile());
             }
         });

@@ -46,10 +46,19 @@ public class OrderDetailBean {
     private int billStatus;
     private String bcCoin;
     private String bcMoney;
+    private String bcHb;
     private int tradeType;
     private boolean status;
     private List<BillDetailListBean> billDetailList;
     private String shareMoney;
+
+    public String getBcHb() {
+        return bcHb;
+    }
+
+    public void setBcHb(String bcHb) {
+        this.bcHb = bcHb;
+    }
 
     public String getShareMoney() {
         return shareMoney;

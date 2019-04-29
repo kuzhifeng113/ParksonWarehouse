@@ -56,7 +56,7 @@ public class FansAdapter extends RecyclerView.Adapter<FansAdapter.MyViewHolder> 
         holder.tv_phone.setText(voteBean.getMobile());
 
         if( onButtonClickListener!= null){
-            holder.itemView.setOnClickListener( new View.OnClickListener() {
+            holder.btn_call.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onButtonClickListener.onButtonClick(v,position);
