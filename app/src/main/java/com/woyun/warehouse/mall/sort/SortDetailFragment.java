@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.woyun.warehouse.R;
+
 import com.woyun.warehouse.utils.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +37,9 @@ public class SortDetailFragment extends BaseFragment<SortDetailPresenter, String
 
     @Override
     protected void initCustomView(View view) {
+        Log.e(TAG, "initCustomView: ============" );
         mRv = (RecyclerView) view.findViewById(R.id.rv);
-
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -206,4 +210,8 @@ public class SortDetailFragment extends BaseFragment<SortDetailPresenter, String
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

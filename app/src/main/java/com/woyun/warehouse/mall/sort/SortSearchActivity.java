@@ -22,6 +22,7 @@ import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
+
 import com.woyun.warehouse.bean.SearchBean;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeVipActivity;
 import com.woyun.warehouse.mall.activity.SearchActivity;
@@ -31,6 +32,7 @@ import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,6 +61,7 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
     private SortAdapter sortAdapter;
     private SortDetailFragment mSortDetailFragment;
     private int targetPosition;//点击左边某一个具体的item的位置
+    private int categoryId;
     private boolean isMoved;
     private SortBean mSortBean;
     private List<SortBean> sortBeanList=new ArrayList<>();
@@ -68,7 +71,7 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
         setContentView(R.layout.activity_sort_search);
         ButterKnife.bind(this);
         mContext=this;
-
+        categoryId=getIntent().getIntExtra("categoryId",0);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,24 +143,21 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
     //初始化数据
     private void parserData(List<SortBean> data) {
         sortBeanList.addAll(data);
-        List<String> list = new ArrayList<>();
         //初始化左侧列表数据
-        for (int i = 0; i < data.size(); i++) {
-            list.add(data.get(i).getName());
-        }
 
-        sortAdapter = new SortAdapter(mContext, list, new RvListener() {
+        sortAdapter = new SortAdapter(mContext, sortBeanList, new RvListener() {
             @Override
             public void onItemClick(int id, int position) {
                 if (mSortDetailFragment != null) {
                     isMoved = true;
                     targetPosition = position;
-                    setChecked(position, true);
+                    setLeftChecked(position, true);
                 }
             }
         });
         recyclerViewBig.setAdapter(sortAdapter);
         createFragment();
+
     }
 
     @Override
@@ -166,9 +166,14 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
         mImmersionBar.statusBarDarkFont(true).init();
     }
 
+    /**
+     *
+     * @param position
+     * @param isLeft
 
-    private void setChecked(int position, boolean isLeft) {
-        Log.d("p-------->", String.valueOf(position));
+     */
+    private void setLeftChecked(int position, boolean isLeft) {
+        LogUtils.e("p--------==>", String.valueOf(position));
         if (isLeft) {
             sortAdapter.setCheckedPosition(position);
             //此处的位置需要根据每个分类的集合来进行计算
@@ -204,11 +209,26 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
         mSortDetailFragment.setListener(this);
         fragmentTransaction.add(R.id.lin_fragment, mSortDetailFragment);
         fragmentTransaction.commit();
+
+        //根据前个页面传过来的categoryid 确定 左侧选中的位置
+        for (int i = 0; i < sortBeanList.size(); i++) {
+            if(sortBeanList.get(i).getCategoryId()==categoryId){
+                LogUtils.e(TAG,"targetPosition="+targetPosition);
+                if (mSortDetailFragment != null) {
+                    isMoved = true;
+                    targetPosition = i;
+                    setLeftChecked(i, true);
+                }
+                break;
+            }
+        }
+
     }
 
+    //fragment 上下滑动 回调接口
     @Override
     public void check(int position, boolean isScroll) {
-        setChecked(position, isScroll);
+        setLeftChecked(position, isScroll);
     }
 
     //将当前选中的item居中

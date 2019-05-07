@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.woyun.warehouse.R;
+import com.woyun.warehouse.utils.LogUtils;
 
 /**
  * author pangchao
@@ -19,6 +21,7 @@ import com.woyun.warehouse.R;
  */
 
 public abstract class BaseFragment<T extends BasePresenter, V> extends Fragment implements View.OnClickListener, ViewCallBack<V> {
+    private static final String TAG = "BaseFragment";
     public T presenter;
     protected boolean isVisible;
     protected Context mContext;
@@ -30,6 +33,7 @@ public abstract class BaseFragment<T extends BasePresenter, V> extends Fragment 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LogUtils.e(TAG, "onCreateView: ----------------------------");
         mContext = getActivity();
         View view = initView(inflater, container);
         initListener();

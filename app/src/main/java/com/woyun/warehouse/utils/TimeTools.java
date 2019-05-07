@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Author :leilei on 2016/11/11 2326.
+ *
  */
 public class TimeTools {
 

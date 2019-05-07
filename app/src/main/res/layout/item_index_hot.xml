@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/iv_show_pic"
+        android:layout_marginTop="11dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:src="@mipmap/img_default"
+        android:scaleType="fitXY" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewHotGoods"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

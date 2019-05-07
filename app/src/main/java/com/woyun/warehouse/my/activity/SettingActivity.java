@@ -45,6 +45,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlAccountBind;
     @BindView(R.id.rl_real_name)
     RelativeLayout rlRealName;
+    @BindView(R.id.rl_address)
+    RelativeLayout rlAddress;
     @BindView(R.id.rl_account_safe)
     RelativeLayout rlAccountSafe;
     @BindView(R.id.img_update)
@@ -100,12 +102,17 @@ public class SettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.rl_user_info, R.id.rl_account_bind, R.id.rl_account_safe, R.id.rl_check_update, R.id.rl_pro_advice, R.id.rl_about_bsc, R.id.btn_login_out,R.id.rl_real_name})
+    @OnClick({R.id.rl_user_info, R.id.rl_account_bind, R.id.rl_account_safe, R.id.rl_check_update, R.id.rl_pro_advice, R.id.rl_about_bsc, R.id.btn_login_out,R.id.rl_real_name,R.id.rl_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_user_info://个人资料
                 Intent userInfo = new Intent(SettingActivity.this, UserInfoActivity.class);
                 startActivity(userInfo);
+                break;
+            case R.id.rl_address://收货地址
+                Intent address = new Intent(SettingActivity.this, MyAddressActivity.class);
+                address.putExtra("from_my", true);
+                startActivity(address);
                 break;
             case R.id.rl_account_bind://账号绑定
                 Intent bind = new Intent(SettingActivity.this, BindAccountActivity.class);

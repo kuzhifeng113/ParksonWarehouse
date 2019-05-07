@@ -11,7 +11,7 @@ import com.woyun.warehouse.R;
 
 import java.util.List;
 
-public class SortAdapter extends RvAdapter<String> {
+public class SortAdapter extends RvAdapter<SortBean> {
 
     private int checkedPosition;//选中 position
 
@@ -20,7 +20,7 @@ public class SortAdapter extends RvAdapter<String> {
         notifyDataSetChanged();
     }
 
-    public SortAdapter(Context context, List<String> list, RvListener listener) {
+    public SortAdapter(Context context, List<SortBean> list, RvListener listener) {
         super(context, list, listener);
     }
 
@@ -34,7 +34,7 @@ public class SortAdapter extends RvAdapter<String> {
         return new SortHolder(view, viewType, listener);
     }
 
-    private class SortHolder extends RvHolder<String> {
+    private class SortHolder extends RvHolder<SortBean> {
 
         private TextView tvName;
         private View mView,viewRed;
@@ -47,8 +47,8 @@ public class SortAdapter extends RvAdapter<String> {
         }
 
         @Override
-        public void bindHolder(String string, int position) {
-            tvName.setText(string);
+        public void bindHolder(SortBean sortBean, int position) {
+            tvName.setText(sortBean.getName());
             if (position == checkedPosition) {
                 viewRed.setVisibility(View.VISIBLE);
                 mView.setBackgroundColor(Color.parseColor("#FFFFFF"));

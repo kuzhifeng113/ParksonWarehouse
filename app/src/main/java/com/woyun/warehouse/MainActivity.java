@@ -37,6 +37,7 @@ import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UnReadNumBean;
 import com.woyun.warehouse.cart.CartFragment;
 import com.woyun.warehouse.grabbuy.GrabBuyFragmentTwo;
+import com.woyun.warehouse.mall.MallFragmentFour;
 import com.woyun.warehouse.mall.MallFragmentTwo;
 import com.woyun.warehouse.mall.activity.GoodsDetailNativeActivity;
 import com.woyun.warehouse.my.MyFragment;
@@ -182,7 +183,8 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setSlide(false);
         List<Fragment> list = new ArrayList<>();
-        list.add(new MallFragmentTwo());
+//        list.add(new MallFragmentTwo());
+        list.add(new MallFragmentFour());
         list.add(new WelfareFragment());
 //        list.add(new GrabBuyFragment());
         list.add(new GrabBuyFragmentTwo());
@@ -208,10 +210,18 @@ public class MainActivity extends BaseActivity {
         if (intent != null) {
             boolean toCart = intent.getBooleanExtra("go_cart", false);
             boolean toMoney = intent.getBooleanExtra("go_makemoney", false);
+            boolean toGrab = intent.getBooleanExtra("go_grab", false);
+            boolean toRedArea = intent.getBooleanExtra("go_redarea", false);
             if (toCart) {
                 viewPager.setCurrentItem(3);
             }
             if (toMoney) {
+                viewPager.setCurrentItem(1);
+            }
+            if(toGrab){
+                viewPager.setCurrentItem(2);
+            }
+            if(toRedArea){
                 viewPager.setCurrentItem(1);
             }
 

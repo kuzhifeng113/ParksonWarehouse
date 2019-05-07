@@ -162,6 +162,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
                             android:text="会员中心"
+                            android:textStyle="bold"
                             android:textColor="#373A42"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -187,6 +188,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
                             android:text="我的粉丝"
+                            android:textStyle="bold"
                             android:textColor="#373A42"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -212,12 +214,13 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
                             android:text="我的收藏"
+                            android:textStyle="bold"
                             android:textColor="#373A42"
                             android:textSize="12sp" />
 
                     </LinearLayout>
 
-
+                    <!--客服消息-->
                     <LinearLayout
                         android:id="@+id/ll_my_address"
                         android:layout_width="0dp"
@@ -230,14 +233,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@mipmap/my_sh_address" />
+                            android:src="@mipmap/my_kefu" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
-                            android:text="收货地址"
+                            android:text="客服通知"
+                            android:textStyle="bold"
                             android:textColor="#373A42"
                             android:textSize="12sp" />
 

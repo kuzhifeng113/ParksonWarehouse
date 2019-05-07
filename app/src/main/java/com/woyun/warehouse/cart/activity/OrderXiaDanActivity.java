@@ -188,6 +188,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
             }
         });
 
+
         getAddressData(loginUserId, rushId, goodsId);
 
         switchBcoin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

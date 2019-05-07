@@ -44,6 +44,7 @@ import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
 import com.woyun.warehouse.bean.UserInfoTwoBean;
+import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
 import com.woyun.warehouse.my.activity.MyAddressActivity;
 import com.woyun.warehouse.my.activity.MyCollectionActivity;
@@ -260,7 +261,10 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
         shareContent = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_CONTENT, "");
         shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
         shareDownUrl = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_URL, "");
-        checkUserId(userId);
+        if(isVisible){
+            checkUserId(userId);
+        }
+
         LogUtils.e(TAG, "onFragmentVisibleChangeisVip: " + isVip);
         LogUtils.e(TAG, "onFragmentVisibleChangeisAgent: " + isAgent);
     }
@@ -338,10 +342,12 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
                 Intent collect = new Intent(getActivity(), MyCollectionActivity.class);
                 startActivity(collect);
                 break;
-            case R.id.ll_my_address://收货地址
-                Intent address = new Intent(getActivity(), MyAddressActivity.class);
-                address.putExtra("from_my", true);
-                startActivity(address);
+            case R.id.ll_my_address://收货地址----客服通知
+//                Intent address = new Intent(getActivity(), MyAddressActivity.class);
+//                address.putExtra("from_my", true);
+//                startActivity(address);
+                Intent mess = new Intent(getActivity(), MessageActivity.class);
+                startActivity(mess);
                 break;
             case R.id.ll_vip_center:// 会员中心
                 toVip();
