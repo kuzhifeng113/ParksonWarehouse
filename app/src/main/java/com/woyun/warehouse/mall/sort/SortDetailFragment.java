@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.woyun.warehouse.R;
 
+import com.woyun.warehouse.baseparson.event.SortEvent;
 import com.woyun.warehouse.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,9 +38,9 @@ public class SortDetailFragment extends BaseFragment<SortDetailPresenter, String
 
     @Override
     protected void initCustomView(View view) {
-        Log.e(TAG, "initCustomView: ============" );
+        LogUtils.e(TAG, "initCustomView: ============" );
         mRv = (RecyclerView) view.findViewById(R.id.rv);
-//        EventBus.getDefault().register(this);
+
     }
 
     @Override

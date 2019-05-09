@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -82,6 +83,7 @@ import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -180,7 +182,8 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
     TextView tvPrice;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
-
+    @BindView(R.id.rl_viewpage)
+    RelativeLayout rlViewPage;
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
@@ -323,11 +326,11 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
         }
         initData();
 
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        int width = outMetrics.widthPixels;
-        int height = outMetrics.heightPixels;
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(GoodsDetailNativeActivity.this);
+        int height = displayMetrics.heightPixels;
+
+       setViewHeight(rlViewPage,displayMetrics.widthPixels);
+
 //        Log.e(TAG, "onCreate: 屏幕高2"+height);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -342,6 +345,7 @@ public class GoodsDetailNativeActivity extends BaseActivity implements CommonPop
             }
         });
     }
+
 
     private void initData() {
         getData(goodsId);

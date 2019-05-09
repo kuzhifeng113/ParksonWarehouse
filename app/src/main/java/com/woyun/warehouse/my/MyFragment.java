@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.MyWebViewActivity;
 import com.woyun.warehouse.baseparson.event.SaveUserEvent;
+import com.woyun.warehouse.baseparson.event.UnReadMessEvent;
 import com.woyun.warehouse.bean.UserInfoTwoBean;
 import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.my.activity.CangCoinActivity;
@@ -77,6 +79,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.leolin.shortcutbadger.ShortcutBadger;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 import static com.woyun.warehouse.utils.ShareWx.bmpToByteArray;
 import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
@@ -197,6 +202,11 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
     @BindView(R.id.img_vip_enter)
     ImageView imgVipEnter;
 
+    @BindView(R.id.img_kefu_num)
+    ImageView img_kefu_num;
+
+
+
     private boolean isAgent;//是否是代理
     private boolean isVip;//是否是VIP
     private String userId;
@@ -208,7 +218,7 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
     private String shareTile, shareContent, shareDownUrl, shareIcon;
 
     private String vipewm, wxh;
-
+    Badge badge;
     public static MyFragment newInstance() {
         MyFragment fragment = new MyFragment();
         return fragment;
@@ -223,6 +233,7 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
         unbinder = ButterKnife.bind(this, view);
         userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
         EventBus.getDefault().register(this);
+        badge = new QBadgeView(getActivity());
         mContext = getActivity();
         mIUiListener = new ShareQQListener();
         iwxApi = WXAPIFactory.createWXAPI(getActivity(), Constant.WX_APP_ID);
@@ -234,6 +245,7 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
+            LogUtils.e(TAG, "setUserVisibleHint: ========");
             userId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
         }
         super.setUserVisibleHint(isVisibleToUser);
@@ -248,6 +260,34 @@ public class MyFragment extends BaseFragmentTwo implements CommonPopupWindow.Vie
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(UnReadMessEvent event) {
+        LogUtils.e(TAG, "Event:==未读消息=== " + event.getNum());
+        if(event.getNum()>0){
+            setUnreadNum(event.getNum());
+        }
+    }
+
+    /**
+     * 设置消息红点
+     *
+     * @param num
+     */
+    private void setUnreadNum(int num) {
+        badge.bindTarget(img_kefu_num).setBadgeGravity(Gravity.END | Gravity.TOP);
+        badge.setBadgePadding(3.5f, true);
+        badge.setBadgeGravity(Gravity.END | Gravity.TOP);
+//        badge.setGravityOffset(9, 8, true);
+
+//        badge2.setGravityOffset(9,8,true);
+        if (num > 0) {
+            badge.setBadgeText(String.valueOf(num));
+            ShortcutBadger.applyCount(getActivity(), num); //for 1.1.4+
+        } else {
+            badge.hide(false);
+            ShortcutBadger.removeCount(getActivity()); //for 1.1.4+
+        }
+    }
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();

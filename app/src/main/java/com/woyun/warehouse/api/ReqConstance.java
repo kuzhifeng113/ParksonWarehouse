@@ -8,11 +8,11 @@ public class ReqConstance {
         public static final String VER = "/v1";
         public static final String VER2 = "/v2";
 //        本地地址
-        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
-        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
+//        public static final String HOST_ADDR = "http://192.168.0.168:8080" + VER;
+//        public static final String HOST_ADDR_TWO = "http://192.168.0.168:8080" + VER2;
         //服务器地址
-//        public static final String HOST_ADDR = "https://api.bscvip.com" + VER;
-//        public static final String HOST_ADDR_TWO = "https://api.bscvip.com" + VER2;
+        public static final String HOST_ADDR = "https://api.bscvip.com" + VER;
+        public static final String HOST_ADDR_TWO = "https://api.bscvip.com" + VER2;
 //
 //        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
 //        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
@@ -76,6 +76,8 @@ public class ReqConstance {
         public static final int I_RESET_USER_SECOND_PWD = 122;
         //
         public static final int I_FUSERID_LIST = 123;
+
+        public static final int I_FUSERID_NUM = 124;
 
         ///////////////////////VIP 订单////////////////////////////////
         public static final String PAY_PREFIX = "/pay";

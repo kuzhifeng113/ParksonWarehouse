@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         isLogin = (boolean) SPUtils.getInstance(MainActivity.this).get(Constant.IS_LOGIN, false);
-        if (viewPager.getCurrentItem() == 0) {//通知MallFragment 更新消息状态
+        if (viewPager.getCurrentItem() == 0||viewPager.getCurrentItem()==4) {//通知MallFragment 更新消息状态
             LogUtils.e(TAG, "onResume:Mall============== ");
             getNoReadNum(loginUserId);
         }

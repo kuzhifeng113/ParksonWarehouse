@@ -70,6 +70,7 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort_search);
         ButterKnife.bind(this);
+
         mContext=this;
         categoryId=getIntent().getIntExtra("categoryId",0);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -210,18 +211,18 @@ public class SortSearchActivity extends BaseActivity implements CheckListener {
         fragmentTransaction.add(R.id.lin_fragment, mSortDetailFragment);
         fragmentTransaction.commit();
 
-        //根据前个页面传过来的categoryid 确定 左侧选中的位置
-        for (int i = 0; i < sortBeanList.size(); i++) {
-            if(sortBeanList.get(i).getCategoryId()==categoryId){
-                LogUtils.e(TAG,"targetPosition="+targetPosition);
-                if (mSortDetailFragment != null) {
-                    isMoved = true;
-                    targetPosition = i;
-                    setLeftChecked(i, true);
-                }
-                break;
-            }
-        }
+//        //根据前个页面传过来的categoryid 确定 左侧选中的位置
+//        for (int i = 0; i < sortBeanList.size(); i++) {
+//            if(sortBeanList.get(i).getCategoryId()==categoryId){
+//                LogUtils.e(TAG,"targetPosition="+targetPosition);
+//                if (mSortDetailFragment != null) {
+//                    isMoved = true;
+//                    targetPosition = i;
+//                    setLeftChecked(i, true);
+//                }
+//                break;
+//            }
+//        }
 
     }
 

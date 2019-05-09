@@ -17,28 +17,19 @@ import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
-import com.woyun.warehouse.SplashActivity;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragmentTwo;
-import com.woyun.warehouse.baseparson.event.FansEvent;
-import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
 import com.woyun.warehouse.bean.FansBean;
-import com.woyun.warehouse.bean.GrabGoodsBean;
-import com.woyun.warehouse.grabbuy.adapter.GrabGoodsAdapter;
 import com.woyun.warehouse.my.adapter.FansAdapter;
 import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.SPUtils;
 import com.woyun.warehouse.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -48,7 +39,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.functions.Consumer;
 
 /**
  * 粉丝
@@ -146,7 +136,7 @@ public class FansFragment extends BaseFragmentTwo {
     }
 
     /**
-     * 获取全部订单
+     *
      * 是否vip，isVip=0表示非vip，isVip=1表示vip
      */
     private void getData(String userId, int issVip) {
@@ -164,7 +154,6 @@ public class FansFragment extends BaseFragmentTwo {
                         List<FansBean> grabGoodsBeanList = gson.fromJson(jsonResult, new TypeToken<List<FansBean>>() {
                         }.getType());
 //                            Log.e(TAG, "requestSuccess: "+grabGoodsBeanList.size() );
-                        EventBus.getDefault().post(new FansEvent(issVip, grabGoodsBeanList.size()));
                         listDatas.addAll(grabGoodsBeanList);
                         fansAdapter.notifyDataSetChanged();
                     } else {

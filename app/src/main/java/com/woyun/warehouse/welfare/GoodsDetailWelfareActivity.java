@@ -86,6 +86,7 @@ import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -169,7 +170,8 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
     TextView tvPrice;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
-
+    @BindView(R.id.rl_viewpage)
+    RelativeLayout rlViewPage;
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
@@ -257,11 +259,9 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         }
         initData();
 
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        int width = outMetrics.widthPixels;
-        int height = outMetrics.heightPixels;
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(GoodsDetailWelfareActivity.this);
+        int height = displayMetrics.heightPixels;
+        setViewHeight(rlViewPage,displayMetrics.widthPixels);
 //        Log.e(TAG, "onCreate: 屏幕高2"+height);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override

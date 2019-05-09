@@ -99,6 +99,7 @@ import com.woyun.warehouse.view.BuyVipDialog;
 import com.woyun.warehouse.view.CommonPopupWindow;
 import com.woyun.warehouse.view.DropEditText;
 import com.woyun.warehouse.view.InvoiceDialog;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -198,6 +199,8 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
     TextView tvPrice;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
+    @BindView(R.id.rl_viewpage)
+    RelativeLayout rlViewPage;
 
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
@@ -333,11 +336,10 @@ public class GoodsDetailNativeVipActivity extends BaseActivity implements Common
         }
         initData();
 
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        int width = outMetrics.widthPixels;
-        int height = outMetrics.heightPixels;
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(GoodsDetailNativeVipActivity.this);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        setViewHeight(rlViewPage,width);
 //        Log.e(TAG, "onCreate: 屏幕高2"+height);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override

@@ -8,17 +8,23 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.bean.GoodCategoryBean;
+import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import java.util.List;
 
@@ -96,6 +102,15 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
         holder.tv_supplier.setText(goodsListBean.getSupplier());
         holder.tv_show_num.setText("1/" + listData.get(position).getResList().size());
 
+        //设置viewPager 宽高比1:1
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(context);
+        int height=displayMetrics.widthPixels;
+//        Log.e(TAG, "onBindViewHolder: "+height );
+        LinearLayout.LayoutParams params = new
+                LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                height- DensityUtils.dp2px(context,20));
+        holder.rl_viewpage.setLayoutParams(params);
+
         holder.viewPager.setCurrentItem(0);
         bannerViewPageAdapter = new BannerViewPageAdapter(context, holder.viewPager, listData.get(position).getResList());
         holder.viewPager.setAdapter(bannerViewPageAdapter);
@@ -147,12 +162,14 @@ public class MallGoodGoodsAdapter extends RecyclerView.Adapter<MallGoodGoodsAdap
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         android.support.v4.view.ViewPager viewPager;
+        RelativeLayout rl_viewpage;
         TextView tv_y,tv_show_num, tv_vip_price, tv_vip_back, tv_goods_price, tv_goods_title;
         TextView tv_youfei, tv_sales_volume, tv_kucun, tv_supplier;
         Button btn_buy;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            rl_viewpage=itemView.findViewById(R.id.rl_viewpage);
             viewPager = itemView.findViewById(R.id.viewPager);
             tv_y=itemView.findViewById(R.id.tv_y);
             tv_show_num = itemView.findViewById(R.id.tv_show_num);

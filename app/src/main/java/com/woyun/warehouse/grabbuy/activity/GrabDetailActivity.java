@@ -87,6 +87,7 @@ import com.woyun.warehouse.utils.TimeTools;
 import com.woyun.warehouse.utils.ToastUtils;
 import com.woyun.warehouse.utils.UdeskHelp;
 import com.woyun.warehouse.view.CommonPopupWindow;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -186,7 +187,8 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     TextView tvLessMoney;
     @BindView(R.id.btn_share_jian)
     LinearLayout btnShareJian;
-
+    @BindView(R.id.rl_viewpage)
+    RelativeLayout rlViewPage;
 
     private List<SkuListBean> skuListBeanList = new ArrayList<>();
     private GoodsDetailBean goodsDetailBean;
@@ -272,8 +274,8 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         rushId = getIntent().getIntExtra("rush_id", 0);
 //        startTime = getIntent().getLongExtra("start_time", 0);
 //        endTime = getIntent().getLongExtra("end_time", 0);
-        Log.e(TAG, "onCreateendTime==: " + startTime);
-        Log.e(TAG, "onCreatestartTime==: " + endTime);
+        LogUtils.e(TAG, "onCreateendTime==: " + startTime);
+        LogUtils.e(TAG, "onCreatestartTime==: " + endTime);
         shareUrl = Constant.WEB_SHARE_GOODS2 + "?goodsId=" + goodsId + "&share=" + loginUserId;
         kfGoodsUrl = Constant.WEB_SHARE_GOODS_KF + "?goodsId=" + goodsId;
 
@@ -287,11 +289,9 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         }
         initData();
 
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        int width = outMetrics.widthPixels;
-        int height = outMetrics.heightPixels;
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(GrabDetailActivity.this);
+        int height = displayMetrics.heightPixels;
+        setViewHeight(rlViewPage,displayMetrics.widthPixels);
 //        Log.e(TAG, "onCreate: 屏幕高2"+height);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -313,7 +313,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getShareValue(ShareEvent shareEvent) {
-        Log.e(TAG, "getShareValue: "+shareEvent.isShare() );
+        LogUtils.e(TAG, "getShareValue: "+shareEvent.isShare() );
         if(shareEvent.isShare()){
            shareSussessRequest();
         }
@@ -338,7 +338,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
-                    Log.e(TAG, "onAdded:resultMemo= " + resultMemo);
+                    LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
                     if (type == 1) {
                         addCart(sku, quantity, resultMemo);
                     } else {
@@ -532,7 +532,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                     }
                 }
 
-                Log.e(TAG, "onItemClick: a===" + a);
+                LogUtils.e(TAG, "onItemClick: a===" + a);
 
                 Intent toLook = new Intent(GrabDetailActivity.this, LookImageVideoActivity.class);
                 toLook.putExtra("reslist", (Serializable) contentResList);
@@ -564,7 +564,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
                     goLogin();
                     return;
                 }
-                Log.e(TAG, "onViewClicked: kf");
+                LogUtils.e(TAG, "onViewClicked: kf");
 //                UdeskSDKManager.getInstance().initApiKey(getApplicationContext(), Constant.UDESK_DOMAN,
 //                        Constant.UDESK_KEY, Constant.UDESK_APPID);
                 String sdkToken = loginUserId;
@@ -775,7 +775,6 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "onDestroy: ");
 //        webView.destroy();
         EventBus.getDefault().unregister(this);
         mAgentWeb.getWebLifeCycle().onDestroy();
@@ -1045,20 +1044,20 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     class ShareQQListener implements IUiListener {
         @Override
         public void onComplete(Object object) {
-            Log.e(TAG, "onComplete: ");
+            LogUtils.e(TAG, "onComplete: ");
 //            Toast.makeText(MyCenterActivity.this, "分享完成:", Toast.LENGTH_LONG).show();
             shareSussessRequest();
         }
 
         @Override
         public void onError(UiError error) {
-            Log.e(TAG, "onError: ");
+            LogUtils.e(TAG, "onError: ");
             Toast.makeText(GrabDetailActivity.this, "分享失败:" + error.errorMessage, Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onCancel() {
-            Log.e(TAG, "onCancel: ");
+            LogUtils.e(TAG, "onCancel: ");
 //            Toast.makeText(MyCenterActivity.this, "分享取消", Toast.LENGTH_LONG).show();
         }
     }
@@ -1079,7 +1078,7 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
     @Override
     public void onWbShareSuccess() {
 //        Toast.makeText(this, R.string.weibosdk_demo_toast_share_success, Toast.LENGTH_LONG).show();
-        Log.e(TAG, "onWbShareSuccess: ====" );
+        LogUtils.e(TAG, "onWbShareSuccess: ====" );
         shareSussessRequest();
     }
 
@@ -1129,13 +1128,13 @@ public class GrabDetailActivity extends BaseActivity implements CommonPopupWindo
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             //do you  work
             ModelLoading.getInstance(GrabDetailActivity.this).showLoading("", true);
-            Log.e("Info", "BaseWebActivity onPageStarted");
+            LogUtils.e("Info", "BaseWebActivity onPageStarted");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            Log.e(TAG, "onPageFinished: ");
+            LogUtils.e(TAG, "onPageFinished: ");
             ModelLoading.getInstance(GrabDetailActivity.this).closeLoading();
             //webview加载完成之后重新测量webview的高度
             ViewGroup.LayoutParams params = mLinearLayout.getLayoutParams();

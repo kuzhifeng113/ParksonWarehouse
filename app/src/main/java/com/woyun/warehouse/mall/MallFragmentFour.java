@@ -19,11 +19,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +74,7 @@ import com.woyun.warehouse.mall.activity.MessageActivity;
 import com.woyun.warehouse.mall.adapter.MainHotAdapter;
 import com.woyun.warehouse.mall.adapter.MainRushAdapter;
 import com.woyun.warehouse.mall.adapter.MainSmallAdapter;
+import com.woyun.warehouse.mall.sort.SortDetailActivity;
 import com.woyun.warehouse.mall.sort.SortSearchActivity;
 import com.woyun.warehouse.my.activity.VipEnterActivity;
 import com.woyun.warehouse.utils.DensityUtils;
@@ -87,6 +90,7 @@ import com.woyun.warehouse.view.CornerTransform;
 import com.woyun.warehouse.vote.fragment.HostFragmentTwo;
 import com.woyun.warehouse.welfare.GoodsDetailWelfareActivity;
 import com.woyun.warehouse.welfare.WelfareFragment;
+import com.wuhenzhizao.titlebar.utils.ScreenUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -174,6 +178,11 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
     @BindView(R.id.img_share)
     ImageView imgShare;
 
+    @BindView(R.id.imgTop)
+    ImageView imgTop;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
+
     //    @BindView(R.id.tablayout)
 //    TabLayout hostTab;
 //    @BindView(R.id.host_viewpager)
@@ -233,9 +242,13 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
                     chaTime = chaTime - 1000;
                     if (chaTime > 0) {
                         mHandler.sendEmptyMessageDelayed(TIME_DESC, 1000);
-                        tvEndTime.setText(TimeTools.getCountTimeByLong(chaTime));
+                        if(tvEndTime!=null){
+                            tvEndTime.setText(TimeTools.getCountTimeByLong(chaTime));
+                        }
                     } else {
-                        tvEndTime.setText("已结束");
+                        if(tvEndTime!=null){
+                            tvEndTime.setText("已结束");
+                        }
                     }
                     break;
                 case COMPLETE_WAEL:
@@ -270,10 +283,13 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
         recyclerViewSmall.setAdapter(smallAdapter);
         //
         smallAdapter.setOnItemClickListener(position -> {
-            Intent search = new Intent(getActivity(), SortSearchActivity.class);
+            Intent search = new Intent();
             if (position != smallList.size() - 1) {
-                search.putExtra("position", position);
-                search.putExtra("categoryId", smallList.get(position).getCategoryId());
+                search.setClass(getActivity(),SortDetailActivity.class);
+                search.putExtra("category_id",hotListData.get(position).getCategoryId());
+                search.putExtra("category_name",hotListData.get(position).getName());
+            }else{
+                search.setClass(getActivity(),SortSearchActivity.class);
             }
 
             startActivity(search);
@@ -300,9 +316,14 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
 
         //imgClick
         hotAdapter.setOnButtonClickListener(position -> {
-            Intent intent = new Intent(getActivity(), SortSearchActivity.class);
-            intent.putExtra("position", position);
-            intent.putExtra("categoryId", hotListData.get(position).getCategoryId());
+//            Intent intent = new Intent(getActivity(), SortSearchActivity.class);
+//            intent.putExtra("position", position);
+//            intent.putExtra("categoryId", hotListData.get(position).getCategoryId());
+//            startActivity(intent);
+
+            Intent intent=new Intent(getActivity(),SortDetailActivity.class);
+            intent.putExtra("category_id",hotListData.get(position).getCategoryId());
+            intent.putExtra("category_name",hotListData.get(position).getName());
             startActivity(intent);
         });
 
@@ -313,6 +334,21 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
 //        recyclerView.setAdapter(mallHomeAdapter);
         initData();
 
+        DisplayMetrics displayMetrics = ScreenUtils.getDisplayMetrics(getActivity());
+        int height = displayMetrics.heightPixels;
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.e(TAG, "onScrollChange: 滑动后 Y " + scrollY);
+
+                if (scrollY > 2.5 * height) {//大于2个屏幕的高度
+                    imgTop.setVisibility(View.VISIBLE);
+                } else {
+                    imgTop.setVisibility(View.GONE);
+                }
+            }
+        });
 
         return view;
     }
@@ -702,7 +738,7 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
         unbinder.unbind();
     }
 
-    @OnClick({R.id.img_mall_xin, R.id.img_mall_lv, R.id.img_mall_bao, R.id.img_left, R.id.img_right, R.id.img_tool_mess, R.id.tv_more_qg, R.id.tv_red_area, R.id.img_red_goods, R.id.img_share})
+    @OnClick({R.id.img_mall_xin, R.id.img_mall_lv, R.id.img_mall_bao, R.id.img_left, R.id.img_right, R.id.img_tool_mess, R.id.tv_more_qg, R.id.tv_red_area, R.id.img_red_goods, R.id.img_share,R.id.imgTop})
     public void onViewClicked(View view) {
         boolean isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
         switch (view.getId()) {
@@ -780,7 +816,7 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
                         .setShowIndicator(false)// 设置是否显示顶部的指示器（1/9）。默认显示
                         .start();
                 break;
-            case R.id.img_left:
+            case R.id.img_left://
                 Intent intentLeft = new Intent(getActivity(), MallGoodGoodsActivity.class);
                 intentLeft.putExtra("goodsmall_type", 12);
                 startActivity(intentLeft);
@@ -830,6 +866,10 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
                 returnBitMap(shareIcon);
 //                showSharePop();
                 break;
+            case R.id.imgTop://置顶
+                nestedScrollView.fling(0);
+                nestedScrollView.smoothScrollTo(0, 0);
+                break;
         }
     }
 
@@ -839,6 +879,7 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+        mHandler.removeCallbacksAndMessages(null);
 
     }
 

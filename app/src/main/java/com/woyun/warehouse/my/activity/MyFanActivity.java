@@ -9,24 +9,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseActivity;
 import com.woyun.warehouse.baseparson.adapter.FragmentPageAdapter;
-import com.woyun.warehouse.baseparson.event.FansEvent;
-import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
-import com.woyun.warehouse.bean.CangCoinTwoBean;
 import com.woyun.warehouse.my.fragment.FansFragment;
 import com.woyun.warehouse.utils.LogUtils;
-import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,9 +60,9 @@ public class MyFanActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_fan);
         ButterKnife.bind(this);
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this);
+//        }
         tvVip.setTextColor(Color.parseColor("#FF373A42"));
         tvNoVip.setTextColor(Color.parseColor("#FFAFAFAF"));
 
@@ -80,21 +72,20 @@ public class MyFanActivity extends BaseActivity {
                 finish();
             }
         });
+        getData(loginUserId);
         initData();
 
-//        getData(loginUserId,1);
-
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void Event(FansEvent event) {
-        if(event.getIsVip()==0){//
-            tvNoVip.setText("普通会员 ("+event.getSize()+"人)");
-        }else {
-            tvVip.setText("VIP会员 ("+event.getSize()+"人)");
-        }
-
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void Event(FansEvent event) {
+//        if(event.getIsVip()==0){//
+//            tvNoVip.setText("普通会员 ("+event.getSize()+"人)");
+//        }else {
+//            tvVip.setText("VIP会员 ("+event.getSize()+"人)");
+//        }
+//
+//    }
 
     /**
      * 初始化
@@ -106,16 +97,16 @@ public class MyFanActivity extends BaseActivity {
         fragmentsList = new ArrayList<>();
         for (int i = 0; i < title.length; i++) {
             titles.add(title[i]);
-            fragmentsList.add(FansFragment.getInstance(1));
-            fragmentsList.add(FansFragment.getInstance(0));
         }
+        fragmentsList.add(FansFragment.getInstance(1));
+        fragmentsList.add(FansFragment.getInstance(0));
 
+        LogUtils.e(TAG, "initData: "+fragmentsList.size() );
 
         fragmentPageAdapter = new FragmentPageAdapter(getSupportFragmentManager(), fragmentsList, titles);
         viewPager.setOffscreenPageLimit(titles.size());
         viewPager.setAdapter(fragmentPageAdapter);
 
-        viewPager.setCurrentItem(0);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -148,12 +139,50 @@ public class MyFanActivity extends BaseActivity {
     }
 
 
+
+    private void getData(String userId) {
+        //获取数据
+        try {
+            JSONObject params = new JSONObject();
+            params.put("userid", userId);
+            RequestInterface.userPrefix(MyFanActivity.this, params, TAG , ReqConstance.I_FUSERID_NUM, 1, new HSRequestCallBackInterface() {
+                @Override
+                public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
+                    if (code == 0) {
+                        try {
+                            JSONObject object = (JSONObject) jsonArray.get(0);
+                            int unVipNum=object.getInt("unVipNum");
+                            int vipNum=object.getInt("vipNum");
+                            tvNoVip.setText("普通会员 ("+unVipNum+"人)");
+                            tvVip.setText("VIP会员 ("+vipNum+"人)");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                        Gson gson = new Gson();
+//                        List<FansBean> grabGoodsBeanList = gson.fromJson(jsonResult, new TypeToken<List<FansBean>>() {
+//                        }.getType());
+
+                    } else {
+                        ToastUtils.getInstanc(MyFanActivity.this).showToast(msg);
+                    }
+                }
+
+                @Override
+                public void requestError(String s, int i) {
+                    ToastUtils.getInstanc(MyFanActivity.this).showToast(s);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
+//        if(EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().unregister(this);
+//        }
     }
 
     @OnClick({R.id.tv_vip, R.id.tv_no_vip})

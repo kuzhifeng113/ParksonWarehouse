@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -102,5 +104,20 @@ public class BaseActivity extends AppCompatActivity {
             contenxt.finish();
             return;
         }
+    }
+
+    //动态设置代码高度 1:1
+    public void setViewHeight(View view,int height){
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                view.getViewTreeObserver().removeOnPreDrawListener(this);
+                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+                layoutParams.height = height;
+                view.setLayoutParams(layoutParams);
+                return true;
+            }
+        });
+
     }
 }

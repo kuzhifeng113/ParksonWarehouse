@@ -87,7 +87,7 @@ public class SortDetailActivity extends BaseActivity  {
         goodsAdapterOne = new CategoryGoodsAdapterTwo(mContext, allData);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(mContext, 30)));//垂直间距
+            recyclerView.addItemDecoration(new SpacesItemDecoration(DensityUtils.dp2px(mContext, 10)));//垂直间距
         }
         recyclerView.setAdapter(goodsAdapterOne);
 

@@ -40,7 +40,7 @@ public class CategoryGoodsAdapterTwo extends RecyclerView.Adapter<CategoryGoodsA
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_mall_ten, parent, false);
+                .inflate(R.layout.item_main_hot_detail, parent, false);
         return new MyViewHolder(view);
     }
 
