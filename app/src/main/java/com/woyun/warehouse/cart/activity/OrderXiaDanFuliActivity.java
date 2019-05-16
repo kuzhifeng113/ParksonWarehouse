@@ -128,6 +128,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
 
     private OrderXiaDanAdapter orderDeatailAdapter;
     private double totalPrice;
+    private int energyPrice;
 
     private double trnasPort = 0.0;//邮费
     private ShipAddressBean orderAddres;
@@ -136,6 +137,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
     private IWXAPI api;
     private String tradeNo;//生成订单的订单号
     private String shareMoney, bcHd;//仓币 余额  分享减免钱 红包余额
+    private int energy;//剩余能量
 
     private List<ShipAddressBean.InvoiceListBean> peopleDatas = new ArrayList<>();//个人发票集合
     private List<ShipAddressBean.InvoiceListBean> unitDatas = new ArrayList<>();//单位发票集合
@@ -177,21 +179,6 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
 
         getAddressData(loginUserId, rushId, goodsId);
 
-//        switchBcoin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                calculationPrice();
-//            }
-//        });
-
-//        switchBcmoney.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                calculationPrice();
-//            }
-//        });
     }
 
     private Handler mHandler = new Handler() {
@@ -233,6 +220,9 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
     private void initData() {
         List<CartShopBean.CartListBean> datas = (List<CartShopBean.CartListBean>) getIntent().getSerializableExtra("select_data");
         totalPrice = getIntent().getDoubleExtra("total_price", 0.0);
+        energyPrice=getIntent().getIntExtra("energyPrice",0);
+
+
         tvAllPrice.setText(String.valueOf(totalPrice));
         selectList.addAll(datas);
         orderDeatailAdapter.notifyDataSetChanged();
@@ -289,6 +279,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                             shareMoney = orderAddres.getShareMoney();
                             tvShareMoney.setText("-￥" + shareMoney);
                             bcHd = orderAddres.getBcHb();
+                            energy=orderAddres.getUnPack();
                             if (!shareMoney.equals("0")) {
                                 rlShare.setVisibility(View.VISIBLE);
                                 viewShare.setVisibility(View.VISIBLE);
@@ -312,7 +303,7 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
                                 county = orderAddres.getCounty();
                             }
 
-                            tvkyHbMoney.setText("可用红包余额：" + orderAddres.getBcHb());
+                            tvkyHbMoney.setText("剩余能量：" + orderAddres.getUnPack());
 
                             allInvoiceDatas = orderAddres.getInvoiceList();
                             calculationPrice();
@@ -362,6 +353,8 @@ public class OrderXiaDanFuliActivity extends BaseActivity implements CommonPopup
             tvHbMoney.setText("-￥0");
             zongjia = BigDecimalUtil.geSub(zongjia, 0);
         }
+        //消耗能量
+        tvHbMoney.setText("-"+energyPrice);
 
         //加上邮费
         zongjia = BigDecimalUtil.getAdd(zongjia, transPortPrice);

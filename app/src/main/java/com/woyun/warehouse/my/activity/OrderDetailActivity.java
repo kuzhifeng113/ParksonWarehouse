@@ -295,7 +295,7 @@ public class OrderDetailActivity extends BaseActivity implements CommonPopupWind
                             tvTransport.setText("￥" + String.valueOf(orderDetailBean.getTransport()));
                             tvBcCoin.setText("-￥" + String.valueOf(orderDetailBean.getBcCoin()));
                             tvBcMoney.setText("-￥" + String.valueOf(orderDetailBean.getBcMoney()));
-                            tvHbMoney.setText("-￥"+orderDetailBean.getBcHb());
+                            tvHbMoney.setText("-"+orderDetailBean.getBcHb());
                             tvShijiPay.setText("￥" + String.valueOf(orderDetailBean.getTotalFee()));
 
                             //红包商品支付的  余额---》红包余额

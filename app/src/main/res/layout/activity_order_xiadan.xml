@@ -153,7 +153,8 @@
                 <!--是否使用红包余额-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="50dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_keyong_hbmoney"
@@ -338,7 +339,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="54dp">
+                    android:layout_height="54dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/smallTitle"
@@ -369,7 +371,7 @@
                         style="@style/smallTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="仓币优惠:" />
+                        android:text="仓币红包优惠:" />
 
                     <TextView
                         android:id="@+id/tv_bc_coin"

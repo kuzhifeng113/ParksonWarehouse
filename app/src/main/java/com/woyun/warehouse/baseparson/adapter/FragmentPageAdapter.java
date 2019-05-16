@@ -38,8 +38,8 @@ public class FragmentPageAdapter extends FragmentPagerAdapter {
         return titleList.get(position);
     }
 
-    @Override
-    public int getItemPosition(@NonNull Object object) {
-        return POSITION_NONE;
-    }
+//    @Override
+//    public int getItemPosition(@NonNull Object object) {
+//        return POSITION_NONE;
+//    }
 }

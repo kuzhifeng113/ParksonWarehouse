@@ -70,6 +70,12 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
 
     private GrabGoodsAdapter grabGoodsAdapter;
     private List<GrabGoodsBean> listDatas=new ArrayList<>();
+    private boolean isRequestFaile=false;//是否请求失败
+
+    public boolean isRequestFaile() {
+        return isRequestFaile;
+    }
+
     private int k=1;
     //回调用来接收参数
     public static GrabGoodsFragment getInstance(int timeId) {
@@ -127,6 +133,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
+        LogUtils.e(TAG, "onFragmentFirstVisible: "+rushId );
         initData();
     }
 
@@ -182,6 +189,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
             RequestInterface.rushPrefix(getActivity(), params, TAG+rushBuyId, ReqConstance.I_RUSH_GOODS_GET_LIST, 1, new HSRequestCallBackInterface() {
                 @Override
                 public void requestSuccess(int funcID, int reqID, String reqToken, String msg, int code, JSONArray jsonArray) {
+                    isRequestFaile=false;
                         if (code == 0) {
                             String jsonResult = jsonArray.toString();
                             Gson gson = new Gson();
@@ -197,7 +205,7 @@ public class GrabGoodsFragment extends BaseFragmentTwo {
 
                 @Override
                 public void requestError(String s, int i) {
-
+                    isRequestFaile=true;
                 }
             });
         } catch (Exception e) {

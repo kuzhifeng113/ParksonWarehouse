@@ -45,6 +45,7 @@ import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
 import com.woyun.warehouse.utils.SpacesItemDecoration;
 import com.woyun.warehouse.utils.ToastUtils;
+import com.woyun.warehouse.view.AppBarStateChangeListener;
 import com.woyun.warehouse.view.ClearEditText;
 
 import org.json.JSONArray;
@@ -89,6 +90,8 @@ public class MallGoodGoodsActivity extends BaseActivity {
     TextView tvEmptyText;
     @BindView(R.id.app_bar)
     AppBarLayout appBar;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     private int categoryId;//分类ID categoryId=12 各地好货,categoryId=13 必选名品
     private int pager = 1;//当前页
@@ -106,6 +109,10 @@ public class MallGoodGoodsActivity extends BaseActivity {
         getWindow().setEnterTransition(new Fade().setDuration(500));
         ButterKnife.bind(this);
         initView();
+
+        toolBar.setNavigationOnClickListener(v -> {
+            finish();
+        });
 
         llContent.setFocusableInTouchMode(true);
         llContent.requestFocus();
@@ -222,6 +229,18 @@ public class MallGoodGoodsActivity extends BaseActivity {
 //                }
 //            }
 //        });
+        appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if(state==State.EXPANDED){//展开
+                    tv_title.setVisibility(View.INVISIBLE);
+                }else if(state==State.COLLAPSED){//折叠
+                    tv_title.setVisibility(View.VISIBLE);
+                }else{//中间
+                    tv_title.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
     private void operation() {
@@ -260,10 +279,12 @@ public class MallGoodGoodsActivity extends BaseActivity {
     private void initView() {
         categoryId = getIntent().getIntExtra("goodsmall_type", 0);
         if (categoryId == 12) {
+            tv_title.setText("各地好货");
             ivBg.setImageResource(R.mipmap.bgg_gdhh);
             llContent.setBackgroundColor(Color.parseColor("#A110DB"));
             collapsingToolbarLayout.setContentScrimColor(Color.parseColor("#A110DB"));
         } else {
+            tv_title.setText("必选名品");
             ivBg.setImageResource(R.mipmap.bgg_bxmp);
             llContent.setBackgroundColor(Color.parseColor("#CB362C"));
             collapsingToolbarLayout.setContentScrimColor(Color.parseColor("#CB362C"));

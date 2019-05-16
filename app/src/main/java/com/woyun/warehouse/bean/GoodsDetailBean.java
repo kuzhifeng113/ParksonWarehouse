@@ -32,7 +32,8 @@ public class GoodsDetailBean implements Serializable {
      * isVote :  是否投票
      * cartNum : 购物车数量
      */
-
+    private boolean isBuy;//是否买过
+    private int peopleNum;//需要多少能量购买
     private String image;
     private String compareUrl;
     private int goodsId;
@@ -61,6 +62,22 @@ public class GoodsDetailBean implements Serializable {
     private long startTime;//开始时间
     private long currTime;//当前时间
     private long endTime;//结束时间
+
+    public boolean isBuy() {
+        return isBuy;
+    }
+
+    public void setBuy(boolean buy) {
+        isBuy = buy;
+    }
+
+    public int getPeopleNum() {
+        return peopleNum;
+    }
+
+    public void setPeopleNum(int peopleNum) {
+        this.peopleNum = peopleNum;
+    }
 
     public String getBkCoin() {
         return bkCoin;

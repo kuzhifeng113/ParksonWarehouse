@@ -17,7 +17,6 @@ import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +39,6 @@ import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.share.WbShareHandler;
-import com.sunfusheng.marqueeview.MarqueeView;
 import com.tencent.connect.share.QQShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -60,6 +57,7 @@ import com.woyun.warehouse.api.RequestInterface;
 import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.bean.RedPackBean;
 import com.woyun.warehouse.bean.WelfateBean;
+import com.woyun.warehouse.my.activity.MyFanActivity;
 import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.LogUtils;
 import com.woyun.warehouse.utils.ModelLoading;
@@ -96,11 +94,11 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     private static final String TAG = "WelfareFragment";
     private static final int THUMB_SIZE = 150;
 
-    public static final  int REQUEST_CODE=200;
-    public static final  int RESULT_CODE=201;
-    private static final int REFRESH_COMPLETE_WAEL =1000 ;
-    public static final int STRAT_REQUEST =2000 ;
-    public static final int FINISH_RESULT =3000 ;
+    public static final int REQUEST_CODE = 200;
+    public static final int RESULT_CODE = 201;
+    private static final int REFRESH_COMPLETE_WAEL = 1000;
+    public static final int STRAT_REQUEST = 2000;
+    public static final int FINISH_RESULT = 3000;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     Unbinder unbinder;
@@ -127,8 +125,8 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     @BindView(R.id.recycler_view_vip_lb)
     RecyclerView recyclerViewVipGift;
-    @BindView(R.id.img_ding)
-    MarqueeView marqueeView;
+    //    @BindView(R.id.img_ding)
+//    MarqueeView marqueeView;
     @BindView(R.id.btn_ti_xian)
     TextView btnTiXian;
     @BindView(R.id.tv_redpack_money)
@@ -146,10 +144,12 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     @BindView(R.id.img_share_welfare)
     ImageView imgShareWelfare;
 
-    @BindView(R.id.img_click)
-    ImageView imgClick;
-    @BindView(R.id.rl_ding)
-    RelativeLayout  rlDing;
+    @BindView(R.id.img_my_fans)
+    ImageView imgMyFans;
+    @BindView(R.id.tv_fans_num)
+    TextView tvFansNum;
+    @BindView(R.id.tv_energy)
+    TextView tvEnergy;
 
 
     private int mOffset = 0;
@@ -163,7 +163,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     private Animation mAnimation = null;
 
     private List<WelfateBean.GoodsListBean> vipListBeanList = new ArrayList<>();
-    private List<WelfateBean.RedListBean> redListBeanList=new ArrayList<>();
+    private List<WelfateBean.RedListBean> redListBeanList = new ArrayList<>();
     List<String> redInfo = new ArrayList<>();
     private String redPackMoney;//拆得到的红包金额
 
@@ -203,9 +203,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         shareHandler = new WbShareHandler(getActivity());
         shareHandler.registerApp();
 
-
         initView();
-        LogUtils.e(TAG, "onCreateView:@@@@@@@ ");
         toolBar.setVisibility(View.GONE);
         ImmersionBar.setTitleBar(getActivity(), toolBar);
         welfareAdapter = new WelfareAdapter(getActivity(), vipListBeanList);
@@ -218,8 +216,6 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
 
         //跑马灯
-
-
         welfareAdapter.setOnItemClickListener(position -> {
             goToDeatail(position);
 
@@ -227,7 +223,6 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         welfareAdapter.setOnButtonClickListener(positon -> {
             goToDeatail(positon);
         });
-        startAnim(imgClick);
 
         return view;
     }
@@ -235,17 +230,17 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     private void goToDeatail(int positon) {
         Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
         intent.putExtra("goods_id", vipListBeanList.get(positon).getGoodsId());
-        intent.putExtra("redpack_money",tvRedpackMoney.getText().toString().trim());
-        startActivityForResult(intent,1000);
+        intent.putExtra("redpack_money", Integer.valueOf(tvEnergy.getText().toString().trim()));
+        startActivityForResult(intent, 1000);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.e(TAG, "onActivityResult: "+resultCode );
-        if(resultCode==RESULT_CODE){
+        LogUtils.e(TAG, "onActivityResult: " + resultCode);
+        if (resultCode == RESULT_CODE) {
             getData();
-        }else if(resultCode==FINISH_RESULT){
+        } else if (resultCode == FINISH_RESULT) {
             showSharePop();
         }
     }
@@ -256,19 +251,17 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     private void initMarquee(List<WelfateBean.RedListBean> redListBeans) {
         redInfo.clear();
         for (WelfateBean.RedListBean redListBean : redListBeans) {
-            if(redListBean.getNickname().length()>7){
-                redInfo.add(redListBean.getNickname().substring(0,7)+"邀请1名好友,拆得"+redListBean.getMoney()+"元红包~");
-            }else{
-                redInfo.add(redListBean.getNickname()+"邀请1名好友,拆得"+redListBean.getMoney()+"元红包~");
+            if (redListBean.getNickname().length() > 7) {
+                redInfo.add(redListBean.getNickname().substring(0, 7) + "邀请1名好友,拆得" + redListBean.getMoney() + "元红包~");
+            } else {
+                redInfo.add(redListBean.getNickname() + "邀请1名好友,拆得" + redListBean.getMoney() + "元红包~");
             }
 
         }
-        if(redInfo.size()>1){
-            rlDing.setVisibility(View.VISIBLE);
-            marqueeView.startWithList(redInfo);
-        }else{
-            rlDing.setVisibility(View.INVISIBLE);
-        }
+
+//        if(redInfo.size()>1){
+//            marqueeView.startWithList(redInfo);
+//        }
 
     }
 
@@ -277,7 +270,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         if (isVisibleToUser) {
 //            LogUtils.e(TAG, "setUserVisibleHint:###########");
             isLogin = (boolean) SPUtils.getInstance(getActivity()).get(Constant.IS_LOGIN, false);
-            loginUserId= (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,"");
+            loginUserId = (String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, "");
             shareTile = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_TITLE, "");
             shareContent = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_CONTENT, "");
             shareIcon = (String) SPUtils.getInstance(getActivity()).get(Constant.SHARE_ICON, "");
@@ -413,7 +406,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     }
 
     /**
-     *  获取数据
+     * 获取数据
      */
     private void getData() {
         try {
@@ -458,38 +451,39 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
      * @param welfateBean
      */
     private void pasterData(WelfateBean welfateBean) {
-        if(welfateBean!=null){
+        if (welfateBean != null) {
             tvRedpackMoney.setText(welfateBean.getRedPackMoney());
             tvAlreadyChaiNum.setText(String.valueOf(welfateBean.getOpenPack()));
-            tvUnPack.setText("剩余可拆"+welfateBean.getUnPack()+"次");
-            tvAlreayChaiMoney.setText( welfateBean.getTotalMoney()+"元");
+            tvEnergy.setText(String.valueOf(welfateBean.getUnPack()));
+            tvFansNum.setText(welfateBean.getfNum());
+//            tvUnPack.setText("剩余可拆" + welfateBean.getUnPack() + "次");
+//            tvAlreayChaiMoney.setText(welfateBean.getTotalMoney() + "元");
             vipListBeanList.clear();
             redListBeanList.clear();
             vipListBeanList.addAll(welfateBean.getGoodsList());
             redListBeanList.addAll(welfateBean.getRedList());
 
-            initMarquee(redListBeanList);
+//            initMarquee(redListBeanList);
             welfareAdapter.notifyDataSetChanged();
         }
 
     }
 
 
-
-    @OnClick({R.id.btn_ti_xian, R.id.iv_redbao_mx, R.id.btn_chai_red, R.id.img_share_welfare})
+    @OnClick({R.id.btn_ti_xian, R.id.iv_redbao_mx, R.id.btn_chai_red, R.id.img_share_welfare, R.id.img_my_fans})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_ti_xian://提现
                 Intent intentWith = new Intent(getActivity(), RedWithDrawActivity.class);
                 intentWith.putExtra("tixian_money", tvRedpackMoney.getText().toString().trim());
-                startActivityForResult(intentWith,REQUEST_CODE);
+                startActivityForResult(intentWith, REQUEST_CODE);
                 break;
             case R.id.iv_redbao_mx://明细
-                Intent intent=new Intent(getActivity(),RedYuErActivity.class);
+                Intent intent = new Intent(getActivity(), RedYuErActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_chai_red://拆红包
-                getRedPack((String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID,""));
+                getRedPack((String) SPUtils.getInstance(getActivity()).get(Constant.USER_ID, ""));
                 break;
             case R.id.img_share_welfare:
                 if (!isLogin) {
@@ -501,12 +495,21 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 //                Intent share = new Intent(getActivity(), ShareActivity.class);
 //                startActivity(share);
                 break;
+            case R.id.img_my_fans:
+                if (!isLogin) {
+                    ToastUtils.getInstanc(getActivity()).showToast("请先登录~");
+                    return;
+                }
+                Intent fans = new Intent(getActivity(), MyFanActivity.class);
+                startActivity(fans);
+                break;
         }
     }
 
 
     /**
      * 弹窗拆红包
+     *
      * @param
      */
     public void showChaiRed() {
@@ -528,6 +531,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     /**
      * 没有拆红包次数
+     *
      * @param
      */
     public void showNoNumRed() {
@@ -556,9 +560,10 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     /**
      * 分享网页 下载链接
+     *
      * @param
      */
-    private void showSharePop( ) {
+    private void showSharePop() {
         if (popupWindow != null && popupWindow.isShowing()) return;
         View upView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_share, null);
         //测量View的宽高
@@ -578,9 +583,9 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
         switch (layoutResId) {
             case R.layout.popup_fuli_redpack:
                 //获得PopupWindow布局里的View
-                ImageView  img_main_get=view.findViewById(R.id.img_main_get);
-                TextView tv_red_money=view.findViewById(R.id.tv_red_money);
-                ImageView close=view.findViewById(R.id.img_close);
+                ImageView img_main_get = view.findViewById(R.id.img_main_get);
+                TextView tv_red_money = view.findViewById(R.id.tv_red_money);
+                ImageView close = view.findViewById(R.id.img_close);
                 tv_red_money.setText(redPackMoney);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -598,14 +603,14 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         if (popupWindow != null) {
                             popupWindow.dismiss();
                         }
-                       returnBitMap(shareIcon);
+                        returnBitMap(shareIcon);
                     }
                 });
                 break;
             case R.layout.popup_fuli_no_redpack:
                 //获得PopupWindow布局里的View
-                ImageView  img_main_share=view.findViewById(R.id.img_main_get);
-                ImageView closed=view.findViewById(R.id.img_close);
+                ImageView img_main_share = view.findViewById(R.id.img_main_get);
+                ImageView closed = view.findViewById(R.id.img_close);
 
                 closed.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -643,7 +648,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                             popupWindow.dismiss();
                         }
 
-                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?share=" + loginUserId, shareTile,shareContent, 0, shareIcon));
+                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?share=" + loginUserId, shareTile, shareContent, 0, shareIcon));
                     }
                 });
 
@@ -655,7 +660,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         }
                         LogUtils.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
                         iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + loginUserId,
-                                    shareTile, shareContent, 1, shareIcon));
+                                shareTile, shareContent, 1, shareIcon));
                     }
                 });
 
@@ -668,10 +673,10 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         }
 
                         //链接
-                            /**
-                             * 第三方应用发送请求消息到微博，唤起微博分享界面。
-                             */
-                            sendMessage(true,false);
+                        /**
+                         * 第三方应用发送请求消息到微博，唤起微博分享界面。
+                         */
+                        sendMessage(true, false);
 
                     }
                 });
@@ -694,17 +699,17 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 //
 //
 //                        }else{//链接分享
-                            params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                            params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
-                            params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);
-                            params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + loginUserId);
-                            params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
-                            params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
-                            LogUtils.e(TAG, "onClick:### "+shareIcon );
-                            //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
+                        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
+                        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
+                        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);
+                        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + loginUserId);
+                        params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
+                        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, shareIcon);// 网络图片地址　
+                        LogUtils.e(TAG, "onClick:### " + shareIcon);
+                        //params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
 //                        params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其他附加功能");
-                            // 分享操作要在主线程中完成
-                            mTencent.shareToQQ(getActivity(), params, mIUiListener);
+                        // 分享操作要在主线程中完成
+                        mTencent.shareToQQ(getActivity(), params, mIUiListener);
 //                ToastUtils.getInstanc(MyCenterActivity.this).showToast("qq");
 //                        }
                     }
@@ -745,22 +750,23 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     @Override
     public void onPause() {
         super.onPause();
-        imgClick.clearAnimation();
+//        imgClick.clearAnimation();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        startAnim(imgClick);
+//        startAnim(imgClick);
     }
 
     /**
      * 领红包
+     *
      * @param userId
      * @param
      */
-    private void getRedPack( String userId ) {
-        ModelLoading.getInstance(getActivity()).showLoading("",true);
+    private void getRedPack(String userId) {
+        ModelLoading.getInstance(getActivity()).showLoading("", true);
         //获取数据
         try {
             JSONObject params = new JSONObject();
@@ -775,18 +781,18 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                             JSONObject object = (JSONObject) jsonArray.get(0);
                             Gson gson = new Gson();
                             RedPackBean redPackBean = gson.fromJson(object.toString(), RedPackBean.class);
-                            redPackMoney=redPackBean.getMoney();
+                            redPackMoney = redPackBean.getMoney();
                             tvRedpackMoney.setText(redPackBean.getRedPackMoney());
                             tvAlreadyChaiNum.setText(String.valueOf(redPackBean.getOpenPack()));
-                            tvUnPack.setText("剩余可拆"+redPackBean.getUnPack()+"次");
-                            tvAlreayChaiMoney.setText(redPackBean.getTotalMoney()+"元");
+                            tvUnPack.setText("剩余可拆" + redPackBean.getUnPack() + "次");
+                            tvAlreayChaiMoney.setText(redPackBean.getTotalMoney() + "元");
                             showChaiRed();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else if(code == -2){
-                       showNoNumRed();
-                    }else{
+                    } else if (code == -2) {
+                        showNoNumRed();
+                    } else {
                         ToastUtils.getInstanc(getActivity()).showToast(msg);
                     }
                 }
@@ -861,6 +867,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     /**
      * 微博分享
+     *
      * @param hasText
      * @param hasImage
      */
@@ -886,6 +893,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     /**
      * 创建文本消息对象。
+     *
      * @return 文本消息对象。
      */
     private TextObject getTextObj() {
@@ -898,12 +906,13 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 
     /**
      * 创建图片消息对象。
+     *
      * @return 图片消息对象。
      */
     private ImageObject getImageObj() {
         ImageObject imageObject = new ImageObject();
 //        Bitmap  bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.bg_agent_center);
-        Bitmap  bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory()+"/BSC/sharerweima.jpg");
+        Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/BSC/sharerweima.jpg");
         imageObject.setImageObject(bitmap);
         return imageObject;
     }
@@ -912,13 +921,14 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
      * 获取分享的文本模板。
      */
     private String getSharedText(String shareContent) {
-        String text =shareContent+shareDownUrl + "?sharekey=" + loginUserId ;
+        String text = shareContent + shareDownUrl + "?sharekey=" + loginUserId;
         return text;
     }
 
 
     /**
      * 网络图片获取bitmap
+     *
      * @param url
      * @param
      */

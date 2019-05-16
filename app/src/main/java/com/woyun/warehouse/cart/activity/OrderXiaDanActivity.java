@@ -337,7 +337,7 @@ public class OrderXiaDanActivity extends BaseActivity implements CommonPopupWind
                             bcCoin = orderAddres.getBcCoin();
                             bcMoney = orderAddres.getBcMoney();
 
-                            tvKeyongBcoin.setText("可用" + orderAddres.getBcCoin() + "仓币抵用");
+                            tvKeyongBcoin.setText("可用" + orderAddres.getBcCoin() + "仓币红包抵用");
                             tvKeyongBcmoney.setText("可用余额" + orderAddres.getBcMoney());
                             tvKeyongHbmoney.setText("可用红包余额"+orderAddres.getBcHb());
 

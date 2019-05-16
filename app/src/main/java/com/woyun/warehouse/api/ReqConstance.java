@@ -13,7 +13,7 @@ public class ReqConstance {
         //服务器地址
         public static final String HOST_ADDR = "https://api.bscvip.com" + VER;
         public static final String HOST_ADDR_TWO = "https://api.bscvip.com" + VER2;
-//
+
 //        public static final String HOST_ADDR = "https://xcx.bscvip.com" + VER;
 //        public static final String HOST_ADDR_TWO = "https://xcx.bscvip.com" + VER2;
 

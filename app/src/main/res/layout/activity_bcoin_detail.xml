@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="仓币"
+            android:text="仓币红包"
             android:drawablePadding="10dp"
             android:textColor="#373A42"
             android:textSize="17sp"
@@ -97,7 +97,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="仓币明细"
+        android:text="仓币红包明细"
         android:layout_height="wrap_content"
         android:textColor="#373A42"
         android:textStyle="bold"

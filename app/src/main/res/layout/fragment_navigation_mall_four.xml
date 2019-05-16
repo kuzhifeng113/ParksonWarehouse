@@ -150,10 +150,11 @@
                         android:layout_marginRight="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/bg_main_share"/>
+                        android:background="@mipmap/bg_main_share"
+                        android:visibility="gone"/>
                     <!--红包购物专区-->
                     <LinearLayout
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
@@ -176,13 +177,13 @@
                                 android:layout_marginTop="9dp"
                                 android:background="@drawable/shape_redpack_area"
                                 android:gravity="center"
-                                android:text="红包购物专区"
+                                android:text="新人体验专区"
                                 android:textColor="@color/white"
                                 android:textSize="17sp" />
 
                             <TextView
                                 android:id="@+id/tv_red_des"
-                                android:text="2222"
+                                android:text=""
                                 android:layout_gravity="center_horizontal"
                                 android:layout_width="145dp"
                                 android:gravity="center"

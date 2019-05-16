@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -122,7 +123,7 @@ import static com.woyun.warehouse.utils.ShareWx.buildTransaction;
  * 福利商品详情-原生
  */
 public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPopupWindow.ViewInterface, WbShareCallback {
-    private static final String TAG = "GoodsDetailActivity";
+    private static final String TAG = "GoodsDetailWelfareActivity";
     private static final int THUMB_SIZE = 150;
     private static final int REFRESH_COMPLETE = 1000;
     @BindView(R.id.toolBar)
@@ -180,11 +181,12 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
     private boolean isLogin;
 
     private int goodsId;//商品id
-    private String redPackMoney;//红包余额
 
     private String goodesWebUrl;
     private String compareUrl;//比价url
     protected AgentWeb mAgentWeb;
+    private int peopleNum;//需要多少能量购买
+    private int energy;//剩余多少能量
 
     //bannner
     private List<ResListBean> resListBeanList = new ArrayList<>();
@@ -239,7 +241,9 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         });
 
         goodsId = getIntent().getIntExtra("goods_id", 0);
-        redPackMoney = getIntent().getStringExtra("redpack_money");
+        energy=getIntent().getIntExtra("redpack_money",0);
+
+        LogUtils.e(TAG,"剩余多少能量"+energy);
 
         if (isVip) {
             goodesWebUrl = Constant.WEB_GOODS_DETAIL + "?id=" + goodsId + "&vip=" + 1;
@@ -300,9 +304,9 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
 //                    Log.e(TAG, "onAdded: skuName" +sku.getSkuName());
 //                    Log.e(TAG, "onAdded: skuImage" +sku.getImage());
 //                    Log.e(TAG, "onAdded: unitPrice" +sku.getVipPrice());
-                    //判断红包余额是否满足
-                    if(!TextUtils.isEmpty(redPackMoney)){
-                        if(redPackMoney.equals("0")){
+                    //判断能量是否满足
+
+                        if(energy<peopleNum){
                             showSharePopChai();
                             return;
                         }
@@ -312,7 +316,7 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
 //                            ToastUtils.getInstanc(GoodsDetailWelfareActivity.this).showToast("红包余额不足~");
 //                            return;
 //                        }
-                    }
+
 
                     String resultMemo = memo.substring(0, memo.lastIndexOf(","));
                     LogUtils.e(TAG, "onAdded:resultMemo= " + resultMemo);
@@ -350,6 +354,7 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
                             Gson gson = new Gson();
                             goodsDetailBean = gson.fromJson(jsonArray.get(0).toString(), GoodsDetailBean.class);
                             compareUrl = goodsDetailBean.getCompareUrl();
+                            peopleNum=goodsDetailBean.getPeopleNum();
                             pasterData(goodsDetailBean);
                             LogUtils.e(TAG, "requestSuccess: " + goodsDetailBean.getName());
 
@@ -406,11 +411,17 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         tvTransport.setText("邮费：" + goodsDetailBean.getTransport());
         tvSalesVolume.setText("已售：" + goodsDetailBean.getSellNum());
         tvStock.setText("库存：" + goodsDetailBean.getStock());
-//        if (isVip) {
-//            tvBaoYou.setText("VIP包邮");
-//        } else {
-//            tvBaoYou.setText("普通用户满" + goodsDetailBean.getFreeShopping() + "包邮");
-//        }
+        if(goodsDetailBean.isBuy()){
+            imgGoodsBuy.setText("已购买");
+            imgGoodsBuy.setClickable(false);
+            imgGoodsBuy.setBackgroundResource(R.drawable.shape_welfare_no_buy);
+            imgGoodsBuy.setTextColor(Color.parseColor("#AFAFAF"));
+        }else{
+            imgGoodsBuy.setText("购买");
+            imgGoodsBuy.setClickable(true);
+            imgGoodsBuy.setBackgroundResource(R.drawable.shape_main_btn);
+            imgGoodsBuy.setTextColor(Color.parseColor("#ffffff"));
+        }
 
         tvBaoYou.setText("全场一件包邮");
 
@@ -593,6 +604,7 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
         Intent intent = new Intent(GoodsDetailWelfareActivity.this, OrderXiaDanFuliActivity.class);
         intent.putExtra("total_price", totalPrice);
         intent.putExtra("select_data", (Serializable) selectList);
+        intent.putExtra("energyPrice",peopleNum);
         startActivity(intent);
 //        finish();
     }

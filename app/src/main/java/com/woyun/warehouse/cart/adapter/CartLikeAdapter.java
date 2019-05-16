@@ -3,6 +3,7 @@ package com.woyun.warehouse.cart.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.Constant;
 import com.woyun.warehouse.bean.CartShopBean;
 import com.woyun.warehouse.bean.MallHomeBean;
+import com.woyun.warehouse.utils.DensityUtils;
 import com.woyun.warehouse.utils.SPUtils;
+import com.woyun.warehouse.view.sku.ScreenUtils;
 
 import java.util.List;
 
@@ -25,7 +28,8 @@ public class CartLikeAdapter extends RecyclerView.Adapter<CartLikeAdapter.MyView
     private Context context;
     private List<CartShopBean.GoodsListBean> dataList;
     private OnTypeItemClickListener onItemClickListener;
-
+    DisplayMetrics displayMetrics ;
+    private int width;
 
     public void setOnTypeItemClickListener(OnTypeItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -35,6 +39,8 @@ public class CartLikeAdapter extends RecyclerView.Adapter<CartLikeAdapter.MyView
     public CartLikeAdapter(Context context, List<CartShopBean.GoodsListBean> dataList) {
         this.dataList = dataList;
         this.context = context;
+        displayMetrics=ScreenUtils.getDisplayMetrics(context);
+        width=displayMetrics.widthPixels-DensityUtils.dp2px(context,40);
     }
 
     @Override
@@ -48,6 +54,13 @@ public class CartLikeAdapter extends RecyclerView.Adapter<CartLikeAdapter.MyView
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         CartShopBean.GoodsListBean goodsListBean = dataList.get(position);
         Glide.with(context).load(goodsListBean.getImage()).asBitmap().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(holder.round_img_goods);
+
+
+        ViewGroup.LayoutParams layoutParams = holder.round_img_goods.getLayoutParams();
+        layoutParams.width=width/2-34;
+        layoutParams.height=width/2-34;
+        holder.round_img_goods.setLayoutParams(layoutParams);
+
         holder.tv_goods_name.setText(goodsListBean.getName());
         Boolean isVip = (Boolean) SPUtils.getInstance(context).get(Constant.USER_IS_VIP, false);
         holder.tv_vip_price.setText(goodsListBean.getVipPrice());

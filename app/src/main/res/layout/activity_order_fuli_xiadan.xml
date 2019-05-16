@@ -60,11 +60,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
-                    android:gravity="center"
-                    android:text="本商品为红包福利购买，不予退款退货处理。"
-                    android:textSize="12sp"
                     android:background="#FFFFB2CA"
-                    android:textColor="@color/white"/>
+                    android:gravity="center"
+                    android:text="本商品为福利商品，不予退款退货处理。"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/tv_no_address"
@@ -165,7 +165,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
-                        android:text="可用红包余额0"
+                        android:text="剩余能量0"
                         android:textColor="@color/text_black"
 
                         android:textSize="14sp" />
@@ -178,7 +178,8 @@
                         android:layout_centerVertical="true"
                         android:clickable="false"
                         android:checked="true"
-                        android:layout_marginRight="20dp" />
+                        android:layout_marginRight="20dp"
+                        android:visibility="invisible"/>
 
 
                 </RelativeLayout>
@@ -249,7 +250,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="54dp">
                     <TextView
-                        android:text="红包余额:"
+                        android:text="消耗能量:"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/smallTitle"

@@ -853,9 +853,12 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
                 startActivity(redArea);
                 break;
             case R.id.img_red_goods:
-                Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
-                intent.putExtra("goods_id", redGoodsBean.getGoodsId());
-                startActivity(intent);
+                Intent edrArea = new Intent(getActivity(), MainActivity.class);
+                edrArea.putExtra("go_redarea", true);
+                startActivity(edrArea);
+//                Intent intent = new Intent(getActivity(), GoodsDetailWelfareActivity.class);
+//                intent.putExtra("goods_id", redGoodsBean.getGoodsId());
+//                startActivity(intent);
                 break;
             case R.id.img_share://分享
                 if (!isLogin) {

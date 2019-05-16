@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         app:srlAccentColor="@android:color/white"
         app:srlEnablePreviewInEditMode="false"
-        app:srlPrimaryColor="#FFFD4F5F">
+        app:srlPrimaryColor="#FFFB658A">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
             android:layout_width="match_parent"
@@ -44,8 +44,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="305dp"
-                        android:background="@mipmap/bg_welfare"
+                        android:layout_height="205dp"
+                        android:background="@mipmap/bg_welfare2"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -65,6 +65,7 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_marginStart="20dp"
                                 android:text="福利"
+                                android:textStyle="bold"
                                 android:textColor="@color/white"
                                 android:textSize="24sp" />
 
@@ -81,30 +82,98 @@
 
                                 <com.sunfusheng.marqueeview.MarqueeView
                                     android:id="@+id/img_ding"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
+                                    android:layout_width="193dp"
+                                    android:layout_height="17dp"
                                     android:layout_centerVertical="true"
+                                    android:layout_marginLeft="5dp"
                                     app:mvAnimDuration="1000"
                                     app:mvDirection="right_to_left"
-                                    app:mvInterval="3000"
-                                    android:layout_marginLeft="5dp"
                                     app:mvGravity="center"
+                                    app:mvInterval="3000"
+                                    app:mvSingleLine="true"
                                     app:mvTextColor="@color/white"
-                                    app:mvTextSize="11sp"
-                                    app:mvSingleLine="true"/>
+                                    app:mvTextSize="11sp" />
                             </RelativeLayout>
                         </RelativeLayout>
 
+                        <!--粉丝-->
+                        <LinearLayout
+                            android:id="@+id/ll_fans"
+                            android:layout_marginTop="115dp"
+                            android:layout_marginLeft="51dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:id="@+id/tv_fans_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="19sp"
+                                android:textColor="#FFF5336F"/>
+
+                            <TextView
+                                android:text="粉丝"
+                                android:layout_marginTop="13dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#FFE27A9A"/>
+                        </LinearLayout>
+
+                        <!--剩余能量-->
+                        <LinearLayout
+                            android:layout_toRightOf="@id/ll_fans"
+                            android:layout_marginTop="115dp"
+                            android:layout_marginLeft="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_energy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="19sp"
+                                android:textColor="#FFF5336F"/>
+
+                            <TextView
+                                android:text="剩余能量"
+                                android:layout_marginTop="13dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#FFE27A9A"/>
+                        </LinearLayout>
+
+                        <!--我的粉丝-->
+                        <ImageView
+                            android:id="@+id/img_my_fans"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="117dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="45dp"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/ic_wodefans"/>
 
 
                     </RelativeLayout>
 
+                    <ImageView
+                        android:id="@+id/img_share_welfare"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="179dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="65dp"
+                        android:background="@mipmap/img_welfare_yaoqing"/>
                     <!--红包-->
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="210dp"
                         android:layout_marginTop="95dp"
+                        android:visibility="gone"
                       >
 
                         <RelativeLayout
@@ -254,28 +323,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_marginTop="28dp"
                     >
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_marginTop="@dimen/udesk_10"
-                        android:layout_marginBottom="6dp">
-
-                        <ImageView
-                            android:id="@+id/img_share_welfare"
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:background="@mipmap/img_welfare_yaoqing"/>
-
-                        <ImageView
-                            android:id="@+id/img_click"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/img_click_song"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"/>
-                    </RelativeLayout>
-
 
                     <ImageView
                         android:layout_width="match_parent"

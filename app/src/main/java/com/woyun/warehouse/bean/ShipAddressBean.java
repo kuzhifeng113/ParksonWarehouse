@@ -34,6 +34,15 @@ public class ShipAddressBean implements Serializable {
     private String transport;//满多少包邮
     private String shareMoney;//分享减免多少钱
     private String bcHb;//红包余额
+    private int unPack;//剩余能量
+
+    public int getUnPack() {
+        return unPack;
+    }
+
+    public void setUnPack(int unPack) {
+        this.unPack = unPack;
+    }
 
     public String getBcHb() {
         return bcHb;

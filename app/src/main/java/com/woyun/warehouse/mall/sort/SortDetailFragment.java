@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.woyun.warehouse.R;
 
-import com.woyun.warehouse.baseparson.event.SortEvent;
 import com.woyun.warehouse.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;

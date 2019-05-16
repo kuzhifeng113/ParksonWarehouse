@@ -7,8 +7,8 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/round_img_goods"
-        android:layout_width="wrap_content"
-        android:layout_height="110dp"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
         app:riv_corner_radius="5dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/img_default"/>

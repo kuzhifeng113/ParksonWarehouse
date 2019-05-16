@@ -1,6 +1,5 @@
 package com.woyun.warehouse.grabbuy;
 
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,17 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -31,11 +27,9 @@ import com.woyun.httptools.net.HSRequestCallBackInterface;
 import com.woyun.warehouse.R;
 import com.woyun.warehouse.api.ReqConstance;
 import com.woyun.warehouse.api.RequestInterface;
-import com.woyun.warehouse.baseparson.BaseFragment;
 import com.woyun.warehouse.baseparson.BaseFragmentTwo;
 import com.woyun.warehouse.baseparson.adapter.FragmentPageAdapter;
 import com.woyun.warehouse.baseparson.event.RefreshGrabEvent;
-import com.woyun.warehouse.baseparson.event.RefreshIndexEvent;
 import com.woyun.warehouse.bean.RushTimeBean;
 import com.woyun.warehouse.grabbuy.adapter.TimeAdapter;
 import com.woyun.warehouse.grabbuy.fragment.GrabGoodsFragment;
@@ -59,7 +53,7 @@ import butterknife.Unbinder;
  * 抢购
  */
 public class GrabBuyFragmentTwo extends BaseFragmentTwo {
-    private static final String TAG = "GrabBuyFragment";
+    private static final String TAG = "GrabBuyFragmentTwo";
     Unbinder unbinder;
 //    @BindView(R.id.tablayout)
 //    TabLayout tablayout;
@@ -111,6 +105,14 @@ public class GrabBuyFragmentTwo extends BaseFragmentTwo {
                 viewPager.setCurrentItem(position);
                 scrollToMiddleW(view, position);
                 timeAdapter.notifyDataSetChanged();
+                GrabGoodsFragment grabGoodsFragment= (GrabGoodsFragment) fragmentsList.get(index);
+                boolean isRequestFail = grabGoodsFragment.isRequestFaile();
+                Log.e(TAG, "Grab Request isRequestFail : "+isRequestFail );
+                if(isRequestFail){
+                    EventBus.getDefault().post(new RefreshGrabEvent(true));
+                }
+
+
             }
         });
 
@@ -248,11 +250,10 @@ public class GrabBuyFragmentTwo extends BaseFragmentTwo {
                 }
             }
         }
-
         fragmentPageAdapter = new FragmentPageAdapter(getChildFragmentManager(), fragmentsList, titles);
         viewPager.setAdapter(fragmentPageAdapter);
         viewPager.setOffscreenPageLimit(titles.size());
-        viewPager.setCurrentItem(index);
+//        viewPager.setCurrentItem(index);
 
         listData.get(index).setSelect(true);//默认选中
         timeAdapter.notifyDataSetChanged();
@@ -284,6 +285,7 @@ public class GrabBuyFragmentTwo extends BaseFragmentTwo {
 
             }
         });
+        viewPager.setCurrentItem(index);
     }
 
 

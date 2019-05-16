@@ -17,11 +17,20 @@ public class WelfateBean {
      */
 
     private String totalMoney;//红包累计余额
-    private int unPack;//剩余可拆红包次数
+    private int unPack;//剩余可拆红包次数---剩余能量
     private int openPack;//已拆红包数量
     private String redPackMoney;//红包余额
     private List<GoodsListBean> goodsList;
     private List<RedListBean> redList;
+    private String fNum;//封死
+
+    public String getfNum() {
+        return fNum;
+    }
+
+    public void setfNum(String fNum) {
+        this.fNum = fNum;
+    }
 
     public String getTotalMoney() {
         return totalMoney;
@@ -110,7 +119,8 @@ public class WelfateBean {
          * freeShopping : 80
          * isFavorite : false
          */
-
+        private boolean isBuy;//是否购买
+        private int peopleNum;//需要能量数量
         private String image;
         private String compareUrl;
         private int bkCoin;
@@ -132,6 +142,22 @@ public class WelfateBean {
         private String freeShopping;
         private boolean isFavorite;
         private List<ResListBean> resList;
+
+        public boolean isBuy() {
+            return isBuy;
+        }
+
+        public void setBuy(boolean buy) {
+            isBuy = buy;
+        }
+
+        public int getPeopleNum() {
+            return peopleNum;
+        }
+
+        public void setPeopleNum(int peopleNum) {
+            this.peopleNum = peopleNum;
+        }
 
         public String getImage() {
             return image;
