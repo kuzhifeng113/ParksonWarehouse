@@ -605,7 +605,7 @@ public class MallFragmentFour extends BaseFragmentTwo implements CommonPopupWind
         hotAdapter.notifyDataSetChanged();
         //红包
         redGoodsBean = data.get(0).getRedGoods();
-        tvRedDec.setText("￥" + redGoodsBean.getVipPrice());
+        tvRedDec.setText("￥" + redGoodsBean.getVipPrice()+"元");
         Glide.with(getActivity()).load(redGoodsBean.getImage()).asBitmap().fitCenter().placeholder(R.mipmap.img_default).error(R.mipmap.img_default).into(imgRedGoods);
 
         //抢购

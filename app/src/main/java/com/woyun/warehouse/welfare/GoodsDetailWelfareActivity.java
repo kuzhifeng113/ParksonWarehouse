@@ -761,7 +761,7 @@ public class GoodsDetailWelfareActivity extends BaseActivity implements CommonPo
                         }
                         final Bundle params = new Bundle();
                         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
+                        params.putString(QQShare.SHARE_TO_QQ_TITLE,shareTile);
                         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareUrl);
                         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);// 摘要
                         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));

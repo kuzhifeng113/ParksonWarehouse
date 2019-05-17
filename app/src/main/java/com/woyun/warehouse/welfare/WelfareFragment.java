@@ -648,7 +648,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                             popupWindow.dismiss();
                         }
 
-                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?share=" + loginUserId, shareTile, shareContent, 0, shareIcon));
+                        iwxApi.sendReq(shareWxUrl(shareDownUrl + "?share=" + loginUserId, nickName+shareTile, shareContent, 0, shareIcon));
                     }
                 });
 
@@ -660,7 +660,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
                         }
                         LogUtils.e(TAG, "onClick: " + shareDownUrl + loginUserId + shareTile + shareContent + shareIcon);
                         iwxApi.sendReq(shareWxUrl(shareDownUrl + "?sharekey=" + loginUserId,
-                                shareTile, shareContent, 1, shareIcon));
+                                nickName+shareTile, shareContent, 1, shareIcon));
                     }
                 });
 
@@ -700,7 +700,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
 //
 //                        }else{//链接分享
                         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                        params.putString(QQShare.SHARE_TO_QQ_TITLE, shareTile);
+                        params.putString(QQShare.SHARE_TO_QQ_TITLE, nickName+shareTile);
                         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, shareContent);
                         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, shareDownUrl + "?sharekey=" + loginUserId);
                         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, getResources().getString(R.string.app_name));
@@ -899,7 +899,7 @@ public class WelfareFragment extends BaseFragmentTwo implements CommonPopupWindo
     private TextObject getTextObj() {
         TextObject textObject = new TextObject();
         textObject.text = getSharedText(shareContent);
-        textObject.title = shareTile;
+        textObject.title = nickName+shareTile;
         textObject.actionUrl = shareDownUrl + "?sharekey=" + loginUserId;
         return textObject;
     }
